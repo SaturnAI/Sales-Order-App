@@ -3,17 +3,17 @@ import { View, Modal, FlatList, Pressable, Text } from 'react-native'
 import TransactionCardWithRemarks from './TransactionCardWithRemarks';
 import { useDispatch, useSelector } from 'react-redux';
 import { style } from '../styles/ModelCompPendingStyle';
-import { setModalVisible } from '../store/Slices/PendingExpenseSlice';
+import { setModalVisible, setSelectedData } from '../store/Slices/PendingExpenseSlice';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import SelectableTransactionCard from './SelectableTransactionCard';
 import AttachPicker from './AttachPicker';
 
 
 const ModalCompPending = () => {
+    const dispatch = useDispatch();
 
     const[selectedValue, setSelectedValue] = useState('Rajinder Makhija')
 
-    const dispatch = useDispatch();
     const data = useSelector((state) => state.ExpenseFormSlice.data);
 
     const modalVisible = useSelector((state) => state.PendingExpenseSlice.modalVisible)
@@ -47,7 +47,7 @@ const ModalCompPending = () => {
                         </Pressable>
 
                         <View style={style.AttachToContainer}>
-                            <Pressable>
+                            <Pressable onPress={()=> dispatch(setSelectedData())}>
                                 <Text style={style.AttachToText}>Attach</Text>
                             </Pressable>
 

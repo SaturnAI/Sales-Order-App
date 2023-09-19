@@ -8,6 +8,7 @@ const LoginScreenSlice = createSlice({
         message: "",
         role: "user",
         access : false,
+        isLoading : false,
     },
 
     reducers: {
@@ -31,12 +32,20 @@ const LoginScreenSlice = createSlice({
                 access : false,
             }
 
-        }
+        },
+
+        setIsLoading : (state, action) => {
+             return {
+                ...state, 
+                isLoading : !state.isLoading,
+             }
+        },
 
 
 
     },
 })
 
+export const setIsLoading = LoginScreenSlice.actions.setIsLoading;
 export const setUserData = LoginScreenSlice.actions.setUserData;
 export default LoginScreenSlice.reducer;

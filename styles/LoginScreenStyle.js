@@ -49,5 +49,18 @@ export const style = StyleSheet.create({
     padding: 10,
     fontSize: moderateScale(16),
   },
+
+  LoginLoaderContainer : {
+     backgroundColor : color.white,
+     height : '100%',
+     opacity : .4,
+     alignItems : 'center',
+  },
+
+  ActivityIndicator : {
+     position : 'absolute',
+     bottom : '50%'
+  }
+
 });
 

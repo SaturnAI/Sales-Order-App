@@ -24,10 +24,15 @@ import { set, ref } from "firebase/database";
 import { color } from "../assets/Colors/Colors";
 import { FontAwesome } from '@expo/vector-icons';
 import { moderateScale } from "../Dimension";
-import {v4 as uuidv4} from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
+import { ExpenseDataApi, ExpenseDataApiPost } from "../util/http";
+import { useDispatch } from "react-redux";
+import { calculateAmount, updateData } from "../store/Slices/ExpenseFormSlice";
+import { getData } from "../store/Slices/PendingExpenseSlice";
 
 const ExpenseForm = () => {
 
+  const dispatch = useDispatch()
   const [picker, SetPicker] = useState("Food");
   const [Amount, SetAmount] = useState("");
   const [date, setDate] = useState(new Date().toDateString());
@@ -40,16 +45,16 @@ const ExpenseForm = () => {
   const time = new Date().getTime();
 
   const create = async (picker, Amount, Date, Remarks) => {
-    await set(ref(db, 'expense/' + time), {
-      ExpenseType: picker,
-      Amount: Amount,
-      Date: Date,
-      Remarks: Remarks,
-      id: uuidv4().toString(),
-    });
+    const id = uuidv4().toString();
+    await ExpenseDataApiPost(picker, Amount, Date, Remarks, id)
     SetAmount("");
     setRemarks("");
     showToast();
+    const data = await ExpenseDataApi();
+    dispatch(getData(data.data))
+    
+    dispatch(updateData(data.data))
+    dispatch(calculateAmount(data.data));
   }
 
   const showDatePicker = () => {
@@ -139,7 +144,7 @@ const ExpenseForm = () => {
 
             <View style={style.ComponantBackgroundButton}>
               <Button style={style.Button} title="Save"
-                onPress={() => { create(picker, Amount, date, Remarks); }}
+                onPress={() => create(picker, Amount, date, Remarks)}
                 color={color.primary} />
             </View>
 

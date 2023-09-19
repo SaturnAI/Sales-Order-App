@@ -22,6 +22,7 @@ import { useState } from "react";
 import ModalComp from "../componants/ModalComp";
 
 import { calculateAmount, setModalVisible } from "../store/Slices/ExpenseFormSlice";
+import { ExpenseDataApi } from "../util/http";
 
 const ExpenseList = () => {
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ const ExpenseList = () => {
   useEffect(() => {
     dispatch(calculateAmount())
   }, [])
+
 
   return (
     <SafeAreaView>
@@ -78,6 +80,7 @@ const ExpenseList = () => {
       <View style={style.TransactionList}>
         <FlatList
           data={data}
+          extraData={data}
           keyExtractor={(itemValue) => itemValue.id}
           removeClippedSubviews={true}
           maxToRenderPerBatch={5}

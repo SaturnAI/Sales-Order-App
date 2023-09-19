@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { style } from "../styles/PendingExpenseStyle";
 
 
@@ -9,15 +9,9 @@ import {
   SafeAreaView,
   Pressable,
   StatusBar,
-  Dimensions,
-  ScrollView,
-  ActivityIndicator
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { getData } from "../store/Slices/PendingExpenseSlice";
 import { color } from "../assets/Colors/Colors";
-import ChartComp from "../componants/ChartComp";
-import { pushAmount } from "../store/Slices/PendingExpenseSlice";
 import TransactionCard from "../componants/TransactionCard";
 import { setModalVisible } from "../store/Slices/PendingExpenseSlice";
 import ModalCompPending from "../componants/ModalCompPending";
@@ -25,24 +19,8 @@ import ModalCompPending from "../componants/ModalCompPending";
 const PendingExpense = () => {
   const dispatch = useDispatch();
 
-  const data = useSelector((state) => state.ExpenseFormSlice.data);
-
   const role = useSelector((state) => state.LoginScreenSlice.role);
-  const Amount = useSelector((state) => state.PendingExpenseSlice.Amount);
   const tempData = useSelector((state) => state.PendingExpenseSlice.tempData);
-  const AmountLoading = useSelector((state) => state.PendingExpenseSlice.isAmountLoading);
-  const updateData = async () => {
-    await dispatch(getData(data));
-
-  }
-
-  useEffect(() => {
-    updateData();
-    if (data) {
-      dispatch(pushAmount(data))
-    }
-  }, [])
-
 
 
   return (
@@ -53,11 +31,6 @@ const PendingExpense = () => {
         color={color.white}
       />
       <View style={style.backgroundContainer} />
-
-      <ScrollView
-        horizontal={true}>
-        {AmountLoading ? <ActivityIndicator /> : <ChartComp />}
-      </ScrollView>
 
       <View style={style.TransactionHistoryTextContainer}>
         <Text style={style.TransactionHistoryText}>Top Expenses</Text>
@@ -76,8 +49,9 @@ const PendingExpense = () => {
 
       <View style={style.TransactionList}>
         <FlatList
-          data={!tempData ? data : tempData}
+          data={tempData}
           keyExtractor={(itemValue) => itemValue.id}
+          extraData={tempData}
           removeClippedSubviews={true}
           maxToRenderPerBatch={5}
           initialNumToRender={10}

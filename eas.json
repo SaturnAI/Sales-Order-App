@@ -23,7 +23,8 @@
 
       "env" : {
         "USER_AUTH_API_KEY" : "https://budgetapp-iv4w.onrender.com/api/v1/user/",
-        "SALE_ORDER_API_KEY" : "https://vibhu.pssolanki.com/salesorder"
+        "SALE_ORDER_API_KEY" : "https://vibhu.pssolanki.com/salesorder",
+        "FIREBASE_API_KEY" : "https://expense-ebb0d-default-rtdb.firebaseio.com/expense.json"
       }
     }
   },

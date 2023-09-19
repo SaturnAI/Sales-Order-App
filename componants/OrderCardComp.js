@@ -18,13 +18,13 @@ const OrderCardComp = ({ item }) => {
       <View style={style.responseContainer}>
         <View style={style.container}>
 
-          <View style={style.container1}>
+          <View >
             <Text style={style.containerText1}>Customer Number</Text>
             <Text style={style.containerText2}>{item?.item?.customer_no == null ? 'Not Found' : item?.item?.customer_no}</Text>
             <Text style={style.containerText1}>Item Name</Text>
             <Text style={[style.containerText2, style.remarks]}>{item?.item?.item_name}</Text>
           </View>
-          <View style={style.container2}>
+          <View >
             <Text style={style.containerText1}>Quantity</Text>
             <Text style={[style.containerText2, style.remarks]}>{item?.item?.quantity}</Text>
             <Text style={style.containerText1}>Customer Name</Text>

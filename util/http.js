@@ -1,6 +1,6 @@
 // import { SALE_ORDER_API_KEY, USER_AUTH_API_KEY } from "@env"
 import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+// import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const OrderData = async (bodyprop) => {
 
@@ -49,7 +49,6 @@ export const Login = async (loginCredentials, prop) => {
     const dataresponse = await axios.request(config)
         .then(async (response) => {
             console.log(response.data)
-            await AsyncStorage.setItem('token', response.data.token);
             return response.data;
         })
         .catch((error) => {
@@ -98,5 +97,66 @@ export const findUser = async (method, prop) => {
 
     return dataresponse;
 
+
+}
+
+export const ExpenseDataApi = async () => {
+    let config = {
+        method: 'get',
+        maxBodyLength: Infinity,
+        url: process.env.FIREBASE_API_KEY,
+    }
+
+    const dataresponse = await axios.request(config)
+        .then((response) => {
+           return {
+            success  : 'true',
+            data : response.data,
+        }
+        })
+        .catch((error) => {
+            if (error) {
+                return {
+                    success : false,
+                    data : "Not Found",
+                }
+            }
+        });
+
+    return dataresponse;
+
+}
+
+export const ExpenseDataApiPost = async (picker, Amount, Date, Remarks, id) => {
+    let config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: process.env.FIREBASE_API_KEY,
+        data : {
+            ExpenseType : picker,
+            Amount,
+            Date, 
+            Remarks,
+            id
+        }
+    }
+
+    const dataresponse = await axios.request(config)
+        .then((response) => {
+           return {
+            success  : 'true',
+            data : response.data,
+        }
+        })
+        .catch((error) => {
+            if (error) {
+                return {
+                    success : false,
+                    data : "Not Found",
+                }
+            }
+        });
+
+    return dataresponse;
 
 }

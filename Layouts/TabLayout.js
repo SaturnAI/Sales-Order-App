@@ -8,13 +8,11 @@ import ReportedExpense from '../Screens/ReportedExpense'
 import Profile from '../Screens/Profile';
 import { AntDesign, Feather, MaterialIcons, Ionicons, Entypo } from '@expo/vector-icons';
 
-import { onValue, ref } from 'firebase/database';
-import { db } from '../firebase/Config';
-
 import { useDispatch } from 'react-redux';
 import { updateData, calculateAmount } from '../store/Slices/ExpenseFormSlice';
 import { color } from '../assets/Colors/Colors';
-import OrderData from '../util/http';
+import { ExpenseDataApi } from '../util/http';
+import { getData } from '../store/Slices/PendingExpenseSlice';
 
 
 const Tab = createBottomTabNavigator();
@@ -23,19 +21,21 @@ const TabLayout = () => {
 
   const dispatch = useDispatch();
 
+  const data = async () => {
+    const data = await ExpenseDataApi()
+    dispatch(updateData(data.data));
+    dispatch(calculateAmount(data.data));
+    dispatch(getData(data.data))
+  }
+
   useEffect(() => {
-    return onValue(ref(db, '/expense'), querySnapShot => {
-      let data = querySnapShot.val() || {};
-      dispatch(updateData(data));
-      dispatch(calculateAmount(data));
-      
-    });
+    data();
   }, []);
+
 
   return (
 
     <Tab.Navigator
-
       initialRouteName='Expense Form'    //initial route
       screenOptions={({ route }) => ({
         tabBarActiveTintColor: {

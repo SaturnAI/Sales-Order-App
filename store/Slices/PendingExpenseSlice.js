@@ -9,37 +9,23 @@ const PendingExpenseSlice = createSlice({
         Amount: [],
         isAmountLoading: false,
         modalVisible: false,
-        AttachPickerValue : "Rajinder Makhija"
+        AttachPickerValue: "Rajinder Makhija",
+        selectedData : [],
     },
 
     reducers: {
 
         getData: (state, action) => {
-
-            return {
-                ...state,
-                tempData: [...action.payload]
-            }
-        },
-
-
-        pushAmount: (state, action) => {
-            var tempAmount = [];
+            state.tempData = [];
             const datathis = action.payload;
-            
-            // state.isAmountLoading = true
             for (var data in datathis) {
                 var obj = datathis[data];
-                const tempNum = Number(obj.Amount);
-                tempAmount.push(tempNum);
-            }
-
-            return {
-                ...state,
-                Amount: tempAmount,
-                isAmountLoading: false
+                state.tempData.push(obj);
             }
         },
+
+
+       
 
         cardSelect: (state, action) => {
             const { id } = action.payload;
@@ -66,27 +52,35 @@ const PendingExpenseSlice = createSlice({
         },
 
 
-     setModalVisible :(state, action)=> {
-         return {
-              ...state,
-              modalVisible: !state.modalVisible,
-         }
-     },
+        setModalVisible: (state, action) => {
+            return {
+                ...state,
+                modalVisible: !state.modalVisible,
+            }
+        },
 
 
-     setAttachPicker :  (state, action) => {
-        return {
-            ...state,
-            AttachPickerValue : action.payload,
+        setAttachPicker: (state, action) => {
+            return {
+                ...state,
+                AttachPickerValue: action.payload,
+            }
+        },
+
+
+        setSelectedData : (state, action) => {
+               const selectedData = state.tempData.filter((data)=> data.selected == true)
+               console.log(selectedData)
+              
         }
-     }
 
     },
 })
 
+
+export const setSelectedData = PendingExpenseSlice.actions.setSelectedData;
 export const setAttachPicker = PendingExpenseSlice.actions.setAttachPicker;
 export const setModalVisible = PendingExpenseSlice.actions.setModalVisible;
-export const pushAmount = PendingExpenseSlice.actions.pushAmount;
 export const getData = PendingExpenseSlice.actions.getData;
 export const cardSelect = PendingExpenseSlice.actions.cardSelect;
 export default PendingExpenseSlice.reducer;

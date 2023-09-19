@@ -69,14 +69,7 @@ export const style = StyleSheet.create({
   },
 
 
-  container1: {
-    marginLeft: horizontalScale(10),
-  },
-
-  container2: {
-    marginLeft: horizontalScale(5),
-
-  },
+  
 
   containerText1: {
     fontWeight: "400",

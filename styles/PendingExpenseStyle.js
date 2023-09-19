@@ -17,7 +17,7 @@ export const style = StyleSheet.create({
     marginTop: verticalScale(20),
     marginHorizontal: horizontalScale(20),
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
 
   TransactionHistoryText: {
@@ -31,7 +31,7 @@ SeeAllTextButton: {
 },
 
 TransactionList: {
-  height: verticalScale(360),
+  height: verticalScale(630),
   marginTop: verticalScale(10),
 },
 

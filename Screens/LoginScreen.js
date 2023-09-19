@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
 
-import { View, Text, Button, StyleSheet, TextInput, Alert } from "react-native";
+import { View, Text, Button, StyleSheet, TextInput, Alert, Modal } from "react-native";
 import { Card } from "react-native-shadow-cards";
 import { style } from "../styles/LoginScreenStyle";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserData } from "../store/Slices/LoginScreenSlice";
-import { Login, findUser } from "../util/http";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Login } from "../util/http";
+import { setIsLoading } from "../store/Slices/LoginScreenSlice";
+import LoginLoadingModal from "../componants/LoginLoadingModal";
 
 const LoginScreen = ({ navigation }) => {
 
-  const dispatch = useDispatch();
 
+  const dispatch = useDispatch();
 
   const [loginCredentials, setLoginCredentials] = useState({
     username: "",
@@ -19,22 +20,23 @@ const LoginScreen = ({ navigation }) => {
   })
 
 
-  // useEffect(() => {
-  //   const data = async () => {
-  //     try {
-  //      const token = await AsyncStorage.getItem('token')
-  //       const user = await findUser("existing", token)
-  //       if (user.success == true) navigation.replace("Main Page")
-  //     } catch (error) {
-  //         if(error){
-  //           navigation.replace("Budget App")
-  //         }
-  //     }
+  const login = async (loginCredentials, str) => {
+    await dispatch(setIsLoading())
+    const data = await Login(loginCredentials, str)
+    if (data.success == false) {
+      await dispatch(setIsLoading())
+      Alert.alert(`Error : ${data.message}`)
+    }
+    if (data.success == true) {
+      await dispatch(setUserData(data));
+      await dispatch(setIsLoading())
+      navigation.replace("Main Page")
+    }
+    
+  }
 
-  //   }
 
-  //   data();
-  // }, [])
+
 
   return (
     <View style={style.container}>
@@ -70,18 +72,13 @@ const LoginScreen = ({ navigation }) => {
         <Button
           title="Login"
           onPress={async () => {
-            // const data = await Login(loginCredentials, "login")
-            // if (data.success == false) Alert.alert(`Error : ${data.message}`)
-            // if (data.success == true) {
-              // await dispatch(setUserData(data));
-            //   navigation.replace("Main Page")
-            // }
-  
-            navigation.replace("Main Page")
-
+            login(loginCredentials, "login")
           }}
         />
       </Card>
+
+      <LoginLoadingModal />
+
     </View>
   );
 };

@@ -53,9 +53,6 @@ const ChatScreenSlice = createSlice({
           querySent: true,
         }
       }
-
-
-
     },
 
 

@@ -6,4 +6,6 @@ export const color = {
     lightBlue2 : '#496795',
     BlueSecondry: '#2F3780',
     Black : '#000000',
+    ButtonBlue : "#7B68EE",
+    Green : '#32CD32',
 }

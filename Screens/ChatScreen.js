@@ -53,7 +53,10 @@ const ChatScreen = () => {
         {!querySent ?
           <View>
             <View style={style.backgroundContainer} />
-            <Text style={style.SaleOrderHeaderText}>SALE ORDER CHAT</Text>
+            <View style={style.headerTagAndButton}>
+              <Text style={style.SaleOrderHeaderText}>SALE ORDER CHAT</Text>
+            </View>
+
 
             <View style={style.tutorialTextContainer}>
               <Text style={style.WelcomeText}>Welcome to the AI SALE ORDER CHAT WINDOW</Text>
@@ -72,6 +75,7 @@ const ChatScreen = () => {
               <FlatList
                 style={style.listStyle}
                 data={itemSelected ? pickerSelectedItems : selectedData}
+               
                 keyExtractor={(itemValue, key) => key}
                 showsVerticalScrollIndicator={false}
                 removeClippedSubviews={true}

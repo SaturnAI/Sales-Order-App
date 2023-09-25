@@ -7,7 +7,7 @@ const OrderData = async (bodyprop) => {
     let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: process.env.SALE_ORDER_API_KEY,
+        url:process.env.SALE_ORDER_API_KEY,
         data: {
             "user_prompt": bodyprop
         }
@@ -15,10 +15,12 @@ const OrderData = async (bodyprop) => {
 
     const data = await axios.request(config)
         .then((response) => {
+            
             return response.data;
         })
         .catch((error) => {
             if (error) {
+                
                 return "Error"
             }
         });
@@ -39,7 +41,7 @@ export const Login = async (loginCredentials, prop) => {
         method: 'post',
         maxBodyLength: Infinity,
 
-        url: process.env.USER_AUTH_API_KEY + `${prop}`,
+        url:process.env.USER_AUTH_API_KEY + `${prop}`,
         data: {
             "email": username,
             "password": password,
@@ -74,7 +76,7 @@ export const findUser = async (method, prop) => {
     let config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: process.env.USER_AUTH_API_KEY + `${method}`,
+        url:process.env.USER_AUTH_API_KEY + `${method}`,
         data: {
             "token": prop
         }
@@ -104,21 +106,21 @@ export const ExpenseDataApi = async () => {
     let config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: process.env.FIREBASE_API_KEY,
+        url:process.env.FIREBASE_API_KEY,
     }
 
     const dataresponse = await axios.request(config)
         .then((response) => {
-           return {
-            success  : 'true',
-            data : response.data,
-        }
+            return {
+                success: 'true',
+                data: response.data,
+            }
         })
         .catch((error) => {
             if (error) {
                 return {
-                    success : false,
-                    data : "Not Found",
+                    success: false,
+                    data: "Not Found",
                 }
             }
         });
@@ -132,10 +134,10 @@ export const ExpenseDataApiPost = async (picker, Amount, Date, Remarks, id) => {
         method: 'post',
         maxBodyLength: Infinity,
         url: process.env.FIREBASE_API_KEY,
-        data : {
-            ExpenseType : picker,
+        data: {
+            ExpenseType: picker,
             Amount,
-            Date, 
+            Date,
             Remarks,
             id
         }
@@ -143,16 +145,16 @@ export const ExpenseDataApiPost = async (picker, Amount, Date, Remarks, id) => {
 
     const dataresponse = await axios.request(config)
         .then((response) => {
-           return {
-            success  : 'true',
-            data : response.data,
-        }
+            return {
+                success: 'true',
+                data: response.data,
+            }
         })
         .catch((error) => {
             if (error) {
                 return {
-                    success : false,
-                    data : "Not Found",
+                    success: false,
+                    data: "Not Found",
                 }
             }
         });
@@ -160,3 +162,47 @@ export const ExpenseDataApiPost = async (picker, Amount, Date, Remarks, id) => {
     return dataresponse;
 
 }
+
+
+export const PostOrders = async (username, email, customer_name, customer_no, item_name, quantity) => {
+    let config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url:process.env.POST_ORDER_API_KEY,
+        data: {
+            "order_data": {
+                "order_id": email,
+                "order_by": username,
+                "orders": [
+                    {
+                        "Customer_Number": customer_no,
+                        "Quantity": quantity,
+                        "Item_Name": item_name,
+                        "Customer_Name": customer_name,
+                    }
+                ]
+            }
+        }
+    }
+
+    const dataresponse = await axios.request(config)
+        .then((response) => {
+            return {
+                success: 'true',
+                data: response.data,
+            }
+        })
+        .catch((error) => {
+            if (error) {
+                return {
+                    success: false,
+                    data: "Not Found",
+                }
+            }
+        });
+
+    return dataresponse;
+
+}
+
+

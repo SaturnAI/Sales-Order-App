@@ -21,17 +21,17 @@ const LoginScreen = ({ navigation }) => {
 
 
   const login = async (loginCredentials, str) => {
-    await dispatch(setIsLoading())
-    const data = await Login(loginCredentials, str)
-    if (data.success == false) {
-      await dispatch(setIsLoading())
-      Alert.alert(`Error : ${data.message}`)
-    }
-    if (data.success == true) {
-      await dispatch(setUserData(data));
-      await dispatch(setIsLoading())
+    // await dispatch(setIsLoading())
+    // const data = await Login(loginCredentials, str)
+    // if (data.success == false) {
+    //   await dispatch(setIsLoading())
+    //   Alert.alert(`Error : ${data.message}`)
+    // }
+    // if (data.success == true) {
+    //   await dispatch(setUserData(data));
+    //   await dispatch(setIsLoading())
       navigation.replace("Main Page")
-    }
+    // }
     
   }
 

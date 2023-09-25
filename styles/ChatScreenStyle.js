@@ -33,7 +33,6 @@ export const style = StyleSheet.create({
 
   chatContainerResponse: {
     flex: 9,
-    // marginHorizontal: horizontalScale(0.1),
     marginVertical: verticalScale(1),
     padding: 20,
     borderRadius: moderateScale(20),
@@ -69,13 +68,13 @@ export const style = StyleSheet.create({
   },
 
 
-  
+
 
   containerText1: {
     fontWeight: "400",
     fontSize: 16,
     marginBottom: 1,
-    fontFamily: 'Inter-Regular'
+    fontFamily: 'Inter-SemiBold'
   },
 
   containerText2: {
@@ -83,7 +82,7 @@ export const style = StyleSheet.create({
     fontSize: moderateScale(16),
     marginBottom: 25,
     fontFamily: 'Inter-Regular',
-
+    width: horizontalScale(130)
   },
 
   remarks: {
@@ -96,18 +95,19 @@ export const style = StyleSheet.create({
 
   pickerContainer: {
     marginLeft: 10,
-    width: '40%',
+    width: '100%',
 
   },
 
   PickerWarningText: {
     color: 'red',
     fontSize: 16,
+   
 
   },
 
   PickerSelectedText: {
-     opacity: 0,
+    opacity: 0,
   },
 
   OrderButtonContainer: {
@@ -117,7 +117,7 @@ export const style = StyleSheet.create({
     justifyContent: 'center',
     paddingLeft: 15,
     borderRadius: 10,
-    backgroundColor: '#7B68EE',
+    backgroundColor: color.ButtonBlue,
     right: 0,
     alignSelf: "flex-end",
   },
@@ -137,35 +137,47 @@ export const style = StyleSheet.create({
     backgroundColor: color.primary,
     borderBottomLeftRadius: moderateScale(50),
     borderBottomRightRadius: moderateScale(50),
-    width: '100%',
+    width: horizontalScale(373),
+    marginLeft: horizontalScale(-20),
 
   },
 
-  SaleOrderHeaderText : {
-     fontFamily: 'Inter-Medium',
-     fontSize: moderateScale(20),
-     color: color.white,
-      alignSelf: 'center',
-      marginTop: verticalScale(-40),
+  headerTagAndButton: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
 
- tutorialTextContainer: {
-   marginTop: verticalScale(300),
-   alignSelf: 'center',
- },
+  SaleOrderHeaderText: {
+    fontFamily: 'Inter-Medium',
+    fontSize: moderateScale(20),
+    color: color.white,
+    alignSelf: 'center',
+    marginTop: verticalScale(-60),
+    marginLeft: horizontalScale(80)
+  },
 
-WelcomeText: {
-   fontFamily: 'Inter-Medium',
-   fontSize: moderateScale(15),
-   alignSelf: 'center',
-},
+  CartIcon: {
+    marginTop: verticalScale(-45),
+    marginRight: horizontalScale(10)
+  },
 
-QueryText: {
-  alignSelf: 'center',
-  marginTop: verticalScale(10),
-  fontFamily: 'Inter-Regular',
-  
-},
+  tutorialTextContainer: {
+    marginTop: verticalScale(300),
+    alignSelf: 'center',
+  },
+
+  WelcomeText: {
+    fontFamily: 'Inter-Medium',
+    fontSize: moderateScale(15),
+    alignSelf: 'center',
+  },
+
+  QueryText: {
+    alignSelf: 'center',
+    marginTop: verticalScale(10),
+    fontFamily: 'Inter-Regular',
+
+  },
 
 
 });

@@ -9,6 +9,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import LoginScreen from './Screens/LoginScreen';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
+import CartPage from './Screens/CartPage';
 
 
 const Stack = createStackNavigator();
@@ -48,8 +49,8 @@ export default function App() {
           onReady={onLayoutRootView}>
           <Stack.Navigator initialRouteName='Budget App'>
             <Stack.Screen name='Budget App' component={LoginScreen} />
-            <Stack.Screen name='Main Page' component={DrawerLayout}
-              options={{ headerShown: false }} />
+            <Stack.Screen name='Main Page' component={DrawerLayout} options={{ headerShown: false }} />
+            <Stack.Screen name='Cart' component={CartPage} options={{ headerShown: false }} />
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>

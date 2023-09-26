@@ -10,6 +10,12 @@ export const style = StyleSheet.create({
         borderBottomRightRadius: moderateScale(50),
     },
 
+    BackButton:{
+        position: 'absolute',
+        left: 25,
+        top: 15,
+    },
+
     TotalItemCount: {
         alignSelf: 'center',
         marginVertical: verticalScale(5),

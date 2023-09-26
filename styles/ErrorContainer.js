@@ -1,18 +1,26 @@
 import { StyleSheet } from "react-native";
-import { horizontalScale, moderateScale } from "../Dimension";
+import { horizontalScale, moderateScale, verticalScale } from "../Dimension";
 
 const style = StyleSheet.create({
+
+    cardContainer:{
+       marginTop : verticalScale(10),
+       padding: 10,
+       marginBottom: verticalScale(10),
+    },
+
     ErrorContainer: {
-        position: 'absolute',
-        bottom: '50%',
-        alignSelf: 'center',
+       
     },
 
     OopsText :{
         fontFamily: 'Inter-Medium',
-        fontSize : moderateScale(25),
-        
+        fontSize : moderateScale(20),
+    },
 
+    ErrorText: {
+        fontFamily: 'Inter-Regular',
+        fontSize: moderateScale(14),
     }
 });
 

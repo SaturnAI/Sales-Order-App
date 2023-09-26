@@ -2,25 +2,25 @@
 import axios from "axios";
 // import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const OrderData = async (bodyprop) => {
+const OrderData = async (bodyprop, lastid) => {
 
     let config = {
         method: 'post',
         maxBodyLength: Infinity,
         url:process.env.SALE_ORDER_API_KEY,
         data: {
-            "user_prompt": bodyprop
+            "user_prompt": bodyprop,
+            "last_id" :  lastid,
+
         }
     };
 
     const data = await axios.request(config)
         .then((response) => {
-            
             return response.data;
         })
         .catch((error) => {
             if (error) {
-                
                 return "Error"
             }
         });
@@ -187,6 +187,7 @@ export const PostOrders = async (username, email, customer_name, customer_no, it
 
     const dataresponse = await axios.request(config)
         .then((response) => {
+
             return {
                 success: 'true',
                 data: response.data,

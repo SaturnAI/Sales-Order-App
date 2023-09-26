@@ -9,35 +9,50 @@ const ChatScreenSlice = createSlice({
     selectedData: [],
     selectedValue: "",
     pickerSelectedItems: [],
+    queryArray: [],
     queryString: "",
     itemSelected: false,
     error: false,
     errorName: "",
     isLoading: false,
     querySent: false,
-    orders: [], 
-
+    orders: [],
+    modalVisible: false,
+    lastid: 0,
   },
 
   reducers: {
 
     setData: (state, action) => {
       const data = action.payload;
+
+
       if (Object.keys(data)[0] == "sales") {
+        const { item_id } = data.sales[data.sales.length - 1]
+
+        data.query = state.queryString
         return {
           ...state,
           data: [...data.sales],
-          selectedData: [...data.sales],
+          selectedData: [...state.selectedData, data],
           error: false,
           errorName: "",
           queryString: "",
           querySent: true,
+          lastid: item_id,
         }
       }
       if (Object.keys(data)[0] == "error") {
+        console.log(action.payload)
+        const obj = {
+          query: state.queryString,
+          sales: null,
+          message: `${Object.values(data)[0]} Not Found!!!`
+        }
+
         return {
           ...state,
-          error: true,
+          selectedData: [...state.selectedData, obj],
           errorName: Object.values(data)[0],
           queryString: "",
           querySent: true,
@@ -45,10 +60,16 @@ const ChatScreenSlice = createSlice({
       }
 
       if (action.payload == "Error") {
+        const obj = {
+          query: state.queryString,
+          sales: null,
+          message: "Please Provide A Valid Query"
+        }
+
         return {
           ...state,
-          error: true,
-          errorName: 'Bad Request Please Enter A Valid Request',
+          selectedData: [...state.selectedData, obj],
+          errorName: Object.values(data)[0],
           queryString: "",
           querySent: true,
         }
@@ -71,57 +92,97 @@ const ChatScreenSlice = createSlice({
       };
     },
 
-    selectPicker: (state, action) => {
 
-      const { index, itemValue, type } = action.payload;
-
-      const data = state.selectedData.find((item) => item.id == index)
-
-
-
-      if (data) {
-        var tempObj = state.selectedData.map((item) => {
-
-          if (item.id === index) {
-            if (Object.keys(item.context_required) == 'item_names') {
-              return {
-                ...item,
-                item_name: itemValue,
-              }
-            }
-
-            if (Object.keys(item.context_required) == 'customer_name') {
-              return {
-                ...item,
-                customer_name: itemValue,
-              }
-            }
-          }
-
-          else {
-            return {
-              ...item,
-            }
-          }
-
-        })
-
-        return {
-          ...state,
-          pickerSelectedItems: [...tempObj],
-          itemSelected: true,
-          selectedValue: itemValue,
-        }
-
+    setQueryArray: (state, action) => {
+      return {
+        ...state,
+        queryArray: [...state.queryArray, action.payload]
       }
     },
 
 
+    sendOrder: (state, action) => {
+      console.log(action.payload)
+    },
 
 
-   sendOrder : (state, action) => {
-       console.log(action.payload)
-   }
+    setModalVisible: (state, action) => {
+      return {
+        ...state,
+        modalVisible: !state.modalVisible,
+      }
+    },
+
+
+    selectPickerItems: (state, action) => {
+      const { id, item } = action.payload
+      const tempObj = state.selectedData.find((item) => {
+        if (item.sale != null) {
+          return item.sales.find((item) => item.item_id == id)
+        }
+        else {
+          return {
+            ...item
+          }
+        }
+      })
+
+      if (tempObj) {
+        const data = state.selectedData.map((obj) => {
+          if (obj.sales != null) {
+            const sales = obj.sales.map((sale) => {
+
+              if (sale.item_id == id) {
+                return {
+                  ...sale,
+                  item_name: item,
+                  selected: true,
+                }
+              }
+
+              else {
+                return {
+                  ...sale,
+
+                }
+              }
+            })
+
+            return {
+              ...obj,
+              sales
+            }
+          }
+          else {
+            return {
+              ...obj
+            }
+          }
+
+
+        })
+
+
+        return {
+          ...state,
+          selectedData: [...data],
+          modalVisible: false,
+          itemSelected: true,
+          selectedValue: item,
+        }
+
+      }
+
+
+
+    },
+
+
+    setLastID: (state, action) => {
+      const data = action.payload
+
+
+    },
 
 
 
@@ -130,6 +191,10 @@ const ChatScreenSlice = createSlice({
   },
 });
 
+export const setLastID = ChatScreenSlice.actions.setLastID;
+export const setQueryArray = ChatScreenSlice.actions.setQueryArray
+export const selectPickerItems = ChatScreenSlice.actions.selectPickerItems;
+export const setModalVisible = ChatScreenSlice.actions.setModalVisible;
 export const sendOrder = ChatScreenSlice.actions.sendOrder;
 export const setLoading = ChatScreenSlice.actions.setLoading;
 export const setData = ChatScreenSlice.actions.setData;

@@ -1,15 +1,16 @@
 import React from 'react'
-import { View, Text, SafeAreaView, StatusBar, FlatList, Modal } from 'react-native'
+import { View, Text, SafeAreaView, StatusBar, FlatList, Modal, Pressable } from 'react-native'
 import { color } from '../assets/Colors/Colors'
 import { style } from '../styles/CartPageStyle'
 import { Card } from 'react-native-shadow-cards'
 import { useSelector } from 'react-redux'
 import CartPageCard from '../componants/CartPageCard'
 import PostOrderLoading from '../componants/PostOrderLoading'
-
+import { AntDesign } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native'
 
 const CartPage = () => {
-
+    const navigation = useNavigation();
     const data = useSelector((state) => state.CartPageSlice.data)
 
     return (
@@ -21,6 +22,12 @@ const CartPage = () => {
             />
 
             <View style={style.backgroundContainer} />
+
+            <View style={style.BackButton}>
+                <Pressable onPress={() =>navigation.navigate('Main Page')}>
+                    <AntDesign name="back" size={24} color={color.white} />
+                </Pressable>
+            </View>
 
             <View style={style.headerTagAndButton}>
                 <Text style={style.SaleOrderHeaderText}>Your Cart</Text>

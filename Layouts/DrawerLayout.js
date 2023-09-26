@@ -42,15 +42,6 @@ const DrawerLayout = () => {
         }}
       />
 
-      <Drawer.Screen
-        name="Cart"
-        component={CartPage}
-        options={{
-          headerShown: false,
-          drawerIcon: ({ }) => <Feather name="shopping-cart" size={24} color={color.primary} />,
-        }}
-      />
-
       {role == 'admin' && access == true ?
         <Drawer.Screen
           name="Create User"

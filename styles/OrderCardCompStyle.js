@@ -86,7 +86,7 @@ export const style = StyleSheet.create({
         color: color.Green,
         fontFamily: 'Inter-SemiBold',
         fontSize: moderateScale(16),
-        marginLeft: horizontalScale(25)
+        marginLeft: horizontalScale(15)
     },
 
     ClickMeText: {
@@ -100,10 +100,10 @@ export const style = StyleSheet.create({
     },
 
     ClickMeTextSuccess: {
-        fontFamily: 'Inter-SemiBold',
+        fontFamily: 'Inter-Regular',
         color: color.white,
         backgroundColor: color.Green,
-        width: horizontalScale(150),
+        width: horizontalScale(90),
         textAlign: 'center',
         borderRadius: moderateScale(20),
         height: verticalScale(25)

@@ -1,21 +1,43 @@
-import React from 'react'
-import { View, Text, SafeAreaView, StatusBar, FlatList, Pressable } from 'react-native'
+import React, { useCallback, useEffect } from 'react'
+import { View, Text, SafeAreaView, StatusBar, FlatList, Pressable, Alert } from 'react-native'
 import { style } from '../styles/ChatScreenStyle'
 import { color } from '../assets/Colors/Colors'
 import ChatTypingContainer from '../componants/ChatTypingContainer'
 import { Feather } from '@expo/vector-icons';
 import NameAndStatusHeader from '../componants/NameAndStatusHeader'
 import OrderCardComp from '../componants/OrderCardComp'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import QueryChatLabel from '../componants/QueryChatLabel'
 import ErrorComp from '../componants/ErrorComp'
 import { useNavigation } from '@react-navigation/native'
+import AddToCartLoading from '../componants/AddToCartLoading'
+import { AddToCart, setIsCartFetched } from '../store/Slices/CartPageSlice'
+import { CartFetch } from '../util/http'
+
 
 const ChatScreen = () => {
+
+  const dispatch = useDispatch()
 
   const navigation = useNavigation();
   const selectedData = useSelector((state) => state.ChatScreenSlice.selectedData)
   const data = useSelector((state) => state.CartPageSlice.data)
+  const email = useSelector((state) => state.LoginScreenSlice.email);
+  const CartRefresh = useSelector((state) => state.ChatScreenSlice.CartRefresh)
+
+
+  const FetchCart = async (email) => {
+    await dispatch(setIsCartFetched())
+    const data = await CartFetch(email)
+    await dispatch(AddToCart(data.data.user_cart))
+    await dispatch(setIsCartFetched())
+  }
+
+
+  useEffect(() => {
+    FetchCart(email)
+  }, [CartRefresh])
+
 
   return (
     <SafeAreaView
@@ -35,7 +57,7 @@ const ChatScreen = () => {
           <View style={style.CartIconContainerCount}>
             <Text style={style.CartIconContainerCountText}>{data.length}</Text>
           </View>
-          <Pressable onPress={()=>navigation.navigate('Cart')}>
+          <Pressable onPress={() => navigation.navigate('Cart')}>
             <Feather name="shopping-cart" size={25} color={color.white} />
           </Pressable>
         </View>
@@ -52,7 +74,7 @@ const ChatScreen = () => {
           maxToRenderPerBatch={5}
           initialNumToRender={5}
           renderItem={({ item }) => {
-            console.log(item)
+
             return (
               <View>
                 <QueryChatLabel query={item.query} />
@@ -90,6 +112,8 @@ const ChatScreen = () => {
       <View style={style.ChatBar} >
         <ChatTypingContainer />
       </View>
+
+      <AddToCartLoading />
 
     </SafeAreaView>
   )

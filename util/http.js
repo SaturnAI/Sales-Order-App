@@ -7,10 +7,10 @@ const OrderData = async (bodyprop, lastid) => {
     let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url:process.env.SALE_ORDER_API_KEY,
+        url: process.env.SALE_ORDER_API_KEY,
         data: {
             "user_prompt": bodyprop,
-            "last_id" :  lastid,
+            "last_id": lastid,
 
         }
     };
@@ -31,8 +31,6 @@ const OrderData = async (bodyprop, lastid) => {
 
 export default OrderData;
 
-
-
 export const Login = async (loginCredentials, prop) => {
     const { username, password } = loginCredentials;
 
@@ -41,7 +39,7 @@ export const Login = async (loginCredentials, prop) => {
         method: 'post',
         maxBodyLength: Infinity,
 
-        url:process.env.USER_AUTH_API_KEY + `${prop}`,
+        url: process.env.USER_AUTH_API_KEY + `${prop}`,
         data: {
             "email": username,
             "password": password,
@@ -69,14 +67,13 @@ export const Login = async (loginCredentials, prop) => {
 
 }
 
-
 export const findUser = async (method, prop) => {
 
 
     let config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url:process.env.USER_AUTH_API_KEY + `${method}`,
+        url: process.env.USER_AUTH_API_KEY + `${method}`,
         data: {
             "token": prop
         }
@@ -106,7 +103,7 @@ export const ExpenseDataApi = async () => {
     let config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url:process.env.FIREBASE_API_KEY,
+        url: process.env.FIREBASE_API_KEY,
     }
 
     const dataresponse = await axios.request(config)
@@ -163,22 +160,22 @@ export const ExpenseDataApiPost = async (picker, Amount, Date, Remarks, id) => {
 
 }
 
+export const PostOrders = async (email, Customer_Name, Customer_Number, Item_Name, Quantity, _id) => {
 
-export const PostOrders = async (username, email, customer_name, customer_no, item_name, quantity) => {
     let config = {
-        method: 'post',
+        method: 'POST',
         maxBodyLength: Infinity,
-        url:process.env.POST_ORDER_API_KEY,
+        url: process.env.POST_ORDER_API_KEY,
         data: {
             "order_data": {
                 "order_id": email,
-                "order_by": username,
                 "orders": [
                     {
-                        "Customer_Number": customer_no,
-                        "Quantity": quantity,
-                        "Item_Name": item_name,
-                        "Customer_Name": customer_name,
+                        "_id": _id,
+                        "Customer_Number": Customer_Number,
+                        "Quantity": Quantity,
+                        "Item_Name": Item_Name,
+                        "Customer_Name": Customer_Name,
                     }
                 ]
             }
@@ -187,7 +184,6 @@ export const PostOrders = async (username, email, customer_name, customer_no, it
 
     const dataresponse = await axios.request(config)
         .then((response) => {
-
             return {
                 success: 'true',
                 data: response.data,
@@ -195,6 +191,162 @@ export const PostOrders = async (username, email, customer_name, customer_no, it
         })
         .catch((error) => {
             if (error) {
+                return {
+                    success: false,
+                    data: "Not Posted",
+                }
+            }
+        });
+
+    return dataresponse;
+
+}
+
+export const CartInsert = async (item, email) => {
+
+    if(item.customer_name == null || item.item_name == null){
+        return {
+            success: false,
+            data : "Solve Problem First"
+        }
+    }
+    else {
+
+        const order = {
+        "_id":item.item_id,
+        "Customer_Number":Number(item.customer_no),
+        "Quantity":Number(item.quantity),
+        "Item_Name":item.item_name,
+        "Customer_Name":item.customer_name,
+    }
+
+
+    let config = {
+        method:'POST',
+        maxBodyLength:Infinity,
+        url:process.env.CART_API_KEY+'insert',
+        data: {
+            "order_id":email,
+            "orders":order,
+        }
+    }
+
+
+
+    const dataresponse = await axios.request(config)
+        .then((response) => {
+
+            return {
+                success: true,
+                data: response.data,
+            }
+        })
+        .catch((error) => {
+            if (error) {
+
+                return {
+                    success: false,
+                    data: "Not Found",
+                }
+            }
+        });
+
+    return dataresponse;
+
+    }
+    
+
+
+}
+
+export const CartFetch = async (email) => {
+    let config = {
+        method: 'POST',
+        maxBodyLength: Infinity,
+        url: process.env.CART_API_KEY + 'fetch',
+        data: {
+            "order_id": email,
+        }
+    }
+
+
+    const dataresponse = await axios.request(config)
+        .then((response) => {
+            return {
+                success: true,
+                data: response.data
+            }
+        })
+        .catch((error) => {
+            if (error) {
+
+                return {
+                    success: false,
+                    data: "Not Found",
+                }
+            }
+        });
+
+    return dataresponse;
+
+}
+
+export const CartDelete = async (_id, email) => {
+    let config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: process.env.CART_API_KEY + 'delete',
+        data: {
+            "order_id": email,
+            "_id": _id
+        }
+
+    }
+
+    const dataresponse = await axios.request(config)
+        .then((response) => {
+
+            return {
+                success: true,
+                data: response.data,
+            }
+
+        })
+        .catch((error) => {
+            if (error) {
+                return {
+                    success: false,
+                    data: "Not Deleted",
+                }
+            }
+        });
+
+    return dataresponse;
+
+}
+
+export const History = async (email) => {
+    
+    let config = {
+        method: 'POST',
+        maxBodyLength: Infinity,
+        url: process.env.CART_API_KEY+'history',
+        data: {
+            "order_id": email,
+        }
+
+    }
+
+    const dataresponse = await axios.request(config)
+        .then((response) => {
+            return {
+                success: true,
+                data: response.data,
+            }
+
+        })
+        .catch((error) => {
+            if (error) { 
                 return {
                     success: false,
                     data: "Not Found",

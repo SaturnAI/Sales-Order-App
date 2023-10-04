@@ -24,6 +24,8 @@ export const style = StyleSheet.create({
 
     CardBody: {
         backgroundColor: color.BlueSecondry,
+        flexDirection : 'row',
+        justifyContent : 'space-around',
     },
 
     CardBodyInnerView: {
@@ -37,6 +39,7 @@ export const style = StyleSheet.create({
         color: color.white,
         fontFamily: 'Inter-Regular',
         fontSize: moderateScale(18),
+        marginRight: horizontalScale(20)
     },
 
     TotalItemCountNumber: {

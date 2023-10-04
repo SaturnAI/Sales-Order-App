@@ -28,7 +28,7 @@ const LoginScreen = ({ navigation }) => {
     //   Alert.alert(`Error : ${data.message}`)
     // }
     // if (data.success == true) {
-    //   await dispatch(setUserData(data));
+      await dispatch(setUserData(loginCredentials));
     //   await dispatch(setIsLoading())
       navigation.replace("Main Page")
     // }

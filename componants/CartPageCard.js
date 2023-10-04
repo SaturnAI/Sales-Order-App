@@ -5,22 +5,30 @@ import { style } from '../styles/CartPageCardStyle'
 import { Feather, AntDesign } from '@expo/vector-icons';
 import { color } from '../assets/Colors/Colors';
 import { useDispatch, useSelector } from 'react-redux';
-import { RemoveFromCart, setIsOrderPosting, setOrderPosted } from '../store/Slices/CartPageSlice';
-import { PostOrders } from '../util/http';
+import { RemoveFromCart, setIsCartCardDeleted, setIsOrderPosting, setOrderPosted, setIncreaseQuantity, setDecreaseQuantity } from '../store/Slices/CartPageSlice';
+import { CartDelete, PostOrders } from '../util/http';
+import { setCartRefresh } from '../store/Slices/ChatScreenSlice';
 
-const CartPageCard = ({ customer_name, customer_no, id, item_name, quantity }) => {
+const CartPageCard = ({ Customer_Name, Customer_Number, Item_Name, Quantity, _id }) => {
 
     const dispatch = useDispatch()
 
-    const username = useSelector((state) => state.LoginScreenSlice.username)
     const email = useSelector((state) => state.LoginScreenSlice.email)
 
-    const PostThisOrder = async (username, email, customer_name, customer_no, item_name, quantity) => {
+    const PostThisOrder = async (email, Customer_Name, Customer_Number, Item_Name, Quantity, _id) => {
         await dispatch(setIsOrderPosting())
-        const data = await PostOrders(username, email, customer_name, customer_no, item_name, quantity)
-        await dispatch(setOrderPosted({id, customer_name, customer_no, item_name, quantity ,data}))
+        const data = await PostOrders(email, Customer_Name, Customer_Number, Item_Name, Quantity, _id)
+        console.log(data)
+        // await dispatch(setOrderPosted({ item_id, customer_name, customer_no, item_name, quantity, data }))
         await dispatch(setIsOrderPosting())
-        
+
+    }
+
+    const deleteCartCard = async (_id, email) => {
+        await dispatch(setIsCartCardDeleted());
+        await CartDelete(_id, email);
+        await dispatch(setCartRefresh());
+        await dispatch(setIsCartCardDeleted());
     }
 
     return (
@@ -28,34 +36,57 @@ const CartPageCard = ({ customer_name, customer_no, id, item_name, quantity }) =
             <View style={style.OrderCardContainer}>
                 <Card style={style.CardBody}>
 
-                    <Pressable onPress={() => dispatch(RemoveFromCart(id))}>
-                        <View style={style.deleteButton}>
+                    <View style={style.deleteButton}>
+                        <Pressable onPress={() => deleteCartCard(_id, email)}>
                             <AntDesign name="delete" size={20} color={color.primary} />
-                        </View>
-                    </Pressable>
+                        </Pressable>
+                    </View>
 
 
                     <View style={style.container}>
-                        <View >
+                        <View   >
                             <Text style={style.containerText1}>Customer Number</Text>
-                            <Text style={style.containerText2}>{customer_no}</Text>
+                            <Text style={style.containerText2}>{Customer_Number}</Text>
                             <Text style={style.containerText1}>Item Name</Text>
-                            <Text style={[style.containerText2, style.remarks]}>{item_name}</Text>
+                            <Text style={[style.remarks]}>{Item_Name}</Text>
                         </View>
+
                         <View >
-                            <Text style={style.containerText1}>Quantity</Text>
-                            <Text style={[style.containerText2, style.remarks]}>{quantity}</Text>
                             <Text style={style.containerText1}>Customer Name</Text>
-                            <Text style={[style.containerText2, style.remarks]}>{customer_name}</Text>
+                            <Text style={[style.containerText2]}>{Customer_Name}</Text>
+
+                            <View style={style.PlusMinusAndQuantText}>
+
+                                <View>
+                                    <Text style={style.containerText1}>Quantity</Text>
+                                    <Text style={[style.remarks]}>{Quantity}</Text>
+                                </View>
+
+                                <View style={style.PlusMinusButtons}>
+                                    <View style={style.PlusButtonContainer}>
+                                        <Pressable onPress={() => dispatch(setIncreaseQuantity(_id))}>
+                                            <AntDesign name="plus" size={25} color={color.primary} />
+                                        </Pressable>
+                                    </View>
+                                    <View style={style.MinusButtonContainer}>
+                                        <Pressable onPress={() => dispatch(setDecreaseQuantity(_id))}>
+                                            <AntDesign name="minus" size={25} color={color.primary} />
+                                        </Pressable>
+                                    </View>
+
+                                </View>
+                            </View>
+
                         </View>
                     </View>
 
-                    <Pressable onPress={() => PostThisOrder(username, email, customer_name, customer_no, item_name, quantity, id)}>
+                    <Pressable onPress={() => PostThisOrder(email, Customer_Name, Customer_Number, Item_Name, Quantity, _id)}>
                         <View style={style.PlaceOrderButton}>
                             <Text style={style.PlaceOrderButtonText}>Place Order</Text>
                         </View>
                     </Pressable>
 
+                   <View style={style.BottomBar} />
                 </Card>
             </View>
         </SafeAreaView>

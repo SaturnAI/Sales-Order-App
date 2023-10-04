@@ -14,33 +14,55 @@ export const style = StyleSheet.create({
 
     },
 
-    deleteButton : {
-              alignSelf : 'flex-end',
-              marginTop : verticalScale(10),
-              position : 'absolute',
-              right : horizontalScale(10),
+    deleteButton: {
+        alignSelf: 'flex-end',
+        marginTop: verticalScale(10),
+        position: 'absolute',
+        right: horizontalScale(10),
     },
 
     container: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingHorizontal: horizontalScale(20),
-        paddingVertical: verticalScale(20),
+        paddingVertical: verticalScale(50),
     },
 
+    PlusMinusAndQuantText: {
+        flexDirection: 'row',
+        justifyContent: 'space-around'
+    },
+
+
+
     containerText1: {
-        fontWeight: "400",
-        fontSize: 16,
+        fontFamily: 'Inter-SemiBold',
+        fontSize: moderateScale(16),
         marginBottom: 1,
-        fontFamily: 'Inter-SemiBold'
     },
 
     containerText2: {
-        fontWeight: "300",
-        fontSize: moderateScale(16),
-        marginBottom: 25,
         fontFamily: 'Inter-Regular',
-        width: horizontalScale(130)
+        fontSize: moderateScale(15),
+        marginBottom: verticalScale(20)
+    },
+
+    PlusMinusButtons: {
+        flexDirection: 'column',
+    },
+
+    PlusButtonContainer: {
+        marginBottom: verticalScale(20)
+    },
+
+    MinusButtonContainer: {
+
+    },
+
+    remarks: {
+        fontFamily: 'Inter-Regular',
+        fontSize: moderateScale(15),
+        marginBottom: verticalScale(1)
     },
 
     PlaceOrderButton: {
@@ -54,7 +76,7 @@ export const style = StyleSheet.create({
 
     },
 
-   
+
 
     PlaceOrderButtonText: {
         fontFamily: 'Inter-Regular',
@@ -64,12 +86,18 @@ export const style = StyleSheet.create({
     },
 
     OrderPlacedMessage: {
-       backgroundColor : color.Green,
+        backgroundColor: color.Green,
     },
 
     OrderPlacedMessageText: {
-        alignSelf : 'flex-end',
-        marginHorizontal : horizontalScale(20),
+        alignSelf: 'flex-end',
+        marginHorizontal: horizontalScale(20),
         color: color.white,
+    },
+
+    BottomBar: {
+        borderWidth: moderateScale(2),
+        borderColor: color.primary,
+        borderRadius: moderateScale(20)
     },
 });

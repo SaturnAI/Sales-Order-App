@@ -5,7 +5,7 @@ import { style } from '../styles/ChatTypingContainerStyle'
 import { Feather } from '@expo/vector-icons'
 import { color } from '../assets/Colors/Colors'
 import { useSelector, useDispatch } from 'react-redux'
-import { setLoading, setData, setQuery, setQueryArray, setLastID } from '../store/Slices/ChatScreenSlice'
+import { setLoading, setData, setQuery, setQueryArray } from '../store/Slices/ChatScreenSlice'
 import OrderData from "../util/http";
 
 const ChatTypingContainer = () => {

@@ -4,11 +4,9 @@ import { color } from '../assets/Colors/Colors'
 import { useSelector } from 'react-redux'
 import { style } from '../styles/LoginScreenStyle'
 
-const PostOrderLoading = () => {
+const AddToCartLoading = () => {
 
-    const isOrderPosting = useSelector((state) => state.CartPageSlice.isOrderPosting);
-    const isCartCardDeleted = useSelector((state) => state.CartPageSlice.isCartCardDeleted);
-    const isHistoryFetching = useSelector((state) => state.PlacedOrderSlice.isHistoryFetching);
+    const isAddedToCart = useSelector((state) => state.CartPageSlice.isAddedToCart);
 
     return (
         <SafeAreaView>
@@ -20,7 +18,7 @@ const PostOrderLoading = () => {
             <Modal
                 transparent={true}
                 animationType='fade'
-                visible={isOrderPosting || isCartCardDeleted || isHistoryFetching}>
+                visible={isAddedToCart}>
                 <View style={style.LoginLoaderContainer}  >
                     <ActivityIndicator style={style.ActivityIndicator} size='large' color={color.primary} />
                 </View>
@@ -30,4 +28,4 @@ const PostOrderLoading = () => {
     )
 }
 
-export default PostOrderLoading
+export default AddToCartLoading

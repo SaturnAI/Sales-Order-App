@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { data } from "../../data";
 
 const ChatScreenSlice = createSlice({
 
@@ -19,9 +20,26 @@ const ChatScreenSlice = createSlice({
     orders: [],
     modalVisible: false,
     lastid: 0,
+    idForCompChange: 0,
+    CartRefresh: false,
   },
 
   reducers: {
+
+    setCartRefresh: (state, action) => {
+            return {
+              ...state,
+              CartRefresh : !state.CartRefresh
+            }
+    },
+
+    setIdForCompChange : (state, action) => {
+        const id = action.payload
+        return{
+          ...state,
+          idForCompChange : id,
+        }
+    },
 
     setData: (state, action) => {
       const data = action.payload;
@@ -29,8 +47,9 @@ const ChatScreenSlice = createSlice({
 
       if (Object.keys(data)[0] == "sales") {
         const { item_id } = data.sales[data.sales.length - 1]
-
+        
         data.query = state.queryString
+       
         return {
           ...state,
           data: [...data.sales],
@@ -43,7 +62,6 @@ const ChatScreenSlice = createSlice({
         }
       }
       if (Object.keys(data)[0] == "error") {
-        console.log(action.payload)
         const obj = {
           query: state.queryString,
           sales: null,
@@ -102,7 +120,7 @@ const ChatScreenSlice = createSlice({
 
 
     sendOrder: (state, action) => {
-      console.log(action.payload)
+      
     },
 
 
@@ -115,9 +133,10 @@ const ChatScreenSlice = createSlice({
 
 
     selectPickerItems: (state, action) => {
-      const { id, item } = action.payload
+      const id = state.idForCompChange;
+      const { item } = action.payload
       const tempObj = state.selectedData.find((item) => {
-        if (item.sale != null) {
+        if (item.sales != null) {
           return item.sales.find((item) => item.item_id == id)
         }
         else {
@@ -137,6 +156,7 @@ const ChatScreenSlice = createSlice({
                   ...sale,
                   item_name: item,
                   selected: true,
+                  
                 }
               }
 
@@ -173,24 +193,153 @@ const ChatScreenSlice = createSlice({
 
       }
 
+    },
 
+
+     selectPickerCustomer: (state, action) => {
+      const id = state.idForCompChange;
+      const { item } = action.payload
+      const tempObj = state.selectedData.find((item) => {
+        if (item.sales != null) {
+          return item.sales.find((item) => item.item_id == id)
+        }
+        else {
+          return {
+            ...item
+          }
+        }
+      })
+
+      if (tempObj) {
+        const data = state.selectedData.map((obj) => {
+          if (obj.sales != null) {
+            const sales = obj.sales.map((sale) => {
+
+              if (sale.item_id == id) {
+                return {
+                  ...sale,
+                  customer_name: item,
+                  selected: true,
+                 
+                }
+              }
+
+              else {
+                return {
+                  ...sale,
+
+                }
+              }
+            })
+
+            return {
+              ...obj,
+              sales
+            }
+          }
+          else {
+            return {
+              ...obj
+            }
+          }
+
+
+        })
+
+        return {
+          ...state,
+          selectedData: [...data],
+          modalVisible: false,
+          itemSelected: true,
+          selectedValue: item,
+
+        }
+
+      }
+
+    },
+
+    selectBothPicker: (state, action) => {
+      const { id, item, customer } = action.payload
+      const tempObj = state.selectedData.find((item) => {
+        if (item.sales != null) {
+          return item.sales.find((item) => item.item_id == id)
+        }
+        else {
+          return {
+            ...item
+          }
+        }
+      })
+
+      if (tempObj) {
+        const data = state.selectedData.map((obj) => {
+          if (obj.sales != null) {
+            const sales = obj.sales.map((sale) => {
+
+              if (sale.item_id == id) {
+                return {
+                  ...sale,
+                  customer_name: customer,
+                  item_name : item,
+                  selected: true,
+                  
+                }
+              }
+
+              else {
+                return {
+                  ...sale,
+
+                }
+              }
+            })
+
+            return {
+              ...obj,
+              sales
+            }
+          }
+          else {
+            return {
+              ...obj
+            }
+          }
+
+
+        })
+
+
+        return {
+          ...state,
+          selectedData: [...data],
+          modalVisible: false,
+          itemSelected: true,
+          selectedValue: item,
+        }
+
+      }
 
     },
 
 
     setLastID: (state, action) => {
       const data = action.payload
-
-
     },
 
+    
 
-
+   
 
 
   },
 });
 
+
+export const setCartRefresh = ChatScreenSlice.actions.setCartRefresh;
+export const setIdForCompChange = ChatScreenSlice.actions.setIdForCompChange;
+export const selectBothPicker = ChatScreenSlice.actions.selectBothPicker;
+export const selectPickerCustomer = ChatScreenSlice.actions.selectPickerCustomer;
 export const setLastID = ChatScreenSlice.actions.setLastID;
 export const setQueryArray = ChatScreenSlice.actions.setQueryArray
 export const selectPickerItems = ChatScreenSlice.actions.selectPickerItems;

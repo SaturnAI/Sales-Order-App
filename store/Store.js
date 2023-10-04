@@ -4,6 +4,7 @@ import ChatScreenSlice from './Slices/ChatScreenSlice';
 import PendingExpenseSlice from './Slices/PendingExpenseSlice';
 import LoginScreenSlice from './Slices/LoginScreenSlice';
 import CartPageSlice from './Slices/CartPageSlice';
+import PlacedOrderSlice from './Slices/PlacedOrderSlice';
 
 export const Store = configureStore({
     
@@ -13,6 +14,7 @@ export const Store = configureStore({
         PendingExpenseSlice,
         LoginScreenSlice,
         CartPageSlice,
+        PlacedOrderSlice,
     },
 
 

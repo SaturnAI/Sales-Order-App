@@ -19,13 +19,11 @@ const OrderCardComp = ({ item }) => {
 
     await dispatch(setIsAddedToCart())
     const data = await CartInsert(item, email)
-    console.log(data.data)
     if (data.data.is_successfull == false) {
-      Alert.alert('Error', "Not Inserted")
+      Alert.alert('Error', " Maybe This Item Already Ordered")
     }
     else {
       await dispatch(setCartRefresh())
-      ToastAndroid.show('Added Successfully', ToastAndroid.SHORT);
     }
     await dispatch(setIsAddedToCart())
 

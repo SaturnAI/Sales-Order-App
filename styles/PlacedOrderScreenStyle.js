@@ -30,8 +30,15 @@ export const style = StyleSheet.create({
         marginLeft: horizontalScale(150)
     },
 
+    ListGridIcons: {
+          alignSelf: 'flex-end',
+          marginRight : horizontalScale(40),
+          marginTop : verticalScale(-45),
+    },
+
     CartItemList: {
-        height : verticalScale(750)
+        height : verticalScale(750),
+        marginTop: verticalScale(10),
    }
 
 });

@@ -9,11 +9,13 @@ const OrderData = async (bodyprop, lastid) => {
         maxBodyLength: Infinity,
         url: process.env.SALE_ORDER_API_KEY,
         data: {
-            "user_prompt": bodyprop,
+            "user_prompt": `Create an order for ${bodyprop}`,
             "last_id": lastid,
 
         }
     };
+
+    
 
     const data = await axios.request(config)
         .then((response) => {

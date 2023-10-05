@@ -7,7 +7,7 @@ export const style = StyleSheet.create({
 
     PlacedCardContainer: {
         alignItems: 'center',
-        paddingVertical: verticalScale(2),
+        paddingVertical: verticalScale(5),
     },
 
     PlacedText: {

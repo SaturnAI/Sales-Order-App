@@ -18,8 +18,7 @@ const CartPageCard = ({ Customer_Name, Customer_Number, Item_Name, Quantity, _id
     const PostThisOrder = async (email, Customer_Name, Customer_Number, Item_Name, Quantity, _id) => {
         await dispatch(setIsOrderPosting())
         const data = await PostOrders(email, Customer_Name, Customer_Number, Item_Name, Quantity, _id)
-        console.log(data)
-        // await dispatch(setOrderPosted({ item_id, customer_name, customer_no, item_name, quantity, data }))
+        await dispatch(setCartRefresh())
         await dispatch(setIsOrderPosting())
 
     }
@@ -86,7 +85,7 @@ const CartPageCard = ({ Customer_Name, Customer_Number, Item_Name, Quantity, _id
                         </View>
                     </Pressable>
 
-                   <View style={style.BottomBar} />
+                    <View style={style.BottomBar} />
                 </Card>
             </View>
         </SafeAreaView>

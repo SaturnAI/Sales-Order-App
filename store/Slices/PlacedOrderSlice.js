@@ -5,6 +5,7 @@ const PlacedOrderSlice = createSlice({
     initialState : {
         history: [],
         isHistoryFetching : false,
+        toggleGrid : false,
     },
 
     reducers : {
@@ -26,10 +27,18 @@ const PlacedOrderSlice = createSlice({
                }
         },
 
+        setToggleGrid : (state, action) => {
+            return {
+                ...state,
+                toggleGrid : !state.toggleGrid,
+            }
+        },
+
 
     }
 })
 
+export const setToggleGrid = PlacedOrderSlice.actions.setToggleGrid;
 export const setIsHistoryFetching = PlacedOrderSlice.actions.setIsHistoryFetching;
 export const setHistory = PlacedOrderSlice.actions.setHistory;
 export default PlacedOrderSlice.reducer;

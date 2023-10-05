@@ -5,14 +5,15 @@ import { AntDesign } from '@expo/vector-icons'
 import { color } from '../assets/Colors/Colors'
 import { style } from '../styles/PlacedOrderScreenStyle'
 import PostOrderLoading from '../componants/PostOrderLoading'
-import PlacedOrderItemCard from '../componants/PlacedOrderItemCard'
-import { useSelector } from 'react-redux'
+import ListViewPlacedOrder from '../componants/ListViewPlacedOrder'
+import { Entypo } from '@expo/vector-icons'
+import { useDispatch, useSelector } from 'react-redux'
+import { setToggleGrid } from '../store/Slices/PlacedOrderSlice'
 
 const PlacedOrdersScreen = () => {
-
+    const dispatch = useDispatch();
     const navigation = useNavigation();
-
-    const history = useSelector((state) => state.PlacedOrderSlice.history)
+    const toogleGrid = useSelector((state) => state.PlacedOrderSlice.toggleGrid)
 
     return (
         <SafeAreaView>
@@ -34,25 +35,25 @@ const PlacedOrdersScreen = () => {
                 <Text style={style.SaleOrderHeaderText}>History</Text>
             </View>
 
-            <View style={style.CartItemList}>
-                <FlatList
-                    style={style.listStyle}
-                    data={history}
-                    keyExtractor={(itemValue, key) => key}
-                    showsVerticalScrollIndicator={false}
-                    removeClippedSubviews={true}
-                    maxToRenderPerBatch={5}
-                    initialNumToRender={5}
-                    renderItem={(item) => {
-                       
-                        return (
-                           <PlacedOrderItemCard {...item.item} />
-                        );
-                    }
-                    }
-                />
 
-            </View>
+            {
+                toogleGrid ?
+                    <View style={style.ListGridIcons}>
+                        <Pressable onPress={() => dispatch(setToggleGrid())}>
+                            <Entypo name="list" size={35} color={color.white} />
+                        </Pressable>
+                    </View>
+                    :
+                    <View style={style.ListGridIcons}>
+                        <Pressable onPress={() => dispatch(setToggleGrid())}>
+                            <Entypo name="grid" size={35} color={color.white} />
+                        </Pressable>
+                    </View>
+            }
+
+
+            <ListViewPlacedOrder />
+
 
 
 

@@ -19,8 +19,6 @@ import { PickerComp } from "../componants/PickerComp";
 import { TextInput } from "react-native-gesture-handler";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Card } from 'react-native-shadow-cards';
-import { db } from "../firebase/Config";
-import { set, ref } from "firebase/database";
 import { color } from "../assets/Colors/Colors";
 import { FontAwesome } from '@expo/vector-icons';
 import { moderateScale } from "../Dimension";

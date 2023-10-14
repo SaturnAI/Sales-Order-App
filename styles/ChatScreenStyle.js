@@ -51,6 +51,12 @@ export const style = StyleSheet.create({
       
    },
 
+   OrderReportSuggestionContainer:{
+       alignSelf : 'center',
+       position : 'absolute',
+       bottom: '50%',
+   },
+
    ChatBar: {
       marginTop : verticalScale(20),
       position: 'absolute',

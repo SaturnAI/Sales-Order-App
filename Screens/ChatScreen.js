@@ -13,6 +13,8 @@ import { useNavigation } from '@react-navigation/native'
 import AddToCartLoading from '../componants/AddToCartLoading'
 import { AddToCart, setIsCartFetched } from '../store/Slices/CartPageSlice'
 import { CartFetch } from '../util/http'
+import OrderReportSuggestions from '../componants/OrderReportSuggestions'
+import SuggestionComponantModal from '../componants/SuggestionComponantModal'
 
 
 const ChatScreen = () => {
@@ -65,6 +67,7 @@ const ChatScreen = () => {
 
       <View style={style.FlatListContainer}>
 
+       
         <FlatList
           style={style.listStyle}
           data={selectedData}
@@ -114,6 +117,9 @@ const ChatScreen = () => {
       </View>
 
       <AddToCartLoading />
+
+      <SuggestionComponantModal />
+      
 
     </SafeAreaView>
   )

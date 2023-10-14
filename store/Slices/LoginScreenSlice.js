@@ -7,8 +7,8 @@ const LoginScreenSlice = createSlice({
         username: "Shubham Verma",
         email : 'ShubhamVerma11@gmail.com',
         message: "",
-        role: "user",
-        access : false,
+        role: "admin",
+        access: false,
         isLoading : false,
     },
 

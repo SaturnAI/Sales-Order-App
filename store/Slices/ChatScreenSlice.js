@@ -22,9 +22,18 @@ const ChatScreenSlice = createSlice({
     lastid: 0,
     idForCompChange: 0,
     CartRefresh: false,
+    suggestionModal:  false,
   },
 
   reducers: {
+
+    setSuggestionModal: (state, action) => {
+            return {
+              ...state,
+              suggestionModal: !state.suggestionModal,
+            
+            }
+    },
 
     setCartRefresh: (state, action) => {
             return {
@@ -336,6 +345,7 @@ const ChatScreenSlice = createSlice({
 });
 
 
+export const setSuggestionModal = ChatScreenSlice.actions.setSuggestionModal;
 export const setCartRefresh = ChatScreenSlice.actions.setCartRefresh;
 export const setIdForCompChange = ChatScreenSlice.actions.setIdForCompChange;
 export const selectBothPicker = ChatScreenSlice.actions.selectBothPicker;

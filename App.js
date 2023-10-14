@@ -12,6 +12,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import CartPage from './Screens/CartPage';
 import { PaperProvider } from 'react-native-paper';
 import PlacedOrdersScreen from './Screens/PlacedOrdersScreen';
+import PdfScreen from './Screens/PdfScreen';
 
 
 const Stack = createStackNavigator();
@@ -50,11 +51,12 @@ export default function App() {
         <PaperProvider>
           <NavigationContainer
             onReady={onLayoutRootView}>
-            <Stack.Navigator initialRouteName='Budget App'>
+            <Stack.Navigator initialRouteName='PDF'>
               <Stack.Screen name='Budget App' component={LoginScreen} />
               <Stack.Screen name='Main Page' component={DrawerLayout} options={{ headerShown: false }} />
               <Stack.Screen name='Cart' component={CartPage} options={{ headerShown: false }} />
               <Stack.Screen name='History' component={PlacedOrdersScreen} options={{ headerShown: false }} />
+              <Stack.Screen name='PDF' component={PdfScreen} />
             </Stack.Navigator>
           </NavigationContainer>
         </PaperProvider>

@@ -10,6 +10,12 @@ export const style = StyleSheet.create({
         marginBottom : verticalScale(6)
     },
 
+    OrderReportSuggestion:{
+        marginLeft : horizontalScale(15),
+        position: 'absolute',
+        marginTop: verticalScale(10),
+    },
+
     TextInputContainer: {
         backgroundColor: color.Gray,
         width: horizontalScale(300),
@@ -21,6 +27,7 @@ export const style = StyleSheet.create({
 
     TextInput: {
         marginHorizontal : horizontalScale(10),
+        marginLeft: horizontalScale(35),
         fontFamily : 'Inter-Regular',
         fontSize : moderateScale(15),
         fontWeight : '600',

@@ -105,9 +105,10 @@ export const ExpenseDataApi = async () => {
     let config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: process.env.FIREBASE_API_KEY,
+        url:process.env.FIREBASE_API_KEY,
     }
 
+   
     const dataresponse = await axios.request(config)
         .then((response) => {
             return {

@@ -11,15 +11,12 @@ import SignUp from "../Screens/SignUp";
 import { color } from "../assets/Colors/Colors";
 import CartPage from "../Screens/CartPage";
 
-
-
 const Drawer = createDrawerNavigator();
 
 const DrawerLayout = () => {
 
   const role = useSelector((state) => state.LoginScreenSlice.role)
   const access = useSelector((state) => state.LoginScreenSlice.access)
-
   const dispatch = useDispatch();
 
   return (
@@ -42,7 +39,7 @@ const DrawerLayout = () => {
         }}
       />
 
-      {role == 'admin' && access == true ?
+      {role == 'admin'?
         <Drawer.Screen
           name="Create User"
           component={SignUp}
@@ -53,7 +50,6 @@ const DrawerLayout = () => {
         />
         :
         null
-
       }
 
     </Drawer.Navigator>

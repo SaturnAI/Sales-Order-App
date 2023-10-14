@@ -5,6 +5,10 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/logo.png",
+    "plugins": [
+      "@config-plugins/react-native-blob-util",
+      "@config-plugins/react-native-pdf"
+    ],
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splashlogo.png",
@@ -27,7 +31,13 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.iappc.BudgetApp"
+      "package": "com.iappc.BudgetApp",
+      "permissions": [
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.DOWNLOAD_WITHOUT_NOTIFICATION",
+        "android.permission.ACCESS_NETWORK_STATE"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -37,7 +47,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "773eeae0-c2b6-4a4e-b2a2-09b2bd8049a0"
+        "projectId": "0dc42ad1-7efa-4697-9787-39086552bd3a"
       }
     }
   }

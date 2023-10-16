@@ -6,9 +6,11 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Entypo } from '@expo/vector-icons'
 import ChatTypingContainer from './ChatTypingContainer'
 import { setSuggestionModal } from '../store/Slices/ChatScreenSlice'
+import { useNavigation } from '@react-navigation/native';
 
 const SuggestionComponantModal = () => {
-
+    
+    const navigation = useNavigation()
     const dispatch = useDispatch()
     const suggestionModal = useSelector((state) => state.ChatScreenSlice.suggestionModal)
     const [active, setActive] = useState({
@@ -56,6 +58,7 @@ const SuggestionComponantModal = () => {
                                 })
 
                                 await dispatch(setSuggestionModal())
+                                navigation.navigate('PDF')
                             }}>
                                 <View style={active.button2 == true ? style.ActiveButtonsTextContainer : style.ButtonsTextContainer}>
                                     <Text style={active.button2 == true ? style.ActiveButtonText : style.ButtonText}>Reports</Text>

@@ -28,6 +28,7 @@
     "eas-cli": "^5.4.0",
     "expo": "~49.0.7",
     "expo-checkbox": "^2.4.0",
+    "expo-dev-client": "~2.4.11",
     "expo-font": "^11.4.0",
     "expo-linear-gradient": "~12.3.0",
     "expo-navigation-bar": "^2.5.0",
@@ -55,14 +56,14 @@
     "react-native-screens": "~3.22.0",
     "react-native-shadow-cards": "^1.0.2",
     "react-native-swipe-gestures": "^1.0.5",
+    "react-native-table-component": "^1.2.2",
     "react-native-vector-icons": "^10.0.0",
     "react-native-web": "~0.19.6",
     "react-redux": "^8.1.2",
     "redux": "^4.2.1",
     "redux-devtools-extension": "^2.13.9",
     "remote-redux-devtools": "^0.5.16",
-    "uuid": "^9.0.0",
-    "expo-dev-client": "~2.4.11"
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

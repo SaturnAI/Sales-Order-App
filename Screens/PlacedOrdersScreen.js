@@ -6,6 +6,7 @@ import { color } from '../assets/Colors/Colors'
 import { style } from '../styles/PlacedOrderScreenStyle'
 import PostOrderLoading from '../componants/PostOrderLoading'
 import ListViewPlacedOrder from '../componants/ListViewPlacedOrder'
+import GridViewPlaceOrder from '../componants/GridViewPlaceOrder'
 import { Entypo } from '@expo/vector-icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { setToggleGrid } from '../store/Slices/PlacedOrderSlice'
@@ -52,9 +53,12 @@ const PlacedOrdersScreen = () => {
             }
 
 
-            <ListViewPlacedOrder />
-
-
+            {
+                toogleGrid ?
+                    <ListViewPlacedOrder />
+                    :
+                    <GridViewPlaceOrder />
+            }
 
 
             <PostOrderLoading />

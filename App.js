@@ -51,7 +51,7 @@ export default function App() {
         <PaperProvider>
           <NavigationContainer
             onReady={onLayoutRootView}>
-            <Stack.Navigator initialRouteName='PDF'>
+            <Stack.Navigator initialRouteName='Budget App'>
               <Stack.Screen name='Budget App' component={LoginScreen} />
               <Stack.Screen name='Main Page' component={DrawerLayout} options={{ headerShown: false }} />
               <Stack.Screen name='Cart' component={CartPage} options={{ headerShown: false }} />

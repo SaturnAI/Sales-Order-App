@@ -8,8 +8,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setSuggestionModal } from '../store/Slices/ChatScreenSlice';
 
 
+
 const OrderReportSuggestions = () => {
 
+    
     const dispatch = useDispatch()
     const suggestionModal = useSelector((state) => state.ChatScreenSlice.suggestionModal)
 
@@ -18,6 +20,7 @@ const OrderReportSuggestions = () => {
         <View >
             <Pressable onPress={async () => {
                 await dispatch(setSuggestionModal())
+               
             }}>
                 <AntDesign name={suggestionModal ? 'downcircle' : 'upcircle'} size={24} color={color.primary} />
             </Pressable>

@@ -5,8 +5,8 @@ import { color } from "../assets/Colors/Colors";
 export const style = StyleSheet.create({
 
    ParantContainer: {
-       flex:1,
-       
+      flex: 1,
+
    },
 
    backgroundContainer: {
@@ -26,47 +26,66 @@ export const style = StyleSheet.create({
    },
 
    CartIconContainerCount: {
-      position : 'absolute',
-      backgroundColor : color.white,
-      width : horizontalScale(25),
+      position: 'absolute',
+      backgroundColor: color.white,
+      width: horizontalScale(25),
       height: verticalScale(25),
       alignItems: 'center',
-      borderRadius:moderateScale(50),
+      borderRadius: moderateScale(50),
       right: 0,
-      marginTop : verticalScale(-17),
-      marginRight : horizontalScale(-10)
+      marginTop: verticalScale(-17),
+      marginRight: horizontalScale(-10)
    },
 
    CartIconContainerCountText: {
-      fontSize : moderateScale(15),
+      fontSize: moderateScale(15),
       fontFamily: 'Inter-SemiBold',
-   
+
    },
 
    FlatListContainer: {
-      marginTop : verticalScale(12),
-      marginLeft : horizontalScale(6),
-      height : verticalScale(660),
-     
-      
+      marginTop: verticalScale(12),
+      marginLeft: horizontalScale(6),
+      height: verticalScale(660),
+
+
    },
 
-   OrderReportSuggestionContainer:{
-       alignSelf : 'center',
-       position : 'absolute',
-       bottom: '50%',
+   OrderReportSuggestionContainer: {
+      alignSelf: 'center',
+      position: 'absolute',
+      bottom: '50%',
    },
 
    ChatBar: {
-      marginTop : verticalScale(20),
+      marginTop: verticalScale(20),
       position: 'absolute',
-      bottom : 1,
-      width : horizontalScale(370),
-      alignSelf : 'center',
+      bottom: 1,
+      width: horizontalScale(370),
+      alignSelf: 'center',
+
+
+   },
+
+   Suggestions: {
       
+      position: 'absolute',
+      bottom: '100%',
+      marginLeft: horizontalScale(10),
+      width: horizontalScale(200),
+   },
 
+   Card: {
+      padding: 10,
+      backgroundColor: color.Gray,
+      marginBottom: 5,
+   },
+
+   SuggestionsText: {
+       fontFamily: 'Inter-Regular',
+       fontSize: moderateScale(16),
+        
    }
-
 
 
 

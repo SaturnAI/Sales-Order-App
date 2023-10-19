@@ -10,7 +10,7 @@ const PendingExpenseSlice = createSlice({
         isAmountLoading: false,
         modalVisible: false,
         AttachPickerValue: "Rajinder Makhija",
-        selectedData : [],
+        selectedData: [],
     },
 
     reducers: {
@@ -22,10 +22,14 @@ const PendingExpenseSlice = createSlice({
                 var obj = datathis[data];
                 state.tempData.push(obj);
             }
+
+            if (state.tempData) {
+                state.tempData.sort((a, b) => b.Amount - a.Amount)
+            }
         },
 
 
-       
+
 
         cardSelect: (state, action) => {
             const { id } = action.payload;
@@ -68,10 +72,14 @@ const PendingExpenseSlice = createSlice({
         },
 
 
-        setSelectedData : (state, action) => {
-               const selectedData = state.tempData.filter((data)=> data.selected == true)
-               console.log(selectedData)
-              
+        setSelectedData: (state, action) => {
+            const Data = state.tempData.filter((data) => data.selected == true)
+            console.log(Data)
+            return {
+                ...state,
+                selectedData: [...Data]
+            }
+
         }
 
     },

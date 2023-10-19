@@ -15,6 +15,10 @@ import { AddToCart, setIsCartFetched } from '../store/Slices/CartPageSlice'
 import { CartFetch } from '../util/http'
 import OrderReportSuggestions from '../componants/OrderReportSuggestions'
 import SuggestionComponantModal from '../componants/SuggestionComponantModal'
+import VoiceRecordingModal from '../componants/VoiceRecordingModal'
+import { Card } from 'react-native-shadow-cards'
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
+import { clearChatSuggestion, setQuery, setSuggestionVisible } from '../store/Slices/ChatScreenSlice'
 
 
 const ChatScreen = () => {
@@ -26,7 +30,8 @@ const ChatScreen = () => {
   const data = useSelector((state) => state.CartPageSlice.data)
   const email = useSelector((state) => state.LoginScreenSlice.email);
   const CartRefresh = useSelector((state) => state.ChatScreenSlice.CartRefresh)
-
+  const chatSuggestions = useSelector((state) => state.ChatScreenSlice.chatSuggestions)
+  const suggestionVisible = useSelector((state) => state.ChatScreenSlice.suggestionVisible)
 
   const FetchCart = async (email) => {
     await dispatch(setIsCartFetched())
@@ -67,7 +72,7 @@ const ChatScreen = () => {
 
       <View style={style.FlatListContainer}>
 
-       
+
         <FlatList
           style={style.listStyle}
           data={selectedData}
@@ -112,14 +117,36 @@ const ChatScreen = () => {
 
       </View>
 
+
+
+
       <View style={style.ChatBar} >
+
+        {suggestionVisible ? <View style={style.Suggestions}>
+          {chatSuggestions.map((item, index) => {
+            return (
+              <Card key={index} style={style.Card}>
+                <TouchableOpacity onPress={async () => {
+                  await dispatch(setQuery(item))
+                  await dispatch(setSuggestionVisible())
+                  await dispatch(clearChatSuggestion())
+                }}>
+                  <Text style={style.SuggestionsText}>{item}</Text>
+                </TouchableOpacity>
+              </Card>
+            )
+          })}
+        </View> :
+          null}
+
+
         <ChatTypingContainer />
       </View>
 
       <AddToCartLoading />
 
       <SuggestionComponantModal />
-      
+      <VoiceRecordingModal />
 
     </SafeAreaView>
   )

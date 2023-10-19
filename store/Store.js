@@ -5,6 +5,7 @@ import PendingExpenseSlice from './Slices/PendingExpenseSlice';
 import LoginScreenSlice from './Slices/LoginScreenSlice';
 import CartPageSlice from './Slices/CartPageSlice';
 import PlacedOrderSlice from './Slices/PlacedOrderSlice';
+import ReportedExpenseSlice from './Slices/ReportedExpenseSlice';
 
 export const Store = configureStore({
     
@@ -15,6 +16,7 @@ export const Store = configureStore({
         LoginScreenSlice,
         CartPageSlice,
         PlacedOrderSlice,
+        ReportedExpenseSlice,
     },
 
 

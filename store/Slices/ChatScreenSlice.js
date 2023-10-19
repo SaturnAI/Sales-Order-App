@@ -22,32 +22,72 @@ const ChatScreenSlice = createSlice({
     lastid: 0,
     idForCompChange: 0,
     CartRefresh: false,
-    suggestionModal:  false,
+    suggestionModal: false,
+    SpeechRecording: false,
+    chatSuggestions: [],
+    suggestionVisible: false,
   },
 
   reducers: {
 
-    setSuggestionModal: (state, action) => {
-            return {
+    setSuggestionVisible: (state, action) => {
+             return { 
               ...state,
-              suggestionModal: !state.suggestionModal,
-            
-            }
+              suggestionVisible : !state.suggestionVisible
+             }
+    },
+
+    clearChatSuggestion : (state, action) => {
+      return {
+      ...state,
+        chatSuggestions : []
+      }
+    },
+
+    setChatSuggestion: (state, action) => {
+          return {
+            ...state,
+            chatSuggestions : [...action.payload]
+          }
+    },
+
+    setSpeechRecording: (state, action) => {
+     
+      return {
+        ...state,
+        SpeechRecording: true
+      }
+    },
+
+    setSpeechRecordingFalse: (state, action) => {
+      
+      return {
+        ...state,
+        SpeechRecording: false
+      }
+    },
+
+    setSuggestionModal: (state, action) => {
+      return {
+        ...state,
+        suggestionModal: !state.suggestionModal,
+
+      }
     },
 
     setCartRefresh: (state, action) => {
-            return {
-              ...state,
-              CartRefresh : !state.CartRefresh
-            }
+      return {
+        ...state,
+        CartRefresh: !state.CartRefresh
+      }
     },
 
-    setIdForCompChange : (state, action) => {
-        const id = action.payload
-        return{
-          ...state,
-          idForCompChange : id,
-        }
+    setIdForCompChange: (state, action) => {
+      const id = action.payload
+      return {
+        ...state,
+        idForCompChange: id,
+      }
     },
 
     setData: (state, action) => {
@@ -56,9 +96,9 @@ const ChatScreenSlice = createSlice({
 
       if (Object.keys(data)[0] == "sales") {
         const { item_id } = data.sales[data.sales.length - 1]
-        
+
         data.query = state.queryString
-       
+
         return {
           ...state,
           data: [...data.sales],
@@ -129,7 +169,7 @@ const ChatScreenSlice = createSlice({
 
 
     sendOrder: (state, action) => {
-      
+
     },
 
 
@@ -165,7 +205,7 @@ const ChatScreenSlice = createSlice({
                   ...sale,
                   item_name: item,
                   selected: true,
-                  
+
                 }
               }
 
@@ -205,7 +245,7 @@ const ChatScreenSlice = createSlice({
     },
 
 
-     selectPickerCustomer: (state, action) => {
+    selectPickerCustomer: (state, action) => {
       const id = state.idForCompChange;
       const { item } = action.payload
       const tempObj = state.selectedData.find((item) => {
@@ -229,7 +269,7 @@ const ChatScreenSlice = createSlice({
                   ...sale,
                   customer_name: item,
                   selected: true,
-                 
+
                 }
               }
 
@@ -290,9 +330,9 @@ const ChatScreenSlice = createSlice({
                 return {
                   ...sale,
                   customer_name: customer,
-                  item_name : item,
+                  item_name: item,
                   selected: true,
-                  
+
                 }
               }
 
@@ -336,15 +376,20 @@ const ChatScreenSlice = createSlice({
       const data = action.payload
     },
 
-    
 
-   
+
+
 
 
   },
 });
 
 
+export const clearChatSuggestion = ChatScreenSlice.actions.clearChatSuggestion;
+export const setSuggestionVisible = ChatScreenSlice.actions.setSuggestionVisible;
+export const setChatSuggestion = ChatScreenSlice.actions.setChatSuggestion;
+export const setSpeechRecordingFalse = ChatScreenSlice.actions.setSpeechRecordingFalse;
+export const setSpeechRecording = ChatScreenSlice.actions.setSpeechRecording;
 export const setSuggestionModal = ChatScreenSlice.actions.setSuggestionModal;
 export const setCartRefresh = ChatScreenSlice.actions.setCartRefresh;
 export const setIdForCompChange = ChatScreenSlice.actions.setIdForCompChange;

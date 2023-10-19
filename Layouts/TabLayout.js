@@ -91,12 +91,19 @@ const TabLayout = () => {
               <AntDesign name="pluscircle" size={24} color={color.primary} />
             );
           },
-        }} name='ExpenseForm' component={ExpenseForm} />
+        }} name='Add Expense' component={ExpenseForm} />
 
 
 
       <Tab.Screen options={{
-        headerShown: false,
+        headerTransparent: true,
+        headerTitleAlign: "center",
+
+        headerTitleStyle: {
+          fontFamily: 'Inter-Medium',
+          color: '#ffffff'
+        },
+
         tabBarIcon: ({ focused }) => {
           return (
             <MaterialIcons name="pending-actions" size={24} color={color.primary} />

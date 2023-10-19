@@ -1,5 +1,5 @@
-import React, {useState} from 'react'
-import { View, Modal, FlatList, Pressable, Text } from 'react-native'
+import React, { useState } from 'react'
+import { View, Modal, FlatList, Pressable, Text, TouchableOpacity } from 'react-native'
 import TransactionCardWithRemarks from './TransactionCardWithRemarks';
 import { useDispatch, useSelector } from 'react-redux';
 import { style } from '../styles/ModelCompPendingStyle';
@@ -7,16 +7,19 @@ import { setModalVisible, setSelectedData } from '../store/Slices/PendingExpense
 import GestureRecognizer from 'react-native-swipe-gestures';
 import SelectableTransactionCard from './SelectableTransactionCard';
 import AttachPicker from './AttachPicker';
+import { setPendingApprovalData } from '../store/Slices/ReportedExpenseSlice';
+
 
 
 const ModalCompPending = () => {
     const dispatch = useDispatch();
 
-    const[selectedValue, setSelectedValue] = useState('Rajinder Makhija')
+    const [selectedValue, setSelectedValue] = useState('Rajinder Makhija')
 
     const data = useSelector((state) => state.ExpenseFormSlice.data);
 
     const modalVisible = useSelector((state) => state.PendingExpenseSlice.modalVisible)
+    const selectedData = useSelector((state) => state.PendingExpenseSlice.selectedData)
 
 
     return (
@@ -46,14 +49,20 @@ const ModalCompPending = () => {
                             </View>
                         </Pressable>
 
-                        <View style={style.AttachToContainer}>
-                            <Pressable onPress={()=> dispatch(setSelectedData())}>
-                                <Text style={style.AttachToText}>Attach</Text>
-                            </Pressable>
+                        
+                            <View style={style.AttachToContainer}>
+                                <Pressable onPress={async () => {
+                                    await dispatch(setSelectedData())
+                                    await dispatch(setPendingApprovalData(selectedData))
+                                }}>
+                                   
+                                    <Text style={style.AttachToText}>Attach</Text>
+                                </Pressable>
 
-                            <AttachPicker style={style.AttachPicker} selectedValue={selectedValue}  setSelectedValue={setSelectedValue} />
+                                <AttachPicker style={style.AttachPicker} selectedValue={selectedValue} setSelectedValue={setSelectedValue} />
 
-                        </View>
+                            </View>
+                       
 
 
                         <FlatList

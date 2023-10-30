@@ -30,7 +30,7 @@ export const style = StyleSheet.create({
 
     PlusMinusAndQuantText: {
         flexDirection: 'row',
-        justifyContent: 'space-around'
+        justifyContent: 'space-around',
     },
 
 
@@ -44,7 +44,9 @@ export const style = StyleSheet.create({
     containerText2: {
         fontFamily: 'Inter-Regular',
         fontSize: moderateScale(15),
-        marginBottom: verticalScale(20)
+        marginBottom: verticalScale(20),
+        width: horizontalScale(100)
+        
     },
 
     PlusMinusButtons: {
@@ -100,4 +102,13 @@ export const style = StyleSheet.create({
         borderColor: color.primary,
         borderRadius: moderateScale(20)
     },
+
+    BottomItem:{
+        flexDirection: 'column',
+       
+    },
+
+    ItemName:{
+        marginTop: verticalScale(20),
+    }
 });

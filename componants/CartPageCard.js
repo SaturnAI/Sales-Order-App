@@ -43,16 +43,22 @@ const CartPageCard = ({ Customer_Name, Customer_Number, Item_Name, Quantity, _id
 
 
                     <View style={style.container}>
-                        <View   >
-                            <Text style={style.containerText1}>Customer Number</Text>
-                            <Text style={style.containerText2}>{Customer_Number}</Text>
-                            <Text style={style.containerText1}>Item Name</Text>
-                            <Text style={[style.remarks]}>{Item_Name}</Text>
+                        <View style={style.BottomItem} >
+                            <View>
+                                <Text style={style.containerText1}>Customer Number</Text>
+                                <Text style={style.containerText2}>{Customer_Number}</Text>
+                            </View>
+                            <View style={style.ItemName}>
+                                <Text style={style.containerText1}>Item Name</Text>
+                                <Text style={[style.remarks]}>{Item_Name}</Text>
+                            </View>
                         </View>
 
-                        <View >
-                            <Text style={style.containerText1}>Customer Name</Text>
-                            <Text style={[style.containerText2]}>{Customer_Name}</Text>
+                        <View style={style.BottomItem} >
+                            <View>
+                                <Text style={style.containerText1}>Customer Name</Text>
+                                <Text style={[style.containerText2]}>{Customer_Name}</Text>
+                            </View>
 
                             <View style={style.PlusMinusAndQuantText}>
 

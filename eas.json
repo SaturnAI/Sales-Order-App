@@ -4,13 +4,23 @@
   },
   "build": {
     "development": {
+      "extends": "production",
       "developmentClient": true,
       "distribution": "internal"
     },
     "preview": {
+      "extends":"production",
       "distribution": "internal"
     },
-    "production": {}
+    "production": {
+      "node":"18.18.1",
+      "env": {
+        "SALE_ORDER_API_KEY":"https://salesorder.saturnai.in/salesorder",
+        "FIREBASE_API_KEY":"https://expense-ebb0d-default-rtdb.firebaseio.com/expense.json",
+        "POST_ORDER_API_KEY":"https://salesorder.saturnai.in/orderdata",
+        "CART_API_KEY":"https://salesorder.saturnai.in/cart/"
+      }
+    }
   },
   "submit": {
     "production": {}

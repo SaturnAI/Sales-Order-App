@@ -15,11 +15,17 @@ const OrderData = async (bodyprop, lastid) => {
         }
     };
 
-    
-
     const data = await axios.request(config)
         .then((response) => {
-            return response.data;
+            const{is_successfull, sales} = response.data;
+            if(is_successfull == true) {
+                return {
+                    sales
+                }
+            }
+            else{
+                return "Error"
+            }
         })
         .catch((error) => {
             if (error) {

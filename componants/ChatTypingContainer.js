@@ -22,7 +22,6 @@ const ChatTypingContainer = () => {
     const startSpeechToText = async () => {
         await dispatch(setSpeechRecording())
         await Voice.start('en-US')
-        await dispatch(setSuggestionVisible())
     }
 
     const stopSpeechToText = async () => {
@@ -46,6 +45,7 @@ const ChatTypingContainer = () => {
 
 
     const onSpeechResults = async (result) => {
+        await dispatch(setSuggestionVisible())
         await dispatch(setChatSuggestion(result.value))
     }
 
@@ -55,8 +55,7 @@ const ChatTypingContainer = () => {
 
     return (
         <View>
-           
-
+        
             <View style={style.ChatBarContainer} >
 
                 <View style={style.TextInputContainer}>

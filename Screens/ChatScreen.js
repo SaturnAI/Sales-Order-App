@@ -36,7 +36,7 @@ const ChatScreen = () => {
   const FetchCart = async (email) => {
     await dispatch(setIsCartFetched())
     const data = await CartFetch(email)
-    await dispatch(AddToCart(data.data.user_cart))
+    await dispatch(AddToCart(data.data))
     await dispatch(setIsCartFetched())
   }
 
@@ -144,7 +144,7 @@ const ChatScreen = () => {
       </View>
 
       <AddToCartLoading />
-
+      
       <SuggestionComponantModal />
       <VoiceRecordingModal />
 

@@ -11,12 +11,10 @@ const PlacedOrderSlice = createSlice({
     reducers : {
         
         setHistory : (state, action) => {
-            const {data} = action.payload
-            const {user_cart} = data;
 
             return {
                 ...state,
-                history : [...user_cart]
+                history : [...action.payload]
             }
         },
 

@@ -65,7 +65,7 @@ const CartPage = () => {
                     <Pressable onPress={async () => {
                         await dispatch(setIsHistoryFetching())
                         const data = await History(email)
-                        await dispatch(setHistory(data))
+                        await dispatch(setHistory(data.data))
                         await dispatch(setIsHistoryFetching())
                         await navigation.navigate('History')
                     }}>

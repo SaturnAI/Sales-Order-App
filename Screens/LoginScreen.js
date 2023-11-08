@@ -20,18 +20,18 @@ const LoginScreen = ({ navigation }) => {
   })
 
 
-  const login = async (loginCredentials, str) => {
-    // await dispatch(setIsLoading())
-    // const data = await Login(loginCredentials, str)
-    // if (data.success == false) {
-    //   await dispatch(setIsLoading())
-    //   Alert.alert(`Error : ${data.message}`)
-    // }
-    // if (data.success == true) {
+  const login = async (loginCredentials) => {
+    await dispatch(setIsLoading())
+    const data = await Login(loginCredentials)
+    if (data.success == false) {
+      await dispatch(setIsLoading())
+      Alert.alert(`Error : ${data.message}`)
+    }
+    if (data.success == true) {
       await dispatch(setUserData(loginCredentials));
-    //   await dispatch(setIsLoading())
+      await dispatch(setIsLoading())
       navigation.replace("Main Page")
-    // }
+    }
     
   }
 
@@ -72,7 +72,7 @@ const LoginScreen = ({ navigation }) => {
         <Button
           title="Login"
           onPress={async () => {
-            login(loginCredentials, "login")
+            login(loginCredentials)
           }}
         />
       </Card>

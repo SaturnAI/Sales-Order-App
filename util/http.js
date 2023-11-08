@@ -8,6 +8,7 @@ const OrderData = async (bodyprop, lastid) => {
         method: 'post',
         maxBodyLength: Infinity,
         url: process.env.SALE_ORDER_API_KEY,
+
         data: {
             "user_prompt": `Create an order for ${bodyprop}`,
             "last_id": lastid,
@@ -17,18 +18,21 @@ const OrderData = async (bodyprop, lastid) => {
 
     const data = await axios.request(config)
         .then((response) => {
-            const{is_successfull, sales} = response.data;
-            if(is_successfull == true) {
+
+            const { is_successful, sales } = response.data;
+
+            if (is_successful == true) {
                 return {
                     sales
                 }
             }
-            else{
+            else {
                 return "Error"
             }
         })
         .catch((error) => {
             if (error) {
+
                 return "Error"
             }
         });
@@ -39,15 +43,13 @@ const OrderData = async (bodyprop, lastid) => {
 
 export default OrderData;
 
-export const Login = async (loginCredentials, prop) => {
+export const Login = async (loginCredentials) => {
     const { username, password } = loginCredentials;
-
 
     let config = {
         method: 'post',
         maxBodyLength: Infinity,
-
-        url: process.env.USER_AUTH_API_KEY + `${prop}`,
+        url: process.env.LOGIN_API_KEY + 'login',
         data: {
             "email": username,
             "password": password,
@@ -56,15 +58,35 @@ export const Login = async (loginCredentials, prop) => {
 
     const dataresponse = await axios.request(config)
         .then(async (response) => {
-            console.log(response.data)
-            return response.data;
+            const { is_successful, is_user_exists, last_id } = response.data;
+
+            if (is_successful == true && is_user_exists == true) {
+                return {
+                    "success": true,
+                    "message": "Logged In",
+                    "last_id" : last_id,
+                }
+            }
+            else if (is_successful == true && is_user_exists == false) {
+                return {
+                    "success": false,
+                    "message": "User Not Found",
+                }
+            }
+            else {
+                return {
+                    "success": false,
+                    "message": "User Not Found",
+                }
+            }
+
+
         })
         .catch((error) => {
             if (error) {
                 return {
                     "success": false,
                     "message": 'User Not Found',
-
                 }
 
             }
@@ -111,10 +133,10 @@ export const ExpenseDataApi = async () => {
     let config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url:process.env.FIREBASE_API_KEY,
+        url: process.env.FIREBASE_API_KEY,
     }
 
-   
+
     const dataresponse = await axios.request(config)
         .then((response) => {
             return {
@@ -213,66 +235,71 @@ export const PostOrders = async (email, Customer_Name, Customer_Number, Item_Nam
 
 export const CartInsert = async (item, email) => {
 
-    if(item.customer_name == null || item.item_name == null){
+    if (item.customer_name == null || item.item_name == null) {
         return {
             success: false,
-            data : "Solve Problem First"
+            data: "Solve Problem First"
         }
     }
     else {
 
         const order = {
-        "_id":item.item_id,
-        "Customer_Number":Number(item.customer_no),
-        "Quantity":Number(item.quantity),
-        "Item_Name":item.item_name,
-        "Customer_Name":item.customer_name,
-    }
-
-
-    let config = {
-        method:'POST',
-        maxBodyLength:Infinity,
-        url:process.env.CART_API_KEY+'insert',
-        data: {
-            "order_id":email,
-            "orders":order,
+            "_id": item.item_id,
+            "Customer_Number": Number(item.customer_no),
+            "Quantity": Number(item.quantity),
+            "Item_Name": item.item_name,
+            "Customer_Name": item.customer_name,
         }
-    }
 
 
-
-    const dataresponse = await axios.request(config)
-        .then((response) => {
-
-            return {
-                success: true,
-                data: response.data,
+        let config = {
+            method: 'POST',
+            maxBodyLength: Infinity,
+            url: process.env.CART_API_KEY + 'insert',
+            data: {
+                "order_id": email,
+                "orders": order,
             }
-        })
-        .catch((error) => {
-            if (error) {
+        }
+
+
+
+        const dataresponse = await axios.request(config)
+            .then((response) => {
 
                 return {
-                    success: false,
-                    data: "Not Found",
+                    success: true,
+                    data: response.data,
                 }
-            }
-        });
+            })
+            .catch((error) => {
+                if (error) {
 
-    return dataresponse;
+                    return {
+                        success: false,
+                        data: "Not Found",
+                    }
+                }
+            });
+
+        return dataresponse;
 
     }
-    
+
 
 
 }
 
 export const CartFetch = async (email) => {
+
+
     let config = {
-        method: 'POST',
+        method: 'post',
         maxBodyLength: Infinity,
         url: process.env.CART_API_KEY + 'fetch',
+        headers: {
+            'Content-Type': 'application/json',
+        },
         data: {
             "order_id": email,
         }
@@ -281,18 +308,24 @@ export const CartFetch = async (email) => {
 
     const dataresponse = await axios.request(config)
         .then((response) => {
-            return {
-                success: true,
-                data: response.data
+            const { is_successful, user_cart } = response.data;
+
+            if (is_successful == true) {
+                return {
+                    success: true,
+                    data: user_cart
+                }
+            }
+            else {
+                return {
+                    success: false,
+                    data: "Not Found"
+                }
             }
         })
         .catch((error) => {
             if (error) {
-
-                return {
-                    success: false,
-                    data: "Not Found",
-                }
+                console.log(error)
             }
         });
 
@@ -335,11 +368,11 @@ export const CartDelete = async (_id, email) => {
 }
 
 export const History = async (email) => {
-    
+
     let config = {
         method: 'POST',
         maxBodyLength: Infinity,
-        url: process.env.CART_API_KEY+'history',
+        url: process.env.CART_API_KEY + 'history',
         data: {
             "order_id": email,
         }
@@ -348,14 +381,24 @@ export const History = async (email) => {
 
     const dataresponse = await axios.request(config)
         .then((response) => {
-            return {
-                success: true,
-                data: response.data,
+            const { is_successful, user_cart } = response.data;
+
+            if (is_successful == true) {
+                return {
+                    success: true,
+                    data: user_cart
+                }
+            }
+            else {
+                return {
+                    success: false,
+                    data: "Not Found"
+                }
             }
 
         })
         .catch((error) => {
-            if (error) { 
+            if (error) {
                 return {
                     success: false,
                     data: "Not Found",

@@ -5,9 +5,10 @@ import { Card } from "react-native-shadow-cards";
 import { style } from "../styles/LoginScreenStyle";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserData } from "../store/Slices/LoginScreenSlice";
-import { Login } from "../util/http";
+import { Login, getAccessToken } from "../util/http";
 import { setIsLoading } from "../store/Slices/LoginScreenSlice";
 import LoginLoadingModal from "../componants/LoginLoadingModal";
+import { setLastID } from "../store/Slices/ChatScreenSlice";
 
 const LoginScreen = ({ navigation }) => {
 
@@ -19,22 +20,24 @@ const LoginScreen = ({ navigation }) => {
     password: "",
   })
 
+  
 
   const login = async (loginCredentials) => {
     await dispatch(setIsLoading())
     const data = await Login(loginCredentials)
-    if (data.success == false) {
+    const tokenData = await getAccessToken(loginCredentials.username)
+    if (tokenData.success == false || data.success == false) {
       await dispatch(setIsLoading())
       Alert.alert(`Error : ${data.message}`)
     }
-    if (data.success == true) {
+    if (tokenData.success == true && data.success == true) {
       await dispatch(setUserData(loginCredentials));
+      await dispatch(setLastID(data))
       await dispatch(setIsLoading())
       navigation.replace("Main Page")
     }
     
   }
-
 
 
 

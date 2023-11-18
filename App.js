@@ -13,6 +13,8 @@ import CartPage from './Screens/CartPage';
 import { PaperProvider } from 'react-native-paper';
 import PlacedOrdersScreen from './Screens/PlacedOrdersScreen';
 import PdfScreen from './Screens/PdfScreen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useState } from 'react';
 
 
 const Stack = createStackNavigator();
@@ -28,11 +30,23 @@ export default function App() {
     'Inter-SemiBold': require('./assets/fonts/Inter-SemiBold.ttf'),
   });
 
+  const [auth, setAuth] = useState(false);
+
   useEffect(() => {
     async function prepare() {
+      let keys = ["refreshToken", "jwtToken"]
       await SplashScreen.preventAutoHideAsync();
+      const refTok = JSON.parse(await AsyncStorage.getItem("refreshToken"));
+      const jwtTok = JSON.parse(await AsyncStorage.getItem("jwtToken"));
+      if(refTok && jwtTok){
+         setAuth(true);
+      }else{
+        setAuth(false);
+      }
     }
     prepare();
+
+
   }, []);
 
   const onLayoutRootView = useCallback(async () => {
@@ -45,13 +59,15 @@ export default function App() {
     return null;
   }
 
+
+
   return (
     <>
       <Provider store={Store}>
         <PaperProvider>
           <NavigationContainer
             onReady={onLayoutRootView}>
-            <Stack.Navigator initialRouteName='Budget App'>
+            <Stack.Navigator initialRouteName={auth ? 'Main Page' : "Budget App"}>
               <Stack.Screen name='Budget App' component={LoginScreen} />
               <Stack.Screen name='Main Page' component={DrawerLayout} options={{ headerShown: false }} />
               <Stack.Screen name='Cart' component={CartPage} options={{ headerShown: false }} />

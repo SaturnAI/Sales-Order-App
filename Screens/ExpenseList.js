@@ -23,6 +23,7 @@ import ModalComp from "../componants/ModalComp";
 
 import { calculateAmount, setModalVisible } from "../store/Slices/ExpenseFormSlice";
 import { ExpenseDataApi } from "../util/http";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ExpenseList = () => {
   const dispatch = useDispatch();
@@ -34,7 +35,7 @@ const ExpenseList = () => {
     dispatch(calculateAmount())
   }, [])
 
-
+  
   return (
     <SafeAreaView>
       <StatusBar

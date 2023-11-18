@@ -1,6 +1,6 @@
 // import { SALE_ORDER_API_KEY, USER_AUTH_API_KEY } from "@env"
 import axios from "axios";
-// import AsyncStorage from "@react-native-async-storage/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const OrderData = async (bodyprop, lastid) => {
 
@@ -58,13 +58,19 @@ export const Login = async (loginCredentials) => {
 
     const dataresponse = await axios.request(config)
         .then(async (response) => {
-            const { is_successful, is_user_exists, last_id } = response.data;
+            const { is_successful, is_user_exists, last_id, refresh_token } = response.data;
 
             if (is_successful == true && is_user_exists == true) {
+
+                await AsyncStorage.setItem('refreshToken', JSON.stringify(refresh_token));
+                const value = await AsyncStorage.getItem('refreshToken');
+                const token = await JSON.parse(value);
+
                 return {
                     "success": true,
                     "message": "Logged In",
-                    "last_id" : last_id,
+                    "last_id": last_id,
+                    "token": token,
                 }
             }
             else if (is_successful == true && is_user_exists == false) {
@@ -408,6 +414,88 @@ export const History = async (email) => {
 
     return dataresponse;
 
+}
+
+export const getAccessToken = async (email) => {
+
+    const value = await AsyncStorage.getItem('refreshToken');
+    const token = await JSON.parse(value);
+
+    if (token) {
+        let config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: process.env.LOGIN_API_KEY + "get_access_token",
+            data: {
+                "email": email,
+                "refresh_token": token,
+            },
+        }
+        const dataresponse = await axios.request(config)
+            .then(async (response) => {
+
+                const { is_expired, is_successful, jwt_token } = response.data;
+
+                if (is_expired == false && is_successful == true) {
+                    await AsyncStorage.setItem('jwtToken', JSON.stringify(jwt_token));
+
+                    return {
+                        "success": true,
+                        "message": "Logged In"
+
+                    }
+                } else {
+                    return {
+                        "success": true,
+                        "message": "Token is invalid"
+
+                    }
+                }
+
+            })
+            .catch((error) => {
+                if (error) {
+                    return {
+                        "success": false,
+                        "message": 'Server Error',
+                    }
+
+                }
+            });
+
+        return dataresponse;
+
+    } else {
+        return {
+            "success": false,
+            "message": 'Token Not Exists',
+        }
+    }
+
+
+
+}
+
+export const Logout = async () => {
+
+    let keys = ["jwtToken", "refreshToken"]
+
+    try {
+        await AsyncStorage.multiRemove(keys, err => {
+            console.log('LoggedOut')
+        });
+
+        return {
+            "success": true,
+            "message": "Logged out successfully",
+        }
+
+    } catch (error) {
+        return {
+            "success": false,
+            "message": "Error Happened",
+        }
+    }
 }
 
 

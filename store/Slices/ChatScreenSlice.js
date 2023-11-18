@@ -373,7 +373,12 @@ const ChatScreenSlice = createSlice({
 
 
     setLastID: (state, action) => {
-      const data = action.payload
+         const {last_id} = action.payload;
+
+         return{
+             ...state,
+             lastid : last_id,
+         }
     },
 
 

@@ -6,6 +6,7 @@ import { style } from '../styles/ProfileStyle'
 import { color } from '../assets/Colors/Colors'
 import { useSelector } from 'react-redux'
 import { Ionicons, MaterialIcons, AntDesign, Foundation } from '@expo/vector-icons'
+import { Logout } from '../util/http'
 
 
 const Profile = () => {
@@ -49,7 +50,12 @@ const Profile = () => {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.replace("Budget App")}>
+        <TouchableOpacity onPress={async () => {
+          const data = await Logout();
+          if (data.success == true) {
+            navigation.replace("Budget App")
+          }
+        }}>
           <View style={style.ButtonContainer}>
             <Foundation name="power" size={24} color={color.primary} />
             <Text style={style.ButtonText} >LogOut</Text>

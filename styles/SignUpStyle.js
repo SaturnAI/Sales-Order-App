@@ -39,11 +39,27 @@ export const style = StyleSheet.create({
         marginBottom: 10,
     },
 
+    TextInputContainer: {
+         flexDirection : "row",
+    },
+
     textInput: {
         width: "100%",
         height: 40,
         justifyContent: "center",
-        borderColor: "black",
+        borderColor: color.Black,
+        borderWidth: 1,
+        marginLeft: 5,
+        borderRadius: 10,
+        padding: 10,
+        fontSize: 16,
+    },
+
+    textInputWarning: {
+        width: "100%",
+        height: 40,
+        justifyContent: "center",
+        borderColor: color.Red,
         borderWidth: 1,
         marginLeft: 5,
         borderRadius: 10,
@@ -52,9 +68,9 @@ export const style = StyleSheet.create({
     },
 
     CountryContainer: {
-        backgroundColor : color.BlueSecondry,
+        backgroundColor: color.BlueSecondry,
         width: horizontalScale(150),
         borderRadius: moderateScale(20),
-         
+
     }
 })

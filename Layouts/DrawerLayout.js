@@ -52,6 +52,8 @@ const DrawerLayout = () => {
         null
       }
 
+
+
     </Drawer.Navigator>
   );
 };

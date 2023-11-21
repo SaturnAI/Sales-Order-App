@@ -24,18 +24,27 @@ import ModalComp from "../componants/ModalComp";
 import { calculateAmount, setModalVisible } from "../store/Slices/ExpenseFormSlice";
 import { ExpenseDataApi } from "../util/http";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { setName } from "../store/Slices/LoginScreenSlice";
 
 const ExpenseList = () => {
   const dispatch = useDispatch();
   const { data, totalAmount } = useSelector((state) => state.ExpenseFormSlice);
   const [animateToNumber, setAnimateToNumber] = useState(7398263);
-  const username = useSelector((state)=> state.LoginScreenSlice.username);
+  const username = useSelector((state) => state.LoginScreenSlice.username);
+
+
 
   useEffect(() => {
+    const getname = async () => {
+      const name = JSON.parse(await AsyncStorage.getItem('name'));
+      const role = JSON.parse(await AsyncStorage.getItem('role'));
+      dispatch(setName({name, role}));
+    }
     dispatch(calculateAmount())
+    getname();
   }, [])
 
-  
+
   return (
     <SafeAreaView>
       <StatusBar
@@ -96,8 +105,8 @@ const ExpenseList = () => {
         />
       </View>
 
-      
-        <ModalComp />
+
+      <ModalComp />
 
 
 

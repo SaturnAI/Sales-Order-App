@@ -4,6 +4,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const OrderData = async (bodyprop, lastid) => {
 
+    const token = await AsyncStorage.getItem('jwtToken')
+
     let config = {
         method: 'post',
         maxBodyLength: Infinity,
@@ -12,6 +14,7 @@ const OrderData = async (bodyprop, lastid) => {
         data: {
             "user_prompt": `Create an order for ${bodyprop}`,
             "last_id": lastid,
+            "jwt_token": token,
 
         }
     };
@@ -45,6 +48,7 @@ export default OrderData;
 
 export const Login = async (loginCredentials) => {
     const { username, password } = loginCredentials;
+    await AsyncStorage.setItem('email', JSON.stringify(username));
 
     let config = {
         method: 'post',
@@ -58,19 +62,33 @@ export const Login = async (loginCredentials) => {
 
     const dataresponse = await axios.request(config)
         .then(async (response) => {
-            const { is_successful, is_user_exists, last_id, refresh_token } = response.data;
+            const { is_successful, is_user_exists, last_id, refresh_token, role, username } = response.data;
 
             if (is_successful == true && is_user_exists == true) {
 
+
                 await AsyncStorage.setItem('refreshToken', JSON.stringify(refresh_token));
+                await AsyncStorage.setItem('name', JSON.stringify(username));
+                await AsyncStorage.setItem('role', JSON.stringify(role));
+                const name = JSON.parse(await AsyncStorage.getItem('name'));
+                const email = JSON.parse(await AsyncStorage.getItem('email'));
+                const rol = JSON.parse(await AsyncStorage.getItem('role'));
+
+                const string = new String(email);
+                const data = string.toLowerCase()
+
                 const value = await AsyncStorage.getItem('refreshToken');
                 const token = await JSON.parse(value);
+
 
                 return {
                     "success": true,
                     "message": "Logged In",
                     "last_id": last_id,
                     "token": token,
+                    "role": rol,
+                    "name": name,
+                    "email": data,
                 }
             }
             else if (is_successful == true && is_user_exists == false) {
@@ -199,6 +217,8 @@ export const ExpenseDataApiPost = async (picker, Amount, Date, Remarks, id) => {
 
 export const PostOrders = async (email, Customer_Name, Customer_Number, Item_Name, Quantity, _id) => {
 
+    const token = await AsyncStorage.getItem('jwtToken');
+
     let config = {
         method: 'POST',
         maxBodyLength: Infinity,
@@ -215,7 +235,9 @@ export const PostOrders = async (email, Customer_Name, Customer_Number, Item_Nam
                         "Customer_Name": Customer_Name,
                     }
                 ]
-            }
+
+            },
+            "jwt_token": token,
         }
     }
 
@@ -241,6 +263,8 @@ export const PostOrders = async (email, Customer_Name, Customer_Number, Item_Nam
 
 export const CartInsert = async (item, email) => {
 
+    const token = await AsyncStorage.getItem('jwtToken');
+
     if (item.customer_name == null || item.item_name == null) {
         return {
             success: false,
@@ -265,6 +289,7 @@ export const CartInsert = async (item, email) => {
             data: {
                 "order_id": email,
                 "orders": order,
+                "jwt_token": token,
             }
         }
 
@@ -298,6 +323,7 @@ export const CartInsert = async (item, email) => {
 
 export const CartFetch = async (email) => {
 
+    const token = await AsyncStorage.getItem('jwtToken')
 
     let config = {
         method: 'post',
@@ -308,12 +334,14 @@ export const CartFetch = async (email) => {
         },
         data: {
             "order_id": email,
+            "jwt_token": token,
         }
     }
 
 
     const dataresponse = await axios.request(config)
         .then((response) => {
+
             const { is_successful, user_cart } = response.data;
 
             if (is_successful == true) {
@@ -340,13 +368,17 @@ export const CartFetch = async (email) => {
 }
 
 export const CartDelete = async (_id, email) => {
+
+    const token = await AsyncStorage.getItem('jwtToken')
+
     let config = {
         method: 'post',
         maxBodyLength: Infinity,
         url: process.env.CART_API_KEY + 'delete',
         data: {
             "order_id": email,
-            "_id": _id
+            "_id": _id,
+            "jwt_token": token,
         }
 
     }
@@ -375,12 +407,15 @@ export const CartDelete = async (_id, email) => {
 
 export const History = async (email) => {
 
+    const token = await AsyncStorage.getItem('jwtToken')
+
     let config = {
         method: 'POST',
         maxBodyLength: Infinity,
         url: process.env.CART_API_KEY + 'history',
         data: {
             "order_id": email,
+            "jwt_token": token,
         }
 
     }
@@ -478,7 +513,7 @@ export const getAccessToken = async (email) => {
 
 export const Logout = async () => {
 
-    let keys = ["jwtToken", "refreshToken"]
+    let keys = ["jwtToken", "refreshToken", "username", "email"]
 
     try {
         await AsyncStorage.multiRemove(keys, err => {
@@ -498,4 +533,53 @@ export const Logout = async () => {
     }
 }
 
+export const SignUpUser = async ({firstName, lastName, email, password}) => {
 
+    console.log(firstName, lastName, email, password)
+
+    if (firstName || lastName || email || password) {
+        let config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: process.env.LOGIN_API_KEY + "signup",
+            data: {
+                "first_name": firstName,
+                "last_name": lastName,
+                "email": email,
+                "password": password,
+            },
+        }
+
+        const dataresponse = await axios.request(config)
+            .then((response) => {
+                console.log(response.data)
+                const { is_successful } = response.data;
+                if (is_successful) {
+                    return {
+                        is_successful: true,
+                        message: "User Created Successfully"
+                    }
+                } else {
+                    return {
+                        is_successful: false,
+                        message: "Failed to create"
+                    }
+                }
+            })
+            .catch((error) => {
+                return {
+                    is_successful: false,
+                    message: 'Something went wrong!!',
+                }
+            })
+
+        return dataresponse;
+    } else {
+        return {
+            is_successful: false,
+            message: "Fields are Empty!!"
+        }
+    }
+
+
+}

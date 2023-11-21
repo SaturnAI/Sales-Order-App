@@ -7,6 +7,7 @@ import { style } from '../styles/LoginScreenStyle'
 const LoginLoadingModal = () => {
 
     const isLoading = useSelector((state) => state.LoginScreenSlice.isLoading);
+    const Loading = useSelector((state)=>state.SignUpSlice.Loading);
 
     return (
         <SafeAreaView>
@@ -18,7 +19,7 @@ const LoginLoadingModal = () => {
             <Modal
                 transparent={true}
                 animationType='slide'
-                visible={isLoading}>
+                visible={isLoading || Loading}>
                 <View style={style.LoginLoaderContainer}  >
                     <ActivityIndicator style={style.ActivityIndicator} size='large' color={color.primary} />
                 </View>

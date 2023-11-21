@@ -6,7 +6,6 @@ export const style = StyleSheet.create({
 
    ParantContainer: {
       flex: 1,
-
    },
 
    backgroundContainer: {

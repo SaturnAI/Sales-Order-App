@@ -6,41 +6,51 @@ const LoginScreenSlice = createSlice({
     name: "LoginScreenSlice",
     initialState: {
         username: "Shubham Verma",
-        email : 'ShubhamVerma11@gmail.com',
+        email: 'vibhu@gmail.com',
         message: "",
-        role: "user",
+        role: "",
         access: false,
-        isLoading : false,
+        isLoading: false,
     },
 
     reducers: {
-       
+
+        setName: (state, action) => {
+            const { name, role } = action.payload;
+
+            return {
+                ...state,
+                username: name,
+                role: role,
+            }
+        },
 
         setUserData: (state, action) => {
-            const { message, role, name, success } = action.payload;
+            const { message, role, name, success, email } = action.payload;
 
             if (success) {
-               return{
-                ...state,
-                username : name,
-                message: message,
-                role: role,
-                access: true,
-               }
+                return {
+                    ...state,
+                    username: name,
+                    message: message,
+                    role: role,
+                    access: true,
+                    email: email,
+                }
             }
 
             return {
                 ...state,
-                access : false,
+                access: false,
             }
 
         },
 
-        setIsLoading : (state, action) => {
-             return {
-                ...state, 
-                isLoading : !state.isLoading,
-             }
+        setIsLoading: (state, action) => {
+            return {
+                ...state,
+                isLoading: !state.isLoading,
+            }
         },
 
 
@@ -48,6 +58,7 @@ const LoginScreenSlice = createSlice({
     },
 })
 
+export const setName = LoginScreenSlice.actions.setName;
 export const setIsLoading = LoginScreenSlice.actions.setIsLoading;
 export const setUserData = LoginScreenSlice.actions.setUserData;
 export default LoginScreenSlice.reducer;

@@ -2,7 +2,7 @@
   "expo": {
     "name": "Sale Buddy",
     "slug": "BudgetApp",
-    "version": "2.0.1",
+    "version": "3.0.1",
     "orientation": "portrait",
     "icon": "./assets/logo.png",
     "plugins": [
@@ -29,11 +29,11 @@
       "**/*"
     ],
     "ios": {
-      "buildNumber": "2.0.1",
+      "buildNumber": "3.0.1",
       "supportsTablet": true
     },
     "android": {
-      "versionCode": 5,
+      "versionCode": 7,
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"

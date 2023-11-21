@@ -8,7 +8,7 @@ import { setUserData } from "../store/Slices/LoginScreenSlice";
 import { Login, getAccessToken } from "../util/http";
 import { setIsLoading } from "../store/Slices/LoginScreenSlice";
 import LoginLoadingModal from "../componants/LoginLoadingModal";
-import { setLastID } from "../store/Slices/ChatScreenSlice";
+import { setLastID, setSelectedData } from "../store/Slices/ChatScreenSlice";
 
 const LoginScreen = ({ navigation }) => {
 
@@ -19,7 +19,6 @@ const LoginScreen = ({ navigation }) => {
     username: "",
     password: "",
   })
-
   
 
   const login = async (loginCredentials) => {
@@ -31,8 +30,9 @@ const LoginScreen = ({ navigation }) => {
       Alert.alert(`Error : ${data.message}`)
     }
     if (tokenData.success == true && data.success == true) {
-      await dispatch(setUserData(loginCredentials));
+      await dispatch(setUserData(data));
       await dispatch(setLastID(data))
+      await dispatch(setSelectedData());
       await dispatch(setIsLoading())
       navigation.replace("Main Page")
     }
@@ -80,7 +80,7 @@ const LoginScreen = ({ navigation }) => {
         />
       </Card>
 
-      <LoginLoadingModal />
+      <LoginLoadingModal  />
 
     </View>
   );

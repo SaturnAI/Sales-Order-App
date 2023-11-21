@@ -21,8 +21,8 @@ const PendingExpense = () => {
 
   const role = useSelector((state) => state.LoginScreenSlice.role);
   const tempData = useSelector((state) => state.PendingExpenseSlice.tempData);
-
-
+   
+   
   return (
     <SafeAreaView>
       <StatusBar

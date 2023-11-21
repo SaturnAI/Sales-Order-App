@@ -26,7 +26,7 @@
     "@reduxjs/toolkit": "^1.9.5",
     "animated-number-react2": "^0.1.19",
     "axios": "^1.5.0",
-    "eas-cli": "^5.4.0",
+    "eas-cli": "^5.9.0",
     "expo": "~49.0.7",
     "expo-checkbox": "^2.4.0",
     "expo-dev-client": "~2.4.11",

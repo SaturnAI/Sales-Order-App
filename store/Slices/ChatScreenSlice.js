@@ -381,15 +381,18 @@ const ChatScreenSlice = createSlice({
          }
     },
 
-
-
-
-
+    setSelectedData : (state, action) => {
+          return{
+            ...state,
+            selectedData: [],
+          }
+    }
 
   },
 });
 
 
+export const setSelectedData = ChatScreenSlice.actions.setSelectedData;
 export const clearChatSuggestion = ChatScreenSlice.actions.clearChatSuggestion;
 export const setSuggestionVisible = ChatScreenSlice.actions.setSuggestionVisible;
 export const setChatSuggestion = ChatScreenSlice.actions.setChatSuggestion;

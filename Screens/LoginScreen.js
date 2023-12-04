@@ -20,7 +20,6 @@ const LoginScreen = ({ navigation }) => {
     password: "",
   })
   
-
   const login = async (loginCredentials) => {
     await dispatch(setIsLoading())
     const data = await Login(loginCredentials)
@@ -38,8 +37,6 @@ const LoginScreen = ({ navigation }) => {
     }
     
   }
-
-
 
   return (
     <View style={style.container}>

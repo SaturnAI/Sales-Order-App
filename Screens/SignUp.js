@@ -63,9 +63,11 @@ const SignUp = () => {
     }
 
     const handlePress = async (signUpCredentials) => {
-          dispatch(setLoading())
+        dispatch(setLoading())
         if (!warning && !emailWarning) {
+        
             const data = await SignUpUser(signUpCredentials);
+
             if (data.is_successful) {
                 ToastAndroid.show(data.message, ToastAndroid.SHORT)
             } else {

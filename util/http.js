@@ -12,7 +12,7 @@ const OrderData = async (bodyprop, lastid) => {
         url: process.env.SALE_ORDER_API_KEY,
 
         data: {
-            "user_prompt": `Create an order for ${bodyprop}`,
+            "user_prompt": bodyprop,
             "last_id": lastid,
             "jwt_token": token,
 
@@ -21,22 +21,33 @@ const OrderData = async (bodyprop, lastid) => {
 
     const data = await axios.request(config)
         .then((response) => {
-
-            const { is_successful, sales } = response.data;
+            const { is_successful, output, error } = response.data;
 
             if (is_successful == true) {
                 return {
-                    sales
+                    success: true,
+                    data: output,
                 }
             }
-            else {
-                return "Error"
+            else if (is_successful == false) {
+                return {
+                    success: false,
+                    data: error,
+                }
+            } else {
+                return {
+                    success: false,
+                    data: "Doesnt understand Query"
+                }
             }
         })
         .catch((error) => {
             if (error) {
 
-                return "Error"
+                return {
+                    success: false,
+                    data: "Server Error",
+                }
             }
         });
 
@@ -62,17 +73,21 @@ export const Login = async (loginCredentials) => {
 
     const dataresponse = await axios.request(config)
         .then(async (response) => {
-            const { is_successful, is_user_exists, last_id, refresh_token, role, username } = response.data;
 
-            if (is_successful == true && is_user_exists == true) {
+            const { is_successful, is_user_exists, last_id, refresh_token, role, customer_id, username } = response.data;
+
+            if (is_successful == true && is_user_exists == true && (role == 'user' || role == 'customer_admin')) {
 
 
                 await AsyncStorage.setItem('refreshToken', JSON.stringify(refresh_token));
                 await AsyncStorage.setItem('name', JSON.stringify(username));
+                await AsyncStorage.setItem('customerId', JSON.stringify(customer_id));
                 await AsyncStorage.setItem('role', JSON.stringify(role));
+                await AsyncStorage.setItem('lastID', JSON.stringify(last_id));
                 const name = JSON.parse(await AsyncStorage.getItem('name'));
                 const email = JSON.parse(await AsyncStorage.getItem('email'));
                 const rol = JSON.parse(await AsyncStorage.getItem('role'));
+                const lastid = JSON.parse(await AsyncStorage.getItem('lastID'));
 
                 const string = new String(email);
                 const data = string.toLowerCase()
@@ -80,11 +95,10 @@ export const Login = async (loginCredentials) => {
                 const value = await AsyncStorage.getItem('refreshToken');
                 const token = await JSON.parse(value);
 
-
                 return {
                     "success": true,
                     "message": "Logged In",
-                    "last_id": last_id,
+                    "last_id": lastid,
                     "token": token,
                     "role": rol,
                     "name": name,
@@ -513,7 +527,7 @@ export const getAccessToken = async (email) => {
 
 export const Logout = async () => {
 
-    let keys = ["jwtToken", "refreshToken", "username", "email"]
+    let keys = ["jwtToken", "refreshToken", "username", "email", "lastID", "customerId"]
 
     try {
         await AsyncStorage.multiRemove(keys, err => {
@@ -533,9 +547,10 @@ export const Logout = async () => {
     }
 }
 
-export const SignUpUser = async ({firstName, lastName, email, password}) => {
+export const SignUpUser = async ({ firstName, lastName, email, password }) => {
 
-    console.log(firstName, lastName, email, password)
+    const custid =  JSON.parse( await AsyncStorage.getItem('customerId'))
+    
 
     if (firstName || lastName || email || password) {
         let config = {
@@ -547,12 +562,14 @@ export const SignUpUser = async ({firstName, lastName, email, password}) => {
                 "last_name": lastName,
                 "email": email,
                 "password": password,
+                "role": "user",
+                "customer_id": custid,
             },
         }
 
+        console.log(config)
         const dataresponse = await axios.request(config)
             .then((response) => {
-                console.log(response.data)
                 const { is_successful } = response.data;
                 if (is_successful) {
                     return {
@@ -567,10 +584,13 @@ export const SignUpUser = async ({firstName, lastName, email, password}) => {
                 }
             })
             .catch((error) => {
-                return {
-                    is_successful: false,
-                    message: 'Something went wrong!!',
-                }
+                console.log(error)
+                // if (error) {
+                //     return {
+                //         is_successful: false,
+                //         message: 'Something went wrong!!',
+                //     }
+                // }
             })
 
         return dataresponse;

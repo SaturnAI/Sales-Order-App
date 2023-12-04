@@ -31,28 +31,28 @@ const ChatScreenSlice = createSlice({
   reducers: {
 
     setSuggestionVisible: (state, action) => {
-             return { 
-              ...state,
-              suggestionVisible : !state.suggestionVisible
-             }
+      return {
+        ...state,
+        suggestionVisible: !state.suggestionVisible
+      }
     },
 
-    clearChatSuggestion : (state, action) => {
+    clearChatSuggestion: (state, action) => {
       return {
-      ...state,
-        chatSuggestions : []
+        ...state,
+        chatSuggestions: []
       }
     },
 
     setChatSuggestion: (state, action) => {
-          return {
-            ...state,
-            chatSuggestions : [...action.payload]
-          }
+      return {
+        ...state,
+        chatSuggestions: [...action.payload]
+      }
     },
 
     setSpeechRecording: (state, action) => {
-     
+
       return {
         ...state,
         SpeechRecording: true
@@ -60,7 +60,7 @@ const ChatScreenSlice = createSlice({
     },
 
     setSpeechRecordingFalse: (state, action) => {
-      
+
       return {
         ...state,
         SpeechRecording: false
@@ -93,16 +93,18 @@ const ChatScreenSlice = createSlice({
     setData: (state, action) => {
       const data = action.payload;
 
+      if (typeof data.data == "object") {
+        const { item_id } = data.data[data.data.length - 1]
 
-      if (Object.keys(data)[0] == "sales") {
-        const { item_id } = data.sales[data.sales.length - 1]
-
-        data.query = state.queryString
+        const data2 = {
+          query: state.queryString,
+          sales: data.data
+        }
 
         return {
           ...state,
-          data: [...data.sales],
-          selectedData: [...state.selectedData, data],
+          data: [...data2.sales],
+          selectedData: [...state.selectedData, data2],
           error: false,
           errorName: "",
           queryString: "",
@@ -110,33 +112,18 @@ const ChatScreenSlice = createSlice({
           lastid: item_id,
         }
       }
-      if (Object.keys(data)[0] == "error") {
+
+      if (typeof data.data == "string") {
         const obj = {
           query: state.queryString,
           sales: null,
-          message: `${Object.values(data)[0]} Not Found!!!`
+          message: data.data
         }
 
         return {
           ...state,
           selectedData: [...state.selectedData, obj],
-          errorName: Object.values(data)[0],
-          queryString: "",
-          querySent: true,
-        }
-      }
-
-      if (action.payload == "Error") {
-        const obj = {
-          query: state.queryString,
-          sales: null,
-          message: "Please Provide A Valid Query"
-        }
-
-        return {
-          ...state,
-          selectedData: [...state.selectedData, obj],
-          errorName: Object.values(data)[0],
+          errorName: data,
           queryString: "",
           querySent: true,
         }
@@ -373,19 +360,21 @@ const ChatScreenSlice = createSlice({
 
 
     setLastID: (state, action) => {
-         const {last_id} = action.payload;
+      const { last_id } = action.payload;
 
-         return{
-             ...state,
-             lastid : last_id,
-         }
+      console.log(last_id);
+
+      return {
+        ...state,
+        lastid: last_id,
+      }
     },
 
-    setSelectedData : (state, action) => {
-          return{
-            ...state,
-            selectedData: [],
-          }
+    setSelectedData: (state, action) => {
+      return {
+        ...state,
+        selectedData: [],
+      }
     }
 
   },

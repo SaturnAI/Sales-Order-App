@@ -82,11 +82,11 @@ const ChatScreen = () => {
           maxToRenderPerBatch={5}
           initialNumToRender={5}
           renderItem={({ item }) => {
-
+                  
             return (
               <View>
                 <QueryChatLabel query={item.query} />
-                {item.sales != null
+                {item.sales != null 
                   ?
                   <FlatList
                     style={style.listStyle}

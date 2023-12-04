@@ -18,7 +18,6 @@ const ChatTypingContainer = () => {
     const lastid = useSelector((state) => state.ChatScreenSlice.lastid);
 
 
-
     const startSpeechToText = async () => {
         await dispatch(setSpeechRecording())
         await Voice.start('en-US')
@@ -55,7 +54,7 @@ const ChatTypingContainer = () => {
 
     return (
         <View>
-        
+
             <View style={style.ChatBarContainer} >
 
                 <View style={style.TextInputContainer}>
@@ -101,7 +100,7 @@ const ChatTypingContainer = () => {
                             onLongPress={() => startSpeechToText()}
                             onPressOut={() => stopSpeechToText()}
 
-                       
+
                         >
                             <View style={style.SendButton}>
 

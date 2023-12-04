@@ -16,12 +16,12 @@ const LoginScreenSlice = createSlice({
     reducers: {
 
         setName: (state, action) => {
-            const { name, role } = action.payload;
+            const { name, role} = action.payload;
 
             return {
                 ...state,
                 username: name,
-                role: role,
+                role: role
             }
         },
 

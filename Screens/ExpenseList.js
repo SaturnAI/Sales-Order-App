@@ -25,6 +25,7 @@ import { calculateAmount, setModalVisible } from "../store/Slices/ExpenseFormSli
 import { ExpenseDataApi } from "../util/http";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { setName } from "../store/Slices/LoginScreenSlice";
+import { setLastID } from "../store/Slices/ChatScreenSlice";
 
 const ExpenseList = () => {
   const dispatch = useDispatch();
@@ -38,7 +39,9 @@ const ExpenseList = () => {
     const getname = async () => {
       const name = JSON.parse(await AsyncStorage.getItem('name'));
       const role = JSON.parse(await AsyncStorage.getItem('role'));
+      const lastId = JSON.parse(await AsyncStorage.getItem('lastID'));
       dispatch(setName({name, role}));
+      dispatch(setLastID({last_id : lastId}))
     }
     dispatch(calculateAmount())
     getname();

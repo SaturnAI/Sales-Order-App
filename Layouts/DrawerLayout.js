@@ -39,7 +39,7 @@ const DrawerLayout = () => {
         }}
       />
 
-      {role == 'admin'?
+      {role == 'customer_admin'?
         <Drawer.Screen
           name="Create User"
           component={SignUp}

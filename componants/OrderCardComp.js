@@ -10,7 +10,6 @@ import { CartInsert } from '../util/http'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 const OrderCardComp = ({ item }) => {
-
   const dispatch = useDispatch();
   const email = useSelector((state) => state.LoginScreenSlice.email)
 

@@ -11,7 +11,7 @@ const ReportedExpenseSlice = createSlice({
 
     reducers: {
         setPendingApprovalData: (state, action) => {
-            console.log(action.payload)
+            
             return {
                 ...state,
                 PendingApprovalData: [...action.payload]

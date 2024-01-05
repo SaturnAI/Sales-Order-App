@@ -6,7 +6,7 @@ const LoginScreenSlice = createSlice({
     name: "LoginScreenSlice",
     initialState: {
         username: "Shubham Verma",
-        email: 'vibhu@gmail.com',
+        email: '',
         message: "",
         role: "",
         access: false,

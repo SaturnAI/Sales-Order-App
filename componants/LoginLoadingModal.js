@@ -11,11 +11,7 @@ const LoginLoadingModal = () => {
 
     return (
         <SafeAreaView>
-            <StatusBar
-                animated={true}
-                backgroundColor={color.primary}
-                color={color.white}
-            />
+            
             <Modal
                 transparent={true}
                 animationType='slide'

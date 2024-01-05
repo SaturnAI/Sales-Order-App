@@ -9,10 +9,13 @@ import { setLoading, setData, setQuery, setQueryArray, setSpeechRecording, setSp
 import OrderData from "../util/http";
 import OrderReportSuggestions from './OrderReportSuggestions'
 import Voice from '@react-native-voice/voice';
+import { useNavigation } from '@react-navigation/native'
 
 const ChatTypingContainer = () => {
 
     const dispatch = useDispatch()
+    const navigation = useNavigation();
+
     const isLoading = useSelector((state) => state.ChatScreenSlice.isLoading);
     const queryString = useSelector((state) => state.ChatScreenSlice.queryString);
     const lastid = useSelector((state) => state.ChatScreenSlice.lastid);
@@ -81,7 +84,14 @@ const ChatTypingContainer = () => {
                             await dispatch(setLoading())
                             await dispatch(setQueryArray(queryString))
                             const data = await OrderData(queryString, lastid)
-                            await dispatch(setData(data))
+                            const { expired, success } = data;
+                            
+                            if (expired) {
+                                navigation.replace("Budget App");
+                            }
+                            else {
+                                await dispatch(setData(data))
+                            }
                             await dispatch(setLoading())
                         }}>
                             <View style={style.SendButton}>

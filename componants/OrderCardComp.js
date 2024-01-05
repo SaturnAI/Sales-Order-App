@@ -18,12 +18,12 @@ const OrderCardComp = ({ item }) => {
 
     await dispatch(setIsAddedToCart())
     const data = await CartInsert(item, email)
-    if (data.data.is_successfull == false) {
-      Alert.alert('Error', " Maybe This Item Already Ordered")
-    }
-    else {
-      await dispatch(setCartRefresh())
-    }
+    // if (data.data.is_successfull == false) {
+    //   Alert.alert('Error', " Maybe This Item Already Ordered")
+    // }
+    // else {
+    //   await dispatch(setCartRefresh())
+    // }
     await dispatch(setIsAddedToCart())
 
   }

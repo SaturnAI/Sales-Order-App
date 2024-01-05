@@ -12,6 +12,7 @@ import { Logout } from '../util/http'
 const Profile = () => {
   const navigation = useNavigation();
 
+  const role = useSelector((state) => state.LoginScreenSlice.role)
   const username = useSelector((state) => state.LoginScreenSlice.username);
 
   return (
@@ -50,9 +51,21 @@ const Profile = () => {
           </View>
         </TouchableOpacity>
 
+        {role == 'customer_admin' ?
+          <TouchableOpacity>
+            <View style={style.ButtonContainer}>
+              <AntDesign name="customerservice" size={24} color={color.primary} />
+              <Text style={style.ButtonText} >Create User</Text>
+            </View>
+          </TouchableOpacity>
+          :
+          null
+        }
+
         <TouchableOpacity onPress={async () => {
           const data = await Logout();
           if (data.success == true) {
+            navigation.popToTop();
             navigation.replace("Budget App")
           }
         }}>

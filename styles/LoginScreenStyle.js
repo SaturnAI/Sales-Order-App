@@ -6,10 +6,42 @@ import { color } from "../assets/Colors/Colors";
 export const style = StyleSheet.create({
 
   container: {
-    marginHorizontal: horizontalScale(30),
-    marginVertical: verticalScale(100),
-    alignItems: "center",
+
+    flex: 1,
+
   },
+
+  contentContainer: {
+     flex: 1,
+  },
+
+
+  LoginImageContainer: {
+    marginTop: verticalScale(-10),
+  },
+
+  LoginImage: {
+    width: moderateScale(300),
+    height: moderateScale(300),
+    alignSelf: 'center',
+  },
+
+
+  WelcomeText: {
+    alignSelf: 'center',
+    fontFamily: "Inter-Medium",
+    fontSize: moderateScale(22),
+    marginTop: verticalScale(-10),
+    color: color.primary,
+  },
+
+  WelcomeText2: {
+    alignSelf: 'center',
+    fontFamily: "Inter-Regular",
+    fontSize: moderateScale(15),
+    color: color.LightBlack,
+  },
+
 
   cardContainer: {
     justifyContent: "center",
@@ -36,30 +68,49 @@ export const style = StyleSheet.create({
     fontSize: moderateScale(18),
     fontWeight: "400",
     marginBottom: verticalScale(10),
+
   },
 
   textInput: {
-    width: "100%",
-    height: verticalScale(40),
-    justifyContent: "center",
-    borderColor: color.Black,
-    borderWidth: 1,
-    marginLeft: horizontalScale(5),
+    width: "90%",
+    alignSelf: 'center',
+    marginTop: verticalScale(20),
+    height: verticalScale(45),
+    marginBottom: verticalScale(10),
+    backgroundColor: color.Background,
+    color: color.Black,
+  },
+
+  LoginButton: {
+
+    width: "90%",
+    alignSelf: 'center',
+    marginTop: verticalScale(20),
+    backgroundColor: color.primary,
+    color: color.white,
     borderRadius: moderateScale(10),
-    padding: 10,
-    fontSize: moderateScale(16),
   },
 
-  LoginLoaderContainer : {
-     backgroundColor : color.white,
-     height : '100%',
-     opacity : .4,
-     alignItems : 'center',
+  Footer: {
+    // backgroundColor : "#000000",
+    alignSelf: 'center',
+    
   },
 
-  ActivityIndicator : {
-     position : 'absolute',
-     bottom : '50%'
+  versionCode: {
+    
+  },
+
+  LoginLoaderContainer: {
+    backgroundColor: color.white,
+    height: '100%',
+    opacity: .4,
+    alignItems: 'center',
+  },
+
+  ActivityIndicator: {
+    position: 'absolute',
+    bottom: '50%'
   }
 
 });

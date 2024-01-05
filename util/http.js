@@ -21,9 +21,17 @@ const OrderData = async (bodyprop, lastid) => {
 
     const data = await axios.request(config)
         .then((response) => {
-            const { is_successful, output, error } = response.data;
 
-            if (is_successful == true) {
+            const { is_successful, output, error, is_expired } = response.data;
+
+            if (is_expired) {
+                return {
+                    success: false,
+                    expired: true,
+                }
+            }
+
+            else if (is_successful == true || output) {
                 return {
                     success: true,
                     data: output,
@@ -229,9 +237,14 @@ export const ExpenseDataApiPost = async (picker, Amount, Date, Remarks, id) => {
 
 }
 
-export const PostOrders = async (email, Customer_Name, Customer_Number, Item_Name, Quantity, _id) => {
+export const PostOrders = async ( Customer_Name, Customer_Number, Item_Name, Quantity, _id) => {
 
-    const token = await AsyncStorage.getItem('jwtToken');
+
+    const token = JSON.parse(await AsyncStorage.getItem('jwtToken'));
+    const email = JSON.parse(await AsyncStorage.getItem('email'));
+
+    const string = await new String(email);
+    const femail = await string.toLowerCase();
 
     let config = {
         method: 'POST',
@@ -239,7 +252,7 @@ export const PostOrders = async (email, Customer_Name, Customer_Number, Item_Nam
         url: process.env.POST_ORDER_API_KEY,
         data: {
             "order_data": {
-                "order_id": email,
+                "order_id": femail,
                 "orders": [
                     {
                         "_id": _id,
@@ -255,8 +268,10 @@ export const PostOrders = async (email, Customer_Name, Customer_Number, Item_Nam
         }
     }
 
+   
     const dataresponse = await axios.request(config)
         .then((response) => {
+
             return {
                 success: 'true',
                 data: response.data,
@@ -275,9 +290,15 @@ export const PostOrders = async (email, Customer_Name, Customer_Number, Item_Nam
 
 }
 
-export const CartInsert = async (item, email) => {
+export const CartInsert = async (item) => {
 
     const token = await AsyncStorage.getItem('jwtToken');
+    const email = JSON.parse(await AsyncStorage.getItem('email'));
+
+    const string = new String(email);
+    const femail = string.toLowerCase()
+
+
 
     if (item.customer_name == null || item.item_name == null) {
         return {
@@ -301,7 +322,7 @@ export const CartInsert = async (item, email) => {
             maxBodyLength: Infinity,
             url: process.env.CART_API_KEY + 'insert',
             data: {
-                "order_id": email,
+                "order_id": femail,
                 "orders": order,
                 "jwt_token": token,
             }
@@ -335,9 +356,13 @@ export const CartInsert = async (item, email) => {
 
 }
 
-export const CartFetch = async (email) => {
+export const CartFetch = async () => {
 
     const token = await AsyncStorage.getItem('jwtToken')
+    const email = JSON.parse(await AsyncStorage.getItem('email'));
+
+    const string = new String(email);
+    const femail = string.toLowerCase()
 
     let config = {
         method: 'post',
@@ -347,7 +372,7 @@ export const CartFetch = async (email) => {
             'Content-Type': 'application/json',
         },
         data: {
-            "order_id": email,
+            "order_id": femail,
             "jwt_token": token,
         }
     }
@@ -356,9 +381,9 @@ export const CartFetch = async (email) => {
     const dataresponse = await axios.request(config)
         .then((response) => {
 
-            const { is_successful, user_cart } = response.data;
-
-            if (is_successful == true) {
+            const { is_successful, user_cart, is_expired } = response.data;
+          
+             if (is_successful == true) {
                 return {
                     success: true,
                     data: user_cart
@@ -373,7 +398,10 @@ export const CartFetch = async (email) => {
         })
         .catch((error) => {
             if (error) {
-                console.log(error)
+                return {
+                    success: false,
+                    data: "Not Found"
+                }
             }
         });
 
@@ -381,16 +409,22 @@ export const CartFetch = async (email) => {
 
 }
 
-export const CartDelete = async (_id, email) => {
+export const CartDelete = async (_id) => {
 
     const token = await AsyncStorage.getItem('jwtToken')
+
+    const email = JSON.parse(await AsyncStorage.getItem('email'))
+
+    const string = new String(email);
+    const femail = string.toLowerCase()
+    
 
     let config = {
         method: 'post',
         maxBodyLength: Infinity,
         url: process.env.CART_API_KEY + 'delete',
         data: {
-            "order_id": email,
+            "order_id": femail,
             "_id": _id,
             "jwt_token": token,
         }
@@ -419,16 +453,21 @@ export const CartDelete = async (_id, email) => {
 
 }
 
-export const History = async (email) => {
+export const History = async () => {
 
     const token = await AsyncStorage.getItem('jwtToken')
+
+    const email = JSON.parse(await AsyncStorage.getItem('email'));
+
+    const string = new String(email);
+    const femail = string.toLowerCase()
 
     let config = {
         method: 'POST',
         maxBodyLength: Infinity,
         url: process.env.CART_API_KEY + 'history',
         data: {
-            "order_id": email,
+            "order_id": femail,
             "jwt_token": token,
         }
 
@@ -549,8 +588,8 @@ export const Logout = async () => {
 
 export const SignUpUser = async ({ firstName, lastName, email, password }) => {
 
-    const custid =  JSON.parse( await AsyncStorage.getItem('customerId'))
-    
+    const custid = JSON.parse(await AsyncStorage.getItem('customerId'))
+
 
     if (firstName || lastName || email || password) {
         let config = {
@@ -567,7 +606,7 @@ export const SignUpUser = async ({ firstName, lastName, email, password }) => {
             },
         }
 
-        console.log(config)
+       
         const dataresponse = await axios.request(config)
             .then((response) => {
                 const { is_successful } = response.data;
@@ -584,13 +623,13 @@ export const SignUpUser = async ({ firstName, lastName, email, password }) => {
                 }
             })
             .catch((error) => {
-                console.log(error)
-                // if (error) {
-                //     return {
-                //         is_successful: false,
-                //         message: 'Something went wrong!!',
-                //     }
-                // }
+               
+                if (error) {
+                    return {
+                        is_successful: false,
+                        message: 'Something went wrong!!',
+                    }
+                }
             })
 
         return dataresponse;

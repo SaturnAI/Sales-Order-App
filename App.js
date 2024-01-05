@@ -4,7 +4,6 @@ import React, { useCallback, useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { Store } from './store/Store';
 import { createStackNavigator } from '@react-navigation/stack';
-import DrawerLayout from './Layouts/DrawerLayout';
 import { NavigationContainer } from '@react-navigation/native';
 import LoginScreen from './Screens/LoginScreen';
 import { useFonts } from 'expo-font';
@@ -15,6 +14,9 @@ import PlacedOrdersScreen from './Screens/PlacedOrdersScreen';
 import PdfScreen from './Screens/PdfScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState } from 'react';
+import ExpenseSalePermissionScreen from './Screens/ExpenseSalePermissionScreen';
+import TabLayout from './Layouts/TabLayout';
+import TabLayout2 from './Layouts/TabLayout2';
 
 
 const Stack = createStackNavigator();
@@ -64,15 +66,19 @@ export default function App() {
   return (
     <>
       <Provider store={Store}>
-        <PaperProvider>
+        <PaperProvider >
           <NavigationContainer
             onReady={onLayoutRootView}>
-            <Stack.Navigator initialRouteName={auth ? 'Main Page' : "Budget App+"}>
-              <Stack.Screen name='Budget App' component={LoginScreen} />
-              <Stack.Screen name='Main Page' component={DrawerLayout} options={{ headerShown: false }} />
+            <Stack.Navigator initialRouteName={auth ? 'PermissionPage' : "Budget App"}>
+
+              <Stack.Screen name='Budget App' component={LoginScreen} options={{ headerShown: false }} />
+              <Stack.Screen name='PermissionPage' component={ExpenseSalePermissionScreen} options={{ headerShown: false }} />
+              <Stack.Screen name='Main Page' component={TabLayout} options={{ headerShown: false }} />
+              <Stack.Screen name='Sale Order' component={TabLayout2} options={{ headerShown: false }} />
               <Stack.Screen name='Cart' component={CartPage} options={{ headerShown: false }} />
               <Stack.Screen name='History' component={PlacedOrdersScreen} options={{ headerShown: false }} />
               <Stack.Screen name='PDF' component={PdfScreen} />
+              
             </Stack.Navigator>
           </NavigationContainer>
         </PaperProvider>

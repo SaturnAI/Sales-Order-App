@@ -5,7 +5,7 @@ import { style } from '../styles/SuggestionModalContainerStyle'
 import { useSelector, useDispatch } from 'react-redux'
 import { Entypo } from '@expo/vector-icons'
 import ChatTypingContainer from './ChatTypingContainer'
-import { setSuggestionModal } from '../store/Slices/ChatScreenSlice'
+import { setRoute, setSuggestionModal } from '../store/Slices/ChatScreenSlice'
 import { useNavigation } from '@react-navigation/native';
 
 const SuggestionComponantModal = () => {
@@ -13,6 +13,7 @@ const SuggestionComponantModal = () => {
     const navigation = useNavigation()
     const dispatch = useDispatch()
     const suggestionModal = useSelector((state) => state.ChatScreenSlice.suggestionModal)
+    
     const [active, setActive] = useState({
         button1: true,
         button2: false,
@@ -45,7 +46,9 @@ const SuggestionComponantModal = () => {
                                 await setActive({
                                     button1: true,
                                 })
+                                await dispatch(setRoute("Sale"));
                                 await dispatch(setSuggestionModal())
+                                
                             }}>
                                 <View style={active.button1 == true ? style.ActiveButtonsTextContainer : style.ButtonsTextContainer}>
                                     <Text style={active.button1 == true ? style.ActiveButtonText : style.ButtonText}>Sale Order</Text>
@@ -56,8 +59,9 @@ const SuggestionComponantModal = () => {
                                 await setActive({
                                     button2: true,
                                 })
-
+                               await dispatch(setRoute("Report"))
                                 await dispatch(setSuggestionModal())
+                               
                                 navigation.navigate('PDF')
                             }}>
                                 <View style={active.button2 == true ? style.ActiveButtonsTextContainer : style.ButtonsTextContainer}>
@@ -65,6 +69,7 @@ const SuggestionComponantModal = () => {
                                 </View>
                             </Pressable>
                         </View>
+                        
 
                     </View>
                 </View>

@@ -45,9 +45,28 @@ export const style = StyleSheet.create({
    FlatListContainer: {
       marginTop: verticalScale(12),
       marginLeft: horizontalScale(6),
-      height: verticalScale(660),
+      height: verticalScale(610),
+      
 
+   },
 
+   ChatBackgroundContainer:{
+
+      alignSelf: 'center',
+      alignItems: 'center',
+   },
+
+   CartImageBackground: {
+      width: moderateScale(400),
+      height: moderateScale(400),
+      alignSelf: 'center',
+   },
+
+   CartBackgroundText: {
+      fontFamily : 'Inter-Medium',  
+      fontSize : moderateScale(20),
+      color : color.primary,
+      fontWeight: "400",
    },
 
    OrderReportSuggestionContainer: {
@@ -57,7 +76,7 @@ export const style = StyleSheet.create({
    },
 
    ChatBar: {
-      marginTop: verticalScale(20),
+      marginTop: verticalScale(30),
       position: 'absolute',
       bottom: 1,
       width: horizontalScale(370),
@@ -66,8 +85,7 @@ export const style = StyleSheet.create({
 
    },
 
-   Suggestions: {
-      
+   Suggestions: {  
       position: 'absolute',
       bottom: '100%',
       marginLeft: horizontalScale(10),
@@ -83,7 +101,6 @@ export const style = StyleSheet.create({
    SuggestionsText: {
        fontFamily: 'Inter-Regular',
        fontSize: moderateScale(16),
-        
    }
 
 

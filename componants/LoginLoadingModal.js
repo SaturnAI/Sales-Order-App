@@ -10,8 +10,7 @@ const LoginLoadingModal = () => {
     const Loading = useSelector((state)=>state.SignUpSlice.Loading);
 
     return (
-        <SafeAreaView>
-            
+        <SafeAreaView>    
             <Modal
                 transparent={true}
                 animationType='slide'

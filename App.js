@@ -14,15 +14,18 @@ import PlacedOrdersScreen from './Screens/PlacedOrdersScreen';
 import PdfScreen from './Screens/PdfScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState } from 'react';
+
 import ExpenseSalePermissionScreen from './Screens/ExpenseSalePermissionScreen';
 import TabLayout from './Layouts/TabLayout';
 import TabLayout2 from './Layouts/TabLayout2';
+import EnquiryScreen from './Screens/EnquiryScreen';
 
 
 const Stack = createStackNavigator();
 
 export default function App() {
 
+   
   const [fontsLoaded] = useFonts({
     'Inter-Bold': require('./assets/fonts/Inter-Bold.ttf'),
     'Inter-ExtraLight': require('./assets/fonts/Inter-ExtraLight.ttf'),
@@ -40,8 +43,12 @@ export default function App() {
       await SplashScreen.preventAutoHideAsync();
       const refTok = JSON.parse(await AsyncStorage.getItem("refreshToken"));
       const jwtTok = JSON.parse(await AsyncStorage.getItem("jwtToken"));
+      
+
       if(refTok && jwtTok){
          setAuth(true);
+        
+         
       }else{
         setAuth(false);
       }
@@ -78,6 +85,7 @@ export default function App() {
               <Stack.Screen name='Cart' component={CartPage} options={{ headerShown: false }} />
               <Stack.Screen name='History' component={PlacedOrdersScreen} options={{ headerShown: false }} />
               <Stack.Screen name='PDF' component={PdfScreen} />
+              <Stack.Screen name='Enquiry' component={EnquiryScreen} options={{ headerShown: false }} />
               
             </Stack.Navigator>
           </NavigationContainer>

@@ -8,6 +8,13 @@ const ChatScreenSlice = createSlice({
   initialState: {
     data: [],
     selectedData: [],
+    EnquiryData : [{
+      query: "Yes Ssdiiowe",
+      sales: {
+        CustomerNumber : "shu",
+      }
+    }],
+    ReportData : [],
     selectedValue: "",
     pickerSelectedItems: [],
     queryArray: [],
@@ -26,9 +33,20 @@ const ChatScreenSlice = createSlice({
     SpeechRecording: false,
     chatSuggestions: [],
     suggestionVisible: false,
+    Route: "Sale",
   },
 
   reducers: {
+
+    setRoute: (state, action) => {
+      const data = action.payload;
+
+      return {
+        ...state,
+        Route: data,
+      }
+
+    },
 
     setSuggestionVisible: (state, action) => {
       return {
@@ -379,6 +397,7 @@ const ChatScreenSlice = createSlice({
 });
 
 
+export const setRoute = ChatScreenSlice.actions.setRoute;
 export const setSelectedData = ChatScreenSlice.actions.setSelectedData;
 export const clearChatSuggestion = ChatScreenSlice.actions.clearChatSuggestion;
 export const setSuggestionVisible = ChatScreenSlice.actions.setSuggestionVisible;

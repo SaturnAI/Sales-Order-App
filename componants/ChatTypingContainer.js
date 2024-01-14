@@ -19,6 +19,7 @@ const ChatTypingContainer = () => {
     const isLoading = useSelector((state) => state.ChatScreenSlice.isLoading);
     const queryString = useSelector((state) => state.ChatScreenSlice.queryString);
     const lastid = useSelector((state) => state.ChatScreenSlice.lastid);
+    const Route = useSelector((state) => state.ChatScreenSlice.Route);
 
 
     const startSpeechToText = async () => {
@@ -63,7 +64,9 @@ const ChatTypingContainer = () => {
                 <View style={style.TextInputContainer}>
 
                     <TextInput style={style.TextInput}
-                        placeholder='Send Query'
+                        placeholder={
+                            `Send ${Route} Query`
+                        }
                         cursorColor={color.Black}
                         onChangeText={(itemValue) => dispatch(setQuery(itemValue))}
                         editable={isLoading ? false : true}
@@ -85,7 +88,7 @@ const ChatTypingContainer = () => {
                             await dispatch(setQueryArray(queryString))
                             const data = await OrderData(queryString, lastid)
                             const { expired, success } = data;
-                            
+
                             if (expired) {
                                 navigation.replace("Budget App");
                             }

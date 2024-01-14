@@ -28,7 +28,7 @@ const CartPage = () => {
             <View style={style.backgroundContainer} />
 
             <View style={style.BackButton}>
-                <Pressable onPress={() => navigation.navigate('Main Page')}>
+                <Pressable onPress={() => navigation.navigate('Sale Order')}>
                     <AntDesign name="back" size={24} color={color.white} />
                 </Pressable>
             </View>

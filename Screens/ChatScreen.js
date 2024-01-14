@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from 'react'
-import { View, Text, SafeAreaView, StatusBar, FlatList, Pressable, Alert } from 'react-native'
+import { View, Text, SafeAreaView, StatusBar, FlatList, Image, Pressable, Alert } from 'react-native'
 import { style } from '../styles/ChatScreenStyle'
 import { color } from '../assets/Colors/Colors'
 import ChatTypingContainer from '../componants/ChatTypingContainer'
@@ -19,6 +19,7 @@ import VoiceRecordingModal from '../componants/VoiceRecordingModal'
 import { Card } from 'react-native-shadow-cards'
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
 import { clearChatSuggestion, setQuery, setSuggestionVisible } from '../store/Slices/ChatScreenSlice'
+import EnquiryCardComp from '../componants/EnquiryCardComp'
 
 
 const ChatScreen = () => {
@@ -27,11 +28,16 @@ const ChatScreen = () => {
 
   const navigation = useNavigation();
   const selectedData = useSelector((state) => state.ChatScreenSlice.selectedData)
+  const EnquiryData = useSelector((state) => state.ChatScreenSlice.EnquiryData)
+  const ReportData = useSelector((state) => state.ChatScreenSlice.ReportData)
   const data = useSelector((state) => state.CartPageSlice.data)
   const email = useSelector((state) => state.LoginScreenSlice.email);
   const CartRefresh = useSelector((state) => state.ChatScreenSlice.CartRefresh)
   const chatSuggestions = useSelector((state) => state.ChatScreenSlice.chatSuggestions)
   const suggestionVisible = useSelector((state) => state.ChatScreenSlice.suggestionVisible)
+  const Route = useSelector((state) => state.ChatScreenSlice.Route)
+
+
 
   const FetchCart = async (email) => {
     await dispatch(setIsCartFetched())
@@ -70,50 +76,115 @@ const ChatScreen = () => {
         </View>
       </View>
 
+
       <View style={style.FlatListContainer}>
 
+        {(selectedData.length <= 0 && Route == "Sale") &&
+          <View style={style.ChatBackgroundContainer}>
+            <Image style={style.CartImageBackground} source={require('../assets/cartImage.png')} />
+            <Text style={style.CartBackgroundText}>Fill Your Cart with Our AI</Text>
+          </View>}
 
-        <FlatList
-          style={style.listStyle}
-          data={selectedData}
-          keyExtractor={(itemValue, key) => key}
-          showsVerticalScrollIndicator={false}
-          removeClippedSubviews={true}
-          maxToRenderPerBatch={5}
-          initialNumToRender={5}
-          renderItem={({ item }) => {
-                  
-            return (
-              <View>
-                <QueryChatLabel query={item.query} />
-                {item.sales != null 
-                  ?
-                  <FlatList
-                    style={style.listStyle}
-                    data={item.sales}
-                    keyExtractor={(itemValue, key) => key}
-                    showsVerticalScrollIndicator={false}
-                    removeClippedSubviews={true}
-                    maxToRenderPerBatch={5}
-                    initialNumToRender={5}
-                    renderItem={(item) => {
+        
+        {(ReportData.length <= 0 && Route == "Report") &&
+          <View style={style.ChatBackgroundContainer}>
+            <Image style={style.CartImageBackground} source={require('../assets/cartImage.png')} />
+            <Text style={style.CartBackgroundText}>Fill Your Cart with Our AI</Text>
+          </View>}
 
-                      return (
-                        <View>
-                          <OrderCardComp {...item} />
-                        </View>
-                      );
-                    }
-                    }
-                  />
-                  :
-                  <ErrorComp ErrorName={item.message} />
-                }
-              </View>
-            );
-          }
-          }
-        />
+
+        {
+          Route == "Sale" && <FlatList
+            style={style.listStyle}
+            data={selectedData}
+            keyExtractor={(itemValue, key) => key}
+            showsVerticalScrollIndicator={false}
+            removeClippedSubviews={true}
+            maxToRenderPerBatch={5}
+            initialNumToRender={5}
+            renderItem={({ item }) => {
+
+              return (
+                <View>
+                  <QueryChatLabel query={item.query} />
+                  {item.sales != null
+                    ?
+                    <FlatList
+                      style={style.listStyle}
+                      data={item.sales}
+                      keyExtractor={(itemValue, key) => key}
+                      showsVerticalScrollIndicator={false}
+                      removeClippedSubviews={true}
+                      maxToRenderPerBatch={5}
+                      initialNumToRender={5}
+                      renderItem={(item) => {
+
+                        return (
+                          <View>
+                            <OrderCardComp {...item} />
+                          </View>
+                        );
+                      }
+                      }
+                    />
+                    :
+                    <ErrorComp ErrorName={item.message} />
+                  }
+                </View>
+              );
+            }
+            }
+          />
+
+        }
+
+        
+
+
+        {
+          Route == "Report" && <FlatList
+            style={style.listStyle}
+            data={ReportData}
+            keyExtractor={(itemValue, key) => key}
+            showsVerticalScrollIndicator={false}
+            removeClippedSubviews={true}
+            maxToRenderPerBatch={5}
+            initialNumToRender={5}
+            renderItem={({ item }) => {
+
+              return (
+                <View>
+                  <QueryChatLabel query={item.query} />
+                  {item.sales != null
+                    ?
+                    <FlatList
+                      style={style.listStyle}
+                      data={item.sales}
+                      keyExtractor={(itemValue, key) => key}
+                      showsVerticalScrollIndicator={false}
+                      removeClippedSubviews={true}
+                      maxToRenderPerBatch={5}
+                      initialNumToRender={5}
+                      renderItem={(item) => {
+
+                        return (
+                          <View>
+                            <OrderCardComp {...item} />
+                          </View>
+                        );
+                      }
+                      }
+                    />
+                    :
+                    <ErrorComp ErrorName={item.message} />
+                  }
+                </View>
+              );
+            }
+            }
+          />
+
+        }
 
       </View>
 
@@ -144,7 +215,7 @@ const ChatScreen = () => {
       </View>
 
       <AddToCartLoading />
-      
+
       <SuggestionComponantModal />
       <VoiceRecordingModal />
 

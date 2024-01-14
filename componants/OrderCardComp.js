@@ -28,7 +28,7 @@ const OrderCardComp = ({ item }) => {
 
   }
 
-
+ 
   return (
     <SafeAreaView>
       <Card style={style.CardBody}>

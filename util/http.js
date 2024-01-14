@@ -12,7 +12,7 @@ const OrderData = async (bodyprop, lastid) => {
         url: process.env.SALE_ORDER_API_KEY,
 
         data: {
-            "user_prompt": bodyprop,
+            "user_prompt": `Create an order for ${bodyprop}`,
             "last_id": lastid,
             "jwt_token": token,
 
@@ -82,7 +82,7 @@ export const Login = async (loginCredentials) => {
     const dataresponse = await axios.request(config)
         .then(async (response) => {
 
-            const { is_successful, is_user_exists, last_id, refresh_token, role, customer_id, username } = response.data;
+            const { is_successful, is_user_exists, last_id, refresh_token, role, customer_id, username, is_sales_order, is_enquiry } = response.data;
 
             if (is_successful == true && is_user_exists == true && (role == 'user' || role == 'customer_admin')) {
 
@@ -92,10 +92,15 @@ export const Login = async (loginCredentials) => {
                 await AsyncStorage.setItem('customerId', JSON.stringify(customer_id));
                 await AsyncStorage.setItem('role', JSON.stringify(role));
                 await AsyncStorage.setItem('lastID', JSON.stringify(last_id));
+                await AsyncStorage.setItem('isSaleOrder', JSON.stringify(is_sales_order));
+                await AsyncStorage.setItem('isEnquiry', JSON.stringify(is_enquiry));
                 const name = JSON.parse(await AsyncStorage.getItem('name'));
                 const email = JSON.parse(await AsyncStorage.getItem('email'));
                 const rol = JSON.parse(await AsyncStorage.getItem('role'));
                 const lastid = JSON.parse(await AsyncStorage.getItem('lastID'));
+                const isSaleOrder = JSON.parse(await AsyncStorage.getItem('isSaleOrder'));
+                const isEnquiry = JSON.parse(await AsyncStorage.getItem('isEnquiry'));
+                
 
                 const string = new String(email);
                 const data = string.toLowerCase()
@@ -103,6 +108,7 @@ export const Login = async (loginCredentials) => {
                 const value = await AsyncStorage.getItem('refreshToken');
                 const token = await JSON.parse(value);
 
+                console.log(response.data);
                 return {
                     "success": true,
                     "message": "Logged In",
@@ -111,6 +117,8 @@ export const Login = async (loginCredentials) => {
                     "role": rol,
                     "name": name,
                     "email": data,
+                    "isSaleOrder" : isSaleOrder,
+                    "isEnquiry" : isEnquiry,
                 }
             }
             else if (is_successful == true && is_user_exists == false) {
@@ -237,14 +245,15 @@ export const ExpenseDataApiPost = async (picker, Amount, Date, Remarks, id) => {
 
 }
 
-export const PostOrders = async ( Customer_Name, Customer_Number, Item_Name, Quantity, _id) => {
+export const PostOrders = async (Customer_Name, Customer_Number, Item_Name, Quantity, _id) => {
 
-
+console.log(Customer_Name, Customer_Number, Item_Name, Quantity, _id)
     const token = JSON.parse(await AsyncStorage.getItem('jwtToken'));
     const email = JSON.parse(await AsyncStorage.getItem('email'));
 
     const string = await new String(email);
     const femail = await string.toLowerCase();
+
 
     let config = {
         method: 'POST',
@@ -262,22 +271,21 @@ export const PostOrders = async ( Customer_Name, Customer_Number, Item_Name, Qua
                         "Customer_Name": Customer_Name,
                     }
                 ]
-
+                
             },
             "jwt_token": token,
         }
     }
-
-   
+    
     const dataresponse = await axios.request(config)
         .then((response) => {
-
             return {
-                success: 'true',
+                success: true,
                 data: response.data,
             }
         })
         .catch((error) => {
+           
             if (error) {
                 return {
                     success: false,
@@ -382,8 +390,8 @@ export const CartFetch = async () => {
         .then((response) => {
 
             const { is_successful, user_cart, is_expired } = response.data;
-          
-             if (is_successful == true) {
+
+            if (is_successful == true) {
                 return {
                     success: true,
                     data: user_cart
@@ -417,7 +425,7 @@ export const CartDelete = async (_id) => {
 
     const string = new String(email);
     const femail = string.toLowerCase()
-    
+
 
     let config = {
         method: 'post',
@@ -566,7 +574,7 @@ export const getAccessToken = async (email) => {
 
 export const Logout = async () => {
 
-    let keys = ["jwtToken", "refreshToken", "username", "email", "lastID", "customerId"]
+    let keys = ["jwtToken", "refreshToken", "username", "email", "lastID", "customerId", "isSaleOrder", "isEnquiry"]
 
     try {
         await AsyncStorage.multiRemove(keys, err => {
@@ -606,7 +614,7 @@ export const SignUpUser = async ({ firstName, lastName, email, password }) => {
             },
         }
 
-       
+
         const dataresponse = await axios.request(config)
             .then((response) => {
                 const { is_successful } = response.data;
@@ -623,7 +631,7 @@ export const SignUpUser = async ({ firstName, lastName, email, password }) => {
                 }
             })
             .catch((error) => {
-               
+
                 if (error) {
                     return {
                         is_successful: false,
@@ -641,4 +649,61 @@ export const SignUpUser = async ({ firstName, lastName, email, password }) => {
     }
 
 
+}
+
+
+export const EnquiryApiGet = async ({apiName}) => {
+
+    const CustomerId = JSON.parse(await AsyncStorage.getItem('customerId'));
+    const jwtToken = JSON.parse(await AsyncStorage.getItem('jwtToken'));
+
+    if(CustomerId && jwtToken) {
+        let config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: process.env.LOGIN_API_KEY + "enquiry_data",
+            data: {
+                "customer_id": CustomerId,
+                "api_name": apiName, 
+                "jwt_token": jwtToken,
+            },
+        }
+    
+        const dataresponse = await axios.request(config)
+        .then((response)=>{
+            const {is_successful, data} = response.data;
+            if(is_successful){
+                return {
+                    success : "true",
+                    data : data,
+                }
+            }
+            else{
+                return {
+                    success :  "false",
+                    message : "Not Getting Data"
+                }
+            }
+        })
+        .catch((error)=>{
+            if(error){
+                return{
+                    success : "false",
+                    message : "Error on Request",
+                }
+            }
+        })
+    
+        return dataresponse;
+    }
+    else{
+        return {
+            success : "false",
+            message : "Credentials Expired!! ReLogin"
+        }
+    }
+}
+
+export const EnquiryApiPost = async () => {
+     
 }

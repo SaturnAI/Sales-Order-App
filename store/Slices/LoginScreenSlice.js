@@ -11,9 +11,27 @@ const LoginScreenSlice = createSlice({
         role: "",
         access: false,
         isLoading: false,
+        isSaleOrderTab : false,
+        isEnquiryTab : false,
     },
 
     reducers: {
+
+        setIsSaleOrder : (state, action) => {
+            const {isSaleOrder} = action.payload;
+            return {
+                ...state,
+                isSaleOrderTab : isSaleOrder
+            }
+        },
+
+        setIsEnquiry : (state, action) => {
+            const {isEnquiry} = action.payload;
+            return {
+                ...state,
+              isEnquiryTab : isEnquiry
+            }
+        },
 
         setName: (state, action) => {
             const { name, role} = action.payload;
@@ -58,6 +76,9 @@ const LoginScreenSlice = createSlice({
     },
 })
 
+
+export const setIsEnquiry = LoginScreenSlice.actions.setIsEnquiry;
+export const setIsSaleOrder = LoginScreenSlice.actions.setIsSaleOrder;
 export const setName = LoginScreenSlice.actions.setName;
 export const setIsLoading = LoginScreenSlice.actions.setIsLoading;
 export const setUserData = LoginScreenSlice.actions.setUserData;

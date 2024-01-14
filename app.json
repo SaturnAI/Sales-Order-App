@@ -18,7 +18,7 @@
     ],
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splashlogo.png",
+      "image": "./assets/logo.png",
       "resizeMode": "auto",
       "backgroundColor": "#6f88c7"
     },

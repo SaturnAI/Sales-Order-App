@@ -10,15 +10,19 @@ import { CartDelete, PostOrders } from '../util/http';
 import { setCartRefresh } from '../store/Slices/ChatScreenSlice';
 
 const CartPageCard = ({ Customer_Name, Customer_Number, Item_Name, Quantity, _id }) => {
-
     const dispatch = useDispatch()
-
+    
     const email = useSelector((state) => state.LoginScreenSlice.email)
-
-    const PostThisOrder = async (email, Customer_Name, Customer_Number, Item_Name, Quantity, _id) => {
+    
+    const PostThisOrder = async ( Customer_Name, Customer_Number, Item_Name, Quantity, _id) => {
         await dispatch(setIsOrderPosting())
-        const data = await PostOrders(email, Customer_Name, Customer_Number, Item_Name, Quantity, _id)
-        await dispatch(setCartRefresh())
+        const data = await PostOrders( Customer_Name, Customer_Number, Item_Name, Quantity, _id)
+       
+        const { success } = data;
+        if (success && data.data.is_successful) {
+           
+            await dispatch(setCartRefresh())
+        }
         await dispatch(setIsOrderPosting())
 
     }
@@ -85,7 +89,10 @@ const CartPageCard = ({ Customer_Name, Customer_Number, Item_Name, Quantity, _id
                         </View>
                     </View>
 
-                    <Pressable onPress={() => PostThisOrder(email, Customer_Name, Customer_Number, Item_Name, Quantity, _id)}>
+                    <Pressable onPress={() => {
+                        PostThisOrder(Customer_Name, Customer_Number, Item_Name, Quantity, _id)
+                        
+                    }}>
                         <View style={style.PlaceOrderButton}>
                             <Text style={style.PlaceOrderButtonText}>Place Order</Text>
                         </View>

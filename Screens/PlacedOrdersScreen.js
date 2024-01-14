@@ -54,7 +54,7 @@ const PlacedOrdersScreen = () => {
 
 
             {
-                toogleGrid ?
+                !toogleGrid ?
                     <ListViewPlacedOrder />
                     :
                     <GridViewPlaceOrder />

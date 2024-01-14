@@ -6,12 +6,13 @@ import { TextInput, Button } from 'react-native-paper';
 import { Card } from "react-native-shadow-cards";
 import { style } from "../styles/LoginScreenStyle";
 import { useDispatch, useSelector } from "react-redux";
-import { setUserData } from "../store/Slices/LoginScreenSlice";
+import { setIsSaleOrder, setUserData } from "../store/Slices/LoginScreenSlice";
 import { Login, getAccessToken } from "../util/http";
 import { setIsLoading } from "../store/Slices/LoginScreenSlice";
 import LoginLoadingModal from "../componants/LoginLoadingModal";
 import { setLastID, setSelectedData } from "../store/Slices/ChatScreenSlice";
 import { color } from "../assets/Colors/Colors";
+import EyeIcon from "../componants/EyeIcon";
 
 const LoginScreen = ({ navigation }) => {
 
@@ -23,6 +24,8 @@ const LoginScreen = ({ navigation }) => {
     password: "",
   })
 
+  const [passVisible, SetpassVisible] = useState(true);
+
   const login = async (loginCredentials) => {
     await dispatch(setIsLoading())
     const data = await Login(loginCredentials)
@@ -33,13 +36,16 @@ const LoginScreen = ({ navigation }) => {
     }
     if (tokenData.success == true && data.success == true) {
       await dispatch(setUserData(data));
-      await dispatch(setLastID(data))
+      await dispatch(setLastID(data));
+      await dispatch(setIsSaleOrder(data));
       await dispatch(setSelectedData());
-      await dispatch(setIsLoading())
+      await dispatch(setIsLoading());
       navigation.replace("PermissionPage")
     }
 
   }
+
+
 
   return (
     <View style={style.container}>
@@ -70,6 +76,7 @@ const LoginScreen = ({ navigation }) => {
               mode="outlined"
               label="Email"
               placeholder="John@gmail.com"
+              left={<TextInput.Icon style={style.Icon} icon="account"/>}
               textColor={color.Black}
               placeholderTextColor={color.Black}
               onChangeText={(itemValue) => setLoginCredentials({
@@ -87,7 +94,10 @@ const LoginScreen = ({ navigation }) => {
               style={style.textInput}
               mode="outlined"
               label="Password"
-              secureTextEntry={true}
+              right={<TextInput.Icon style={style.Icon} onPress={()=>{
+                 SetpassVisible(!passVisible)
+              }} icon={passVisible ? "eye" : "eye-off"} />}
+              secureTextEntry={passVisible}
               textColor={color.Black}
               placeholderTextColor={color.Black}
               onChangeText={(itemValue) => setLoginCredentials({

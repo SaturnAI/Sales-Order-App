@@ -81,6 +81,10 @@ export const style = StyleSheet.create({
     color: color.Black,
   },
 
+  Icon :{
+    marginTop : 10,
+  },
+
   LoginButton: {
 
     width: "90%",

@@ -9,7 +9,7 @@ import EnquiryScreenListModal from '../componants/EnquiryScreenListModal'
 import { EnquiryApiGet } from '../util/http'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux'
-import { setBranchCode, setBranchCodeLoader, setBusinessUnit, setBusinessUnitLoader } from '../store/Slices/EnquirySlice'
+import { setBranchCode, setBranchCodeLoader, setBusinessUnit, setBusinessUnitLoader, setListModal, setListModalItem, setSalesLeadBy, setSalesLeadByLoader } from '../store/Slices/EnquirySlice'
 import { Searchbar } from 'react-native-paper'
 
 const EnquiryScreen = () => {
@@ -21,6 +21,9 @@ const EnquiryScreen = () => {
     const branchCodeLoader = useSelector((state) => state.EnquirySlice.branchCodeLoader);
     const businessUnit = useSelector((state) => state.EnquirySlice.businessUnit);
     const businessUnitLoader = useSelector((state) => state.EnquirySlice.businessUnitLoader);
+    const salesleadby = useSelector((state) => state.EnquirySlice.salesleadby);
+    const salesleadbyLoader = useSelector((state) => state.EnquirySlice.salesleadbyLoader);
+
 
     return (
         <SafeAreaView>
@@ -39,6 +42,47 @@ const EnquiryScreen = () => {
 
                     <View style={style.individualContainer}>
                         <Text style={style.textValue}>Branch Code</Text>
+
+                        {
+                            branchCodeLoader ?
+                                <ActivityIndicator
+                                    color={color.primary}
+                                    size="large"
+                                />
+                                :
+                                ((branchCode.length <= 0) ? <TouchableOpacity onPress={async () => {
+                                    await dispatch(setBranchCodeLoader())
+                                    const data = await EnquiryApiGet({ apiName: 'branchcode' })
+                                    if (data.success == "true") {
+                                        await dispatch(setBranchCode(data.data))
+                                    }
+                                    else {
+                                        ToastAndroid.show(data.message, ToastAndroid.SHORT);
+                                    }
+                                    await dispatch(setBranchCodeLoader())
+                                }}>
+                                    <Text style={style.SelectButton}>Get Data</Text>
+                                </TouchableOpacity>
+                                    :
+
+                                    (<View>
+                                        <Picker >
+                                            {
+                                                branchCode.map((item, index) => {
+
+                                                    return (
+                                                        <Picker.Item label={item.Branch_Name} value={item.Branch_Code} key={index} />
+                                                    )
+                                                })
+                                            }
+                                        </Picker>
+                                    </View>)
+                                )
+                        }
+                    </View>
+
+                    <View style={style.individualContainer}>
+                        <Text style={style.textValue}>Business Unit</Text>
 
                         {
                             businessUnitLoader ?
@@ -64,64 +108,19 @@ const EnquiryScreen = () => {
 
                                     (<View>
                                         <Picker >
-                                        {
-                                            businessUnit.map((item, index) => {
+                                            {
+                                                businessUnit.map((item, index) => {
 
-                                                return (
-                                                    <Picker.Item label={item.Branch_Name} value={item.Branch_Code} key={index} />
-                                                )
-                                            })
-                                        }
-                                    </Picker>
+                                                    return (
+                                                        <Picker.Item label={item.Name} value={item.Code} key={index} />
+                                                    )
+                                                })
+                                            }
+                                        </Picker>
                                     </View>)
                                 )
                         }
-                    </View>
 
-                    <View style={style.individualContainer}>
-                        <Text style={style.textValue}>Business Unit</Text>
-                        {
-                            branchCodeLoader ?
-                                <ActivityIndicator
-                                    color={color.primary}
-                                    size="large"
-                                />
-                                :
-                                ((branchCode.length <= 0) ? <TouchableOpacity onPress={async () => {
-                                    await dispatch(setBranchCodeLoader())
-                                    const data = await EnquiryApiGet({ apiName: 'branchcode' })
-                                    if (data.success == "true") {
-                                        await dispatch(setBranchCode(data.data))
-                                    }
-                                    else {
-                                        ToastAndroid.show(data.message, ToastAndroid.SHORT);
-                                    }
-                                    await dispatch(setBranchCodeLoader())
-                                }}>
-                                    <Text style={style.SelectButton}>Get Data</Text>
-                                </TouchableOpacity>
-                                    :
-
-                                    (<View>
-                                        <Picker >
-                                        {
-                                            branchCode.map((item, index) => {
-
-                                                return (
-                                                    <Picker.Item label={item.Branch_Name} value={item.Branch_Code} key={index} />
-                                                )
-                                            })
-                                        }
-                                    </Picker>
-                                    </View>)
-                                )
-                        }
-                        {/* <Picker>
-                            <Picker.Item label="HT Panel" value="HT Panel" />
-                            <Picker.Item label="LT Panel" value="LT Panel" />
-                            <Picker.Item label="Trading" value="Trading" />
-                            <Picker.Item label="Services" value="Services" />
-                        </Picker> */}
                     </View>
 
                     <View style={style.individualContainer}>
@@ -135,11 +134,50 @@ const EnquiryScreen = () => {
 
                     <View style={style.individualContainer}>
                         <Text style={style.textValue}>Sales Lead by</Text>
-                        <TextInput
-                            style={style.textInput}
-                            maxLength={40}
-                        // onChangeText={(mail) => handleMail(mail)}
-                        />
+
+                        {
+                            salesleadbyLoader ?
+                                <ActivityIndicator
+                                    color={color.primary}
+                                    size="large"
+                                />
+                                :
+                                ((salesleadby.length <= 0) ? <TouchableOpacity onPress={async () => {
+                                    await dispatch(setSalesLeadByLoader())
+                                    const data = await EnquiryApiGet({ apiName: 'salesledby' })
+                                    if (data.success == "true") {
+                                        if (data.data.length > 10) {
+                                            await dispatch(setListModal())
+                                            await dispatch(setListModalItem(data.data))
+                                        }
+                                        await dispatch(setSalesLeadBy(data.data))
+
+                                    }
+                                    else {
+                                        ToastAndroid.show(data.message, ToastAndroid.SHORT);
+                                    }
+                                    await dispatch(setSalesLeadByLoader())
+                                }}>
+                                    <Text style={style.SelectButton}>Get Data</Text>
+                                </TouchableOpacity>
+                                    :
+
+                                    (<View>
+                                        {salesleadby.length <= 10 ?
+                                            <Picker >
+                                                {
+                                                    salesleadby.map((item, index) => {
+                                                        return (
+                                                            <Picker.Item label={item?.FirstName} value={item.No} key={index} />
+                                                        )
+                                                    })
+                                                }
+                                            </Picker>
+                                            :
+                                            null}
+                                    </View>)
+                                )
+                        }
                     </View>
 
                     <View style={style.individualContainer}>

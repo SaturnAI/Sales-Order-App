@@ -19,6 +19,7 @@ import ExpenseSalePermissionScreen from './Screens/ExpenseSalePermissionScreen';
 import TabLayout from './Layouts/TabLayout';
 import TabLayout2 from './Layouts/TabLayout2';
 import EnquiryScreen from './Screens/EnquiryScreen';
+import SignUp from './Screens/SignUp';
 
 
 const Stack = createStackNavigator();
@@ -86,6 +87,7 @@ export default function App() {
               <Stack.Screen name='History' component={PlacedOrdersScreen} options={{ headerShown: false }} />
               <Stack.Screen name='PDF' component={PdfScreen} />
               <Stack.Screen name='Enquiry' component={EnquiryScreen} options={{ headerShown: false }} />
+              <Stack.Screen name='SignUp' component={SignUp} options={{ headerShown: false }} />
               
             </Stack.Navigator>
           </NavigationContainer>

@@ -52,7 +52,7 @@ const Profile = () => {
         </TouchableOpacity>
 
         {role == 'customer_admin' ?
-          <TouchableOpacity>
+          <TouchableOpacity onPress={()=> navigation.navigate('SignUp')}>
             <View style={style.ButtonContainer}>
               <AntDesign name="customerservice" size={24} color={color.primary} />
               <Text style={style.ButtonText} >Create User</Text>

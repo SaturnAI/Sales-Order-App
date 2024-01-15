@@ -100,7 +100,7 @@ export const Login = async (loginCredentials) => {
                 const lastid = JSON.parse(await AsyncStorage.getItem('lastID'));
                 const isSaleOrder = JSON.parse(await AsyncStorage.getItem('isSaleOrder'));
                 const isEnquiry = JSON.parse(await AsyncStorage.getItem('isEnquiry'));
-                
+
 
                 const string = new String(email);
                 const data = string.toLowerCase()
@@ -117,8 +117,8 @@ export const Login = async (loginCredentials) => {
                     "role": rol,
                     "name": name,
                     "email": data,
-                    "isSaleOrder" : isSaleOrder,
-                    "isEnquiry" : isEnquiry,
+                    "isSaleOrder": isSaleOrder,
+                    "isEnquiry": isEnquiry,
                 }
             }
             else if (is_successful == true && is_user_exists == false) {
@@ -247,7 +247,7 @@ export const ExpenseDataApiPost = async (picker, Amount, Date, Remarks, id) => {
 
 export const PostOrders = async (Customer_Name, Customer_Number, Item_Name, Quantity, _id) => {
 
-console.log(Customer_Name, Customer_Number, Item_Name, Quantity, _id)
+    console.log(Customer_Name, Customer_Number, Item_Name, Quantity, _id)
     const token = JSON.parse(await AsyncStorage.getItem('jwtToken'));
     const email = JSON.parse(await AsyncStorage.getItem('email'));
 
@@ -271,12 +271,12 @@ console.log(Customer_Name, Customer_Number, Item_Name, Quantity, _id)
                         "Customer_Name": Customer_Name,
                     }
                 ]
-                
+
             },
             "jwt_token": token,
         }
     }
-    
+
     const dataresponse = await axios.request(config)
         .then((response) => {
             return {
@@ -285,7 +285,7 @@ console.log(Customer_Name, Customer_Number, Item_Name, Quantity, _id)
             }
         })
         .catch((error) => {
-           
+
             if (error) {
                 return {
                     success: false,
@@ -597,6 +597,8 @@ export const Logout = async () => {
 export const SignUpUser = async ({ firstName, lastName, email, password }) => {
 
     const custid = JSON.parse(await AsyncStorage.getItem('customerId'))
+    const isSaleOrder = JSON.parse(await AsyncStorage.getItem('isSaleOrder'));
+    const isEnquiry = JSON.parse(await AsyncStorage.getItem('isEnquiry'));
 
 
     if (firstName || lastName || email || password) {
@@ -611,12 +613,15 @@ export const SignUpUser = async ({ firstName, lastName, email, password }) => {
                 "password": password,
                 "role": "user",
                 "customer_id": custid,
+                "is_sales_order": isSaleOrder,
+                "is_enquiry": isEnquiry,
             },
         }
 
 
         const dataresponse = await axios.request(config)
             .then((response) => {
+                console.log(response.data)
                 const { is_successful } = response.data;
                 if (is_successful) {
                     return {
@@ -652,58 +657,58 @@ export const SignUpUser = async ({ firstName, lastName, email, password }) => {
 }
 
 
-export const EnquiryApiGet = async ({apiName}) => {
+export const EnquiryApiGet = async ({ apiName }) => {
 
     const CustomerId = JSON.parse(await AsyncStorage.getItem('customerId'));
     const jwtToken = JSON.parse(await AsyncStorage.getItem('jwtToken'));
 
-    if(CustomerId && jwtToken) {
+    if (CustomerId && jwtToken) {
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
             url: process.env.LOGIN_API_KEY + "enquiry_data",
             data: {
                 "customer_id": CustomerId,
-                "api_name": apiName, 
+                "api_name": apiName,
                 "jwt_token": jwtToken,
             },
         }
-    
+
         const dataresponse = await axios.request(config)
-        .then((response)=>{
-            const {is_successful, data} = response.data;
-            if(is_successful){
-                return {
-                    success : "true",
-                    data : data,
+            .then((response) => {
+                const { is_successful, data } = response.data;
+                if (is_successful) {
+                    return {
+                        success: "true",
+                        data: data,
+                    }
                 }
-            }
-            else{
-                return {
-                    success :  "false",
-                    message : "Not Getting Data"
+                else {
+                    return {
+                        success: "false",
+                        message: "Not Getting Data"
+                    }
                 }
-            }
-        })
-        .catch((error)=>{
-            if(error){
-                return{
-                    success : "false",
-                    message : "Error on Request",
+            })
+            .catch((error) => {
+                if (error) {
+                    return {
+                        success: "false",
+                        message: "Error on Request",
+                    }
                 }
-            }
-        })
-    
+            })
+
         return dataresponse;
     }
-    else{
+    else {
         return {
-            success : "false",
-            message : "Credentials Expired!! ReLogin"
+            success: "false",
+            message: "Credentials Expired!! ReLogin"
         }
     }
 }
 
 export const EnquiryApiPost = async () => {
-     
+
 }

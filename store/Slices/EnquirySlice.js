@@ -11,10 +11,139 @@ const EnquirySlice = createSlice({
         businessUnitLoader: false,
         salesleadby: [],
         salesleadbyLoader: false,
+        enquiryType: [],
+        enquiryTypeLoader: false,
+
+        //form Values
+
+        BranchCodeData: "DL",
+        BusinessUnitData: "1000",
+        CustomerNameData: "",
+        SalesLeadByData: "EMP00001",
+        EnquiryTypeData: "BUDGETERY",
+        CustomerTypeData: "EPC",
+        NextActionPlanData: "PROPOSAL TEAM",
+        Make: "CORONET",
+        Description: "",
+
+        salesLedBySelected: false,
+
+        submitLoader: false,
 
     },
 
     reducers: {
+
+        cleanForm: (state, action) => {
+            return {
+                ...state,
+                Description: "",
+                CustomerNameData: "",
+            }
+        },
+
+        setSubmitLoader: (state, action) => {
+            return {
+                ...state,
+                submitLoader: !state.submitLoader
+            }
+        },
+
+        setSaleLedBySelected: (state, action) => {
+            return {
+                ...state,
+                salesLedBySelected: true,
+            }
+        },
+
+        setEnquiryFormData: (state, action) => {
+
+            const { type, data } = action.payload;
+
+
+            if (type == "branchcode") {
+                return {
+                    ...state,
+                    BranchCodeData: data
+                }
+            }
+
+            if (type == "businessunit") {
+
+                return {
+                    ...state,
+                    BusinessUnitData: data
+                }
+            }
+
+            if (type == "customername") {
+                return {
+                    ...state,
+                    CustomerNameData: data
+                }
+            }
+
+            if (type == "salesledby") {
+                console.log(data)
+                return {
+                    ...state,
+                    SalesLeadByData: data
+                }
+            }
+
+            if (type == "enquirytype") {
+                console.log(data)
+                return {
+                    ...state,
+                    EnquiryTypeData: data
+                }
+            }
+
+            if (type == "customertype") {
+
+                return {
+                    ...state,
+                    CustomerTypeData: data
+                }
+            }
+
+            if (type == "nextactionplan") {
+                return {
+                    ...state,
+                    NextActionPlanData: data
+                }
+            }
+
+            if (type == "make") {
+                return {
+                    ...state,
+                    Make: data
+                }
+            }
+
+            if (type == "description") {
+                return {
+                    ...state,
+                    Description: data
+                }
+            }
+
+        },
+
+        setEnquiryType: (state, action) => {
+            return {
+                ...state,
+                enquiryType: [...action.payload]
+            }
+        },
+
+        setEnquiryTypeLoader: (state, action) => {
+            return {
+                ...state,
+                enquiryTypeLoader: !state.enquiryTypeLoader
+            }
+        },
+
 
         setListModal: (state, action) => {
             return {
@@ -23,13 +152,12 @@ const EnquirySlice = createSlice({
             }
         },
 
-
         setListModalItem: (state, action) => {
-             return {
+            return {
                 ...state,
-                ListModalItems : [...action.payload]
+                ListModalItems: [...action.payload]
 
-             }
+            }
         },
 
         setSalesLeadBy: (state, action) => {
@@ -75,9 +203,18 @@ const EnquirySlice = createSlice({
         }
 
 
+
+
     }
 })
 
+
+export const cleanForm = EnquirySlice.actions.cleanForm
+export const setSubmitLoader = EnquirySlice.actions.setSubmitLoader
+export const setSaleLedBySelected = EnquirySlice.actions.setSaleLedBySelected
+export const setEnquiryFormData = EnquirySlice.actions.setEnquiryFormData
+export const setEnquiryTypeLoader = EnquirySlice.actions.setEnquiryTypeLoader
+export const setEnquiryType = EnquirySlice.actions.setEnquiryType;
 export const setListModalItem = EnquirySlice.actions.setListModalItem;
 export const setListModal = EnquirySlice.actions.setListModal;
 export const setSalesLeadByLoader = EnquirySlice.actions.setSalesLeadByLoader;

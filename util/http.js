@@ -709,6 +709,67 @@ export const EnquiryApiGet = async ({ apiName }) => {
     }
 }
 
-export const EnquiryApiPost = async () => {
+export const EnquiryApiPost = async (BranchCodeData, BusinessUnitData, CustomerNameData, SalesLeadByData, EnquiryTypeData, CustomerTypeData, NextActionPlanData, Make, Description) => {
 
+    const CustomerId = JSON.parse(await AsyncStorage.getItem('customerId'));
+    const jwtToken = JSON.parse(await AsyncStorage.getItem('jwtToken'));
+
+    if (CustomerId && jwtToken && Description ) {
+        let config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: process.env.LOGIN_API_KEY + "enquiry_data",
+            data: {
+                "customer_id": CustomerId,
+                "api_name": "store_enquiry",
+                "jwt_token": jwtToken,
+
+                payload: {
+                    "Global_Dimension_1_Code": BranchCodeData, //Branch
+                    "Global_Dimension_2_Code": BusinessUnitData, //BU
+                    "Enquiry_Description": Description,
+                    "API_Customer_Name": CustomerNameData,
+                    "Sales_Lead_By": SalesLeadByData,
+                    "Customer_Type": CustomerTypeData,
+                    "Enquiry_Type": EnquiryTypeData,
+                    "Next_Action_Plan": NextActionPlanData,
+                    "Make": Make
+                }
+            },
+        }
+
+        const dataresponse = await axios.request(config)
+            .then((response) => {
+                const { is_successful, data } = response.data;
+                if (is_successful) {
+                    return {
+                        success: "true",
+                        data: data,
+                    }
+                }
+                else {
+                    return {
+                        success: "false",
+                        message: "Not Created"
+                    }
+                }
+            })
+            .catch((error) => {
+                if (error) {
+                    return {
+                        success: "false",
+                        message: error,
+                    }
+                }
+            })
+
+        return dataresponse;
+    }
+    else {
+        return {
+            success: "false",
+            message: "Credentials Expired!! ReLogin"
+        }
+    }
 }
+

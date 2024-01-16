@@ -2,10 +2,19 @@ import React from 'react'
 import { View, Text, TouchableOpacity } from 'react-native'
 import style from '../styles/EnquiryScreenListModalStyle'
 import { Card } from 'react-native-shadow-cards'
+import { useDispatch } from 'react-redux'
+import { setEnquiryFormData, setListModal, setSaleLedBySelected } from '../store/Slices/EnquirySlice'
 
 const NameCard = ({ FirstName, LastName, No }) => {
+
+    const dispatch = useDispatch()
+
     return (
-        <TouchableOpacity>
+        <TouchableOpacity onPress={async () => {
+            await dispatch(setEnquiryFormData({ type: "salesledby", data: No }))
+            await dispatch(setSaleLedBySelected())
+            await dispatch(setListModal())
+        }}>
             <Card style={style.Card}>
                 <View>
                     <Text style={style.Text} >{FirstName + " " + LastName}</Text>

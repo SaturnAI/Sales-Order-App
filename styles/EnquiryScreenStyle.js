@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 import { color } from "../assets/Colors/Colors";
 import { verticalScale, horizontalScale, moderateScale } from "../Dimension";
 
- const style = StyleSheet.create({
+const style = StyleSheet.create({
     backgroundContainer: {
         height: verticalScale(80),
         backgroundColor: color.primary,
@@ -33,10 +33,17 @@ import { verticalScale, horizontalScale, moderateScale } from "../Dimension";
 
     SelectButton: {
         color: color.primary,
-        fontWeight: "600", 
-        fontSize : moderateScale(17),
+        fontWeight: "600",
+        fontSize: moderateScale(17),
         marginVertical: verticalScale(10),
-        marginHorizontal : horizontalScale(20),
+        marginHorizontal: horizontalScale(20),
+    },
+
+    LongListText: {
+        fontFamily: 'Inter-Medium',
+        fontSize: moderateScale(14),
+        marginLeft: horizontalScale(10),
+
     },
 
     individualContainer: {
@@ -50,7 +57,7 @@ import { verticalScale, horizontalScale, moderateScale } from "../Dimension";
     },
 
     TextInputContainer: {
-         flexDirection : "row",
+        flexDirection: "row",
     },
 
     textInput: {

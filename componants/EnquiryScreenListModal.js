@@ -8,15 +8,16 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Card } from 'react-native-shadow-cards';
 import NameCard from './NameCard';
 import { Entypo } from '@expo/vector-icons';
-import { setListModal } from '../store/Slices/EnquirySlice';
+import { findName, setListModal, setSearchQuery } from '../store/Slices/EnquirySlice';
 
 const EnquiryScreenListModal = () => {
 
     const dispatch = useDispatch()
 
-    const [searchQuery, setSearchQuery] = useState('');
+
     const ListModal = useSelector((state) => state.EnquirySlice.ListModal)
     const ListModalItems = useSelector((state) => state.EnquirySlice.ListModalItems)
+    const searchQuery = useSelector((state) => state.EnquirySlice.searchQuery)
 
 
     return (
@@ -30,13 +31,18 @@ const EnquiryScreenListModal = () => {
                     <Searchbar
                         style={style.searchBar}
                         placeholder="Search"
+
+                        theme={{ colors: { primary: color.Black, secondary: color.Black, tertiary: color.Black, onSurfaceVariant: color.Black } }}
                         placeholderTextColor={color.Black}
                         iconColor={color.Black}
                         cursorColor={color.Black}
-                        onChangeText={setSearchQuery}
+                        onChangeText={async (item) => {
+                            await dispatch(setSearchQuery(item))
+                            await dispatch(findName(item))
+                        }}
                         value={searchQuery}
                     />
-                    <Entypo onPress={()=> dispatch(setListModal())} name="cross" size={28} color={color.primary} />
+                    <Entypo onPress={() => dispatch(setListModal())} name="cross" size={28} color={color.primary} />
                 </View>
 
                 <FlatList

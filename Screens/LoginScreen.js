@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { View, Text, Alert, Modal, Image, StatusBar, SafeAreaView } from "react-native";
+import { View, Text, Alert, Modal, Image, StatusBar, SafeAreaView, KeyboardAvoidingView , Platform} from "react-native";
 import { TextInput, Button } from 'react-native-paper';
 
 import { Card } from "react-native-shadow-cards";
@@ -76,9 +76,10 @@ const LoginScreen = ({ navigation }) => {
               mode="outlined"
               label="Email"
               placeholder="John@gmail.com"
-              left={<TextInput.Icon style={style.Icon} icon="account"/>}
+              left={<TextInput.Icon style={style.Icon} icon="account" />}
               textColor={color.Black}
               placeholderTextColor={color.Black}
+
               onChangeText={(itemValue) => setLoginCredentials({
                 username: itemValue,
                 password: loginCredentials.password
@@ -94,8 +95,8 @@ const LoginScreen = ({ navigation }) => {
               style={style.textInput}
               mode="outlined"
               label="Password"
-              right={<TextInput.Icon style={style.Icon} onPress={()=>{
-                 SetpassVisible(!passVisible)
+              right={<TextInput.Icon style={style.Icon} onPress={() => {
+                SetpassVisible(!passVisible)
               }} icon={passVisible ? "eye" : "eye-off"} />}
               secureTextEntry={passVisible}
               textColor={color.Black}
@@ -130,13 +131,20 @@ const LoginScreen = ({ navigation }) => {
         </SafeAreaView>
       </View>
 
-      <View style={style.Footer}>
-        <Text style={style.versionCode}>Version 3.0.3</Text>
-      </View>
+      <KeyboardAvoidingView
+       style={style.Footer}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'position'}
+      
+      >
+        <View>
+          <Text style={style.versionCode}>Version 3.0.3</Text>
+        </View>
+      </KeyboardAvoidingView>
 
       <LoginLoadingModal />
 
     </View>
+
   );
 };
 

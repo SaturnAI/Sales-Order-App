@@ -11,7 +11,8 @@ import {
   Pressable,
   ToastAndroid,
   SafeAreaView,
-  StatusBar
+  StatusBar,
+  Alert
 } from "react-native";
 
 import { PickerComp } from "../componants/PickerComp";
@@ -50,7 +51,7 @@ const ExpenseForm = () => {
     showToast();
     const data = await ExpenseDataApi();
     dispatch(getData(data.data))
-    
+
     dispatch(updateData(data.data))
     dispatch(calculateAmount(data.data));
   }
@@ -65,13 +66,21 @@ const ExpenseForm = () => {
 
   const handleConfirm = (datepick) => {
     setDateSelected(true);
-    setDate(datepick.toDateString());
+    const str = datepick.toDateString()
+    const first = str.slice(3, 10);
+    const second = str.slice(10, str.length + 1)
+    setDate(`${first},${second}`);
     hideDatePicker();
   };
 
   const showToast = () => {
     ToastAndroid.show('Saved Successfully!', ToastAndroid.SHORT);
   }
+
+  const str2 = new Date().toDateString();
+
+  const first1 = str2.slice(3, 10);
+  const second1 = str2.slice(10, str2.length + 1)
 
   return (
     <SafeAreaView>
@@ -112,7 +121,7 @@ const ExpenseForm = () => {
               <Text style={style.Text}>Date</Text>
               <View style={style.ComponantBackgroundDate}>
                 <Pressable onPress={showDatePicker}>
-                  <Text style={style.DateText}>{!dateSelected ? new Date().toDateString() : date}</Text>
+                  <Text style={style.DateText}>{!dateSelected ? `${first1},${second1}` : date}</Text>
                 </Pressable>
                 <DateTimePickerModal
                   isVisible={isDatePickerVisible}
@@ -126,7 +135,7 @@ const ExpenseForm = () => {
             </View>
 
             <View style={style.PickerComponent}>
-              <Text style={style.Text}>Remarks</Text>
+              <Text style={style.Text}>Expense Description</Text>
               <View style={style.ComponantBackgroundRemarks}>
                 <TextInput
                   style={style.TextInputRemarks}
@@ -142,7 +151,14 @@ const ExpenseForm = () => {
 
             <View style={style.ComponantBackgroundButton}>
               <Button style={style.Button} title="Save"
-                onPress={() => create(picker, Amount, date, Remarks)}
+                onPress={() => {
+                  if (Amount == "") {
+                    Alert.alert("Error", "Please Enter Amount");
+                  }
+                  else {
+                    create(picker, Amount, date, Remarks)
+                  }
+                }}
                 color={color.primary} />
             </View>
 

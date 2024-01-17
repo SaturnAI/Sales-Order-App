@@ -4,9 +4,18 @@ export const SignUpSlice = createSlice({
     name: 'SignUpSlice',
     initialState: {
        Loading : false,
+       NavigateProfile : false,
     },
 
     reducers: {
+
+        setNavigateProfile : (state, action) => {
+             return {
+                ...state, 
+                NavigateProfile: !state.NavigateProfile,
+             }
+        },
+
         setLoading : (state, action) => {
              return{
                  ...state,
@@ -16,5 +25,7 @@ export const SignUpSlice = createSlice({
     }
 });
 
+
+export const setNavigateProfile = SignUpSlice.actions.setNavigateProfile;
 export const setLoading = SignUpSlice.actions.setLoading;
 export default SignUpSlice.reducer;

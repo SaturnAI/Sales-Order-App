@@ -33,6 +33,7 @@ export const style = StyleSheet.create({
     DateText: {
         fontFamily: 'Inter-Regular',
         fontSize: moderateScale(14),
+        marginLeft: horizontalScale(-5),
     },
 
     ExpenseCardRightElementsContainer: {

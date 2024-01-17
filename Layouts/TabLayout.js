@@ -8,7 +8,7 @@ import ReportedExpense from '../Screens/ReportedExpense'
 import Profile from '../Screens/Profile';
 import { AntDesign, Feather, MaterialIcons, Ionicons, Entypo } from '@expo/vector-icons';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateData, calculateAmount } from '../store/Slices/ExpenseFormSlice';
 import { color } from '../assets/Colors/Colors';
 import { ExpenseDataApi } from '../util/http';
@@ -20,6 +20,8 @@ const Tab = createBottomTabNavigator();
 const TabLayout = () => {
 
   const dispatch = useDispatch();
+
+  const NavigateProfile = useSelector((state)=>state.SignUpSlice.NavigateProfile) 
 
   const data = async () => {
     const data = await ExpenseDataApi()
@@ -36,7 +38,7 @@ const TabLayout = () => {
   return (
 
     <Tab.Navigator
-      initialRouteName='Expense Form'    //initial route
+      initialRouteName={NavigateProfile ? 'Profile' : 'Expense List'}    //initial route
       screenOptions={({ route }) => ({
         tabBarActiveTintColor: {
           color: color.primary,

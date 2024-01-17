@@ -11,6 +11,14 @@ const style = StyleSheet.create({
         borderBottomRightRadius: moderateScale(50),
     },
 
+    ProfileButton: {
+        alignSelf: 'flex-end',
+        marginRight: horizontalScale(40),
+        marginTop: verticalScale(-45),
+
+    },
+
+
     GreetContainer: {
         marginTop: verticalScale(-70),
         alignSelf: 'center',
@@ -51,13 +59,13 @@ const style = StyleSheet.create({
     Username2: {
         fontFamily: 'Inter-Medium',
         fontSize: moderateScale(22),
-        marginBottom : verticalScale(30),
+        marginBottom: verticalScale(30),
         fontWeight: '600',
         color: color.Black,
         alignSelf: 'center',
     },
 
-    AskingText : {
+    AskingText: {
         fontFamily: 'Inter-Regular',
         fontSize: moderateScale(18),
         fontWeight: '500',
@@ -65,17 +73,17 @@ const style = StyleSheet.create({
         alignSelf: 'center',
     },
 
-    LoginImageContainer : {
-            alignSelf : 'center',
+    LoginImageContainer: {
+        alignSelf: 'center',
     },
 
     LoginImage: {
-          width : moderateScale(400),
-          height : moderateScale(400),
+        width: moderateScale(400),
+        height: moderateScale(400),
     },
 
     ButtonsContainer: {
-        flexDirection : 'row',
+        flexDirection: 'row',
         justifyContent: 'space-around',
     },
 

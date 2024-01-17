@@ -12,7 +12,7 @@ export const style = StyleSheet.create({
   },
 
   contentContainer: {
-     flex: 1,
+    flex: 1,
   },
 
 
@@ -81,8 +81,8 @@ export const style = StyleSheet.create({
     color: color.Black,
   },
 
-  Icon :{
-    marginTop : 10,
+  Icon: {
+    marginTop: 10,
   },
 
   LoginButton: {
@@ -97,12 +97,16 @@ export const style = StyleSheet.create({
 
   Footer: {
     // backgroundColor : "#000000",
-    alignSelf: 'center',
-    
+    alignSelf: "center",
+    flex: 1,
+    flexDirection : 'column',
+    justifyContent : 'center',
+    alignItems : 'flex-end',
+
   },
 
   versionCode: {
-    
+       marginTop : verticalScale(360),
   },
 
   LoginLoaderContainer: {

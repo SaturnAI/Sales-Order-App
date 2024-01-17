@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { style } from '../styles/ModalCompStyle';
 import { setModalVisible } from '../store/Slices/ExpenseFormSlice';
 import GestureRecognizer from 'react-native-swipe-gestures';
+import { color } from '../assets/Colors/Colors';
 const ModalComp = () => {
 
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ const ModalComp = () => {
           }}
 
           transparent={true}
+
 
         >
 

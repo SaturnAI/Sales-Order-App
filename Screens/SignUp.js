@@ -160,7 +160,7 @@ const SignUp = () => {
                         </View>
                     </View>
 
-                    <Button title='Add Member in Your Family' onPress={() => handlePress(signUpCredentials)} />
+                    <Button title='Add Member to in Your Organization' onPress={() => handlePress(signUpCredentials)} />
                 </Card>
 
             </ScrollView>

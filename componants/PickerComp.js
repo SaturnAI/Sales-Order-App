@@ -12,7 +12,7 @@ import { Picker } from '@react-native-picker/picker'
       <Picker.Item label="Food" value="Food" />
       <Picker.Item label="Travel" value="Travel" />
       <Picker.Item label="Hotel" value="Hotel" />
-      <Picker.Item label="Commute" value="Commute" />
+      <Picker.Item label="Daily Commute" value="Daily Commute" />
       <Picker.Item label="Other" value="Other" />
     </Picker>
   )

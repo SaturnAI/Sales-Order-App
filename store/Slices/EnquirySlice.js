@@ -30,9 +30,35 @@ const EnquirySlice = createSlice({
 
         submitLoader: false,
 
+        // Search
+        searchQuery: "",
+
     },
 
     reducers: {
+
+        setSearchQuery: (state, action) => {
+
+            return {
+                ...state,
+                searchQuery: action.payload,
+            }
+        },
+
+        findName: (state, action) => {
+
+
+            const temp = state.salesleadby.filter((item) => {
+                const Name = item.FirstName + item.LastName;
+                return Name.toLowerCase().includes(action.payload.toLowerCase().replace(" ",""))
+            })
+
+            return {
+                ...state, 
+                ListModalItems : [...temp],
+            }
+
+        },
 
         cleanForm: (state, action) => {
             return {
@@ -163,7 +189,7 @@ const EnquirySlice = createSlice({
         setSalesLeadBy: (state, action) => {
             return {
                 ...state,
-                salesleadby: [action.payload]
+                salesleadby: [...action.payload]
             }
         },
 
@@ -209,6 +235,9 @@ const EnquirySlice = createSlice({
 })
 
 
+
+export const findName = EnquirySlice.actions.findName
+export const setSearchQuery = EnquirySlice.actions.setSearchQuery
 export const cleanForm = EnquirySlice.actions.cleanForm
 export const setSubmitLoader = EnquirySlice.actions.setSubmitLoader
 export const setSaleLedBySelected = EnquirySlice.actions.setSaleLedBySelected

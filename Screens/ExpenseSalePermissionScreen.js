@@ -1,5 +1,5 @@
-import React,{useEffect} from 'react'
-import { View, Text, StatusBar, SafeAreaView, Image } from 'react-native'
+import React, { useEffect } from 'react'
+import { View, Text, StatusBar, SafeAreaView, Image, Pressable } from 'react-native'
 import { color } from '../assets/Colors/Colors'
 import style from '../styles/ExpenseSalePermssionStyle'
 import greetingTime from "greeting-time";
@@ -10,7 +10,8 @@ import { Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { setIsEnquiry, setIsSaleOrder } from '../store/Slices/LoginScreenSlice';
-
+import { FontAwesome } from '@expo/vector-icons';
+import { setNavigateProfile } from '../store/Slices/SignUpSlice';
 
 
 const ExpenseSalePermissionScreen = () => {
@@ -18,15 +19,15 @@ const ExpenseSalePermissionScreen = () => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
 
-    const isEnquiryTab = useSelector((state)=> state.LoginScreenSlice.isEnquiryTab);
-    const isSaleOrderTab = useSelector((state)=> state.LoginScreenSlice.isSaleOrderTab);
+    const isEnquiryTab = useSelector((state) => state.LoginScreenSlice.isEnquiryTab);
+    const isSaleOrderTab = useSelector((state) => state.LoginScreenSlice.isSaleOrderTab);
 
-    useEffect(()=>{
-        const setSaleAndEnquiry = async() => {
+    useEffect(() => {
+        const setSaleAndEnquiry = async () => {
             const isSaleOrder = JSON.parse(await AsyncStorage.getItem("isSaleOrder"));
             const isEnquiry = JSON.parse(await AsyncStorage.getItem("isEnquiry"));
-            await dispatch(setIsSaleOrder({isSaleOrder}));
-            await dispatch(setIsEnquiry({isEnquiry}));
+            await dispatch(setIsSaleOrder({ isSaleOrder }));
+            await dispatch(setIsEnquiry({ isEnquiry }));
         }
 
         setSaleAndEnquiry();
@@ -49,10 +50,21 @@ const ExpenseSalePermissionScreen = () => {
 
             <View style={style.backgroundContainer} />
 
+
             <View style={style.GreetContainer}>
                 <AnimatedText entering={BounceInDown.duration(500)} style={style.Greeting}>Welcome to IAPPC!</AnimatedText>
                 <AnimatedText entering={BounceInDown.duration(1000)} style={style.Username}>Sale Buddy</AnimatedText>
             </View>
+
+            <Pressable onPress={async () => {
+                await dispatch(setNavigateProfile())
+                await navigation.navigate('Main Page')
+                await dispatch(setNavigateProfile())
+
+            }}>
+                <FontAwesome style={style.ProfileButton} name="user" size={24} color={color.white} />
+            </Pressable>
+
 
             <View style={style.LoginImageContainer}>
                 <AnimatedImage entering={FlipInYRight.duration(1000)} style={style.LoginImage} source={require('../assets/LoginImageGirl.png')} />
@@ -62,7 +74,7 @@ const ExpenseSalePermissionScreen = () => {
                 <AnimatedText entering={BounceInDown.duration(1000)} style={style.Greeting2}>{greetingTime(new Date())}!</AnimatedText>
                 <AnimatedText entering={BounceInDown.duration(1000)} style={style.Username2}>{username}</AnimatedText>
 
-                <AnimatedText entering={BounceInDown.duration(1000)} style={style.AskingText}>Where you want to Go?</AnimatedText>
+                <AnimatedText entering={BounceInDown.duration(1000)} style={style.AskingText}>Where do you want to Go?</AnimatedText>
             </View>
 
 
@@ -78,13 +90,13 @@ const ExpenseSalePermissionScreen = () => {
                 {isSaleOrderTab && <AnimatedOpacity entering={BounceInDown.delay(500).duration(1000)}>
                     <Button mode="contained" onPress={() => {
                         navigation.navigate('Sale Order');
-                     }}>AI CHAT</Button>
+                    }}>AI CHAT</Button>
                 </AnimatedOpacity>}
 
                 {isEnquiryTab && <AnimatedOpacity entering={BounceInDown.delay(500).duration(1000)}>
                     <Button mode="contained" onPress={() => {
                         navigation.navigate('Enquiry');
-                     }}>Enquiry</Button>
+                    }}>Enquiry</Button>
                 </AnimatedOpacity>}
             </View>
 

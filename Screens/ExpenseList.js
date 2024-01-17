@@ -61,7 +61,7 @@ const ExpenseList = () => {
         <View style={style.GreetNotifyContainer} >
 
           <View style={style.LeftUserNameContainer}>
-            <Text style={style.Greeting}>{greetingTime(new Date())}!</Text>
+            <Text style={style.Greeting}>{greetingTime(new Date())}</Text>
             <Text style={style.Username}>{username}</Text>
           </View>
 

@@ -37,8 +37,6 @@ const EnquiryScreen = () => {
     const salesLedBySelected = useSelector((state) => state.EnquirySlice.salesLedBySelected)
     const submitLoader = useSelector((state) => state.EnquirySlice.submitLoader)
 
-    console.log(SalesLeadByData);
-
     const Data = useSelector((state) => state.EnquirySlice)
     const [enqCode, setEnqCode] = useState("")
 

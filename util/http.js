@@ -714,7 +714,7 @@ export const EnquiryApiPost = async (BranchCodeData, BusinessUnitData, CustomerN
     const CustomerId = JSON.parse(await AsyncStorage.getItem('customerId'));
     const jwtToken = JSON.parse(await AsyncStorage.getItem('jwtToken'));
 
-    if (CustomerId && jwtToken && Description ) {
+    if (CustomerId && jwtToken && Description && NextActionPlanData ) {
         let config = {
             method: 'post',
             maxBodyLength: Infinity,

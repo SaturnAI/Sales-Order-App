@@ -16,14 +16,14 @@ const EnquirySlice = createSlice({
 
         //form Values
 
-        BranchCodeData: "DL",
-        BusinessUnitData: "1000",
+        BranchCodeData: "",
+        BusinessUnitData: "",
         CustomerNameData: "",
-        SalesLeadByData: "EMP00001",
-        EnquiryTypeData: "BUDGETERY",
-        CustomerTypeData: "EPC",
-        NextActionPlanData: "PROPOSAL TEAM",
-        Make: "CORONET",
+        SalesLeadByData: "",
+        EnquiryTypeData: "",
+        CustomerTypeData: "",
+        NextActionPlanData: "",
+        Make: "",
         Description: "",
 
         salesLedBySelected: false,
@@ -65,6 +65,14 @@ const EnquirySlice = createSlice({
                 ...state,
                 Description: "",
                 CustomerNameData: "",
+                salesLedBySelected : false,
+                BranchCodeData : "",
+                BusinessUnitData : "",
+                SalesLeadByData : "",
+                EnquiryTypeData : "",
+                CustomerTypeData : "",
+                NextActionPlanData  :"",
+                Make : "",
             }
         },
 

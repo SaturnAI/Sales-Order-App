@@ -11,7 +11,7 @@ const NameCard = ({ FirstName, LastName, No }) => {
 
     return (
         <TouchableOpacity onPress={async () => {
-            await dispatch(setEnquiryFormData({ type: "salesledby", data: No }))
+            await dispatch(setEnquiryFormData({ type: "salesledby", data: `${No}-${FirstName+" "+LastName}` }))
             await dispatch(setSaleLedBySelected())
             await dispatch(setListModal())
         }}>

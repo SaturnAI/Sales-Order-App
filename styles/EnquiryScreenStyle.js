@@ -39,6 +39,19 @@ const style = StyleSheet.create({
         marginHorizontal: horizontalScale(20),
     },
 
+    PickerBorder:{
+          borderWidth : moderateScale(1),
+          borderColor : color.Black,
+          borderRadius: moderateScale(10)
+    },
+
+    PickerBorder2:{
+          borderWidth : moderateScale(1),
+          borderColor : color.Black,
+          borderRadius: moderateScale(10),
+          padding: moderateScale(12),
+    },
+
     LongListText: {
         fontFamily: 'Inter-Medium',
         fontSize: moderateScale(14),
@@ -52,8 +65,14 @@ const style = StyleSheet.create({
 
     textValue: {
         fontSize: 18,
-        fontWeight: "400",
+        fontWeight: "800",
         marginBottom: 10,
+        fontFamily: 'Inter-Medium',
+    
+    },
+
+    Mendatory:{
+        color : color.Red,
     },
 
     TextInputContainer: {
@@ -67,6 +86,18 @@ const style = StyleSheet.create({
         borderColor: color.Black,
         borderWidth: 1,
         marginLeft: 5,
+        borderRadius: 10,
+        padding: 10,
+        fontSize: 16,
+    },
+
+    textInput2: {
+        width: "100%",
+        height: 40,
+        justifyContent: "center",
+        borderColor: color.Black,
+        borderWidth: 1,
+        marginLeft: 2,
         borderRadius: 10,
         padding: 10,
         fontSize: 16,

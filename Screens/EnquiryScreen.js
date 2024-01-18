@@ -9,7 +9,7 @@ import EnquiryScreenListModal from '../componants/EnquiryScreenListModal'
 import { EnquiryApiGet, EnquiryApiPost } from '../util/http'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux'
-import { setBranchCode, setBranchCodeLoader, setBusinessUnit, setBusinessUnitLoader, setEnquiryFormData, setEnquiryType, setEnquiryTypeLoader, setListModal, setListModalItem, setSalesLeadBy, setSalesLeadByLoader, setSubmitLoader } from '../store/Slices/EnquirySlice'
+import { cleanForm, setBranchCode, setBranchCodeLoader, setBusinessUnit, setBusinessUnitLoader, setEnquiryFormData, setEnquiryType, setEnquiryTypeLoader, setListModal, setListModalItem, setSalesLeadBy, setSalesLeadByLoader, setSubmitLoader } from '../store/Slices/EnquirySlice'
 import { Searchbar, Snackbar } from 'react-native-paper'
 
 const EnquiryScreen = () => {
@@ -37,6 +37,7 @@ const EnquiryScreen = () => {
     const salesLedBySelected = useSelector((state) => state.EnquirySlice.salesLedBySelected)
     const submitLoader = useSelector((state) => state.EnquirySlice.submitLoader)
 
+    console.log(SalesLeadByData);
 
     const Data = useSelector((state) => state.EnquirySlice)
     const [enqCode, setEnqCode] = useState("")
@@ -92,15 +93,18 @@ const EnquiryScreen = () => {
                                 </TouchableOpacity>
                                     :
 
-                                    (<View>
+                                    (<View style={style.PickerBorder} >
                                         <Picker
+
                                             selectedValue={BranchCodeData}
                                             onValueChange={(item) => dispatch(setEnquiryFormData({ type: "branchcode", data: item }))}
                                         >
+                                            <Picker.Item enabled={false} label={"Select Branch Code"} value={""} />
                                             {
                                                 branchCode.map((item, index) => {
 
                                                     return (
+
                                                         <Picker.Item label={item.Branch_Name} value={item.Branch_Code} key={index} />
                                                     )
                                                 })
@@ -136,11 +140,13 @@ const EnquiryScreen = () => {
                                 </TouchableOpacity>
                                     :
 
-                                    (<View>
+                                    (<View style={style.PickerBorder}>
                                         <Picker
                                             selectedValue={BusinessUnitData}
                                             onValueChange={(item) => dispatch(setEnquiryFormData({ type: "businessunit", data: item }))}
                                         >
+
+                                            <Picker.Item enabled={false} label={"Select Business Unit"} value={""} />
                                             {
                                                 businessUnit.map((item, index) => {
 
@@ -159,7 +165,7 @@ const EnquiryScreen = () => {
                     <View style={style.individualContainer}>
                         <Text style={style.textValue}>Customer Name</Text>
                         <TextInput
-                            style={style.textInput}
+                            style={style.textInput2}
                             maxLength={40}
                             value={CustomerNameData}
                             onChangeText={(name) => dispatch(setEnquiryFormData({ type: "customername", data: name }))}
@@ -198,8 +204,8 @@ const EnquiryScreen = () => {
                                     </TouchableOpacity>)
                                     :
 
-                                    <TouchableOpacity onPress={() => dispatch(setListModal())}>
-                                        <Text style={style.LongListText}>{!salesLedBySelected ? "Large List Tap to View" : SalesLeadByData}</Text>
+                                    <TouchableOpacity style={style.PickerBorder2} onPress={() => dispatch(setListModal())}>
+                                        <Text style={style.LongListText}>{!salesLedBySelected ? "Select Sales Led By" : SalesLeadByData}</Text>
                                     </TouchableOpacity>
 
                                 )
@@ -230,11 +236,13 @@ const EnquiryScreen = () => {
                                 </TouchableOpacity>
                                     :
 
-                                    (<View>
+                                    (<View style={style.PickerBorder}>
                                         <Picker
                                             selectedValue={EnquiryTypeData}
                                             onValueChange={(item) => dispatch(setEnquiryFormData({ type: "enquirytype", data: item }))}
                                         >
+
+                                            <Picker.Item enabled={false} label={"Select Enquiry Type"} value={""} />
                                             {
                                                 enquiryType.map((item, index) => {
 
@@ -252,46 +260,58 @@ const EnquiryScreen = () => {
 
                     <View style={style.individualContainer}>
                         <Text style={style.textValue}>Customer Type</Text>
-                        <Picker
-                            selectedValue={CustomerTypeData}
-                            onValueChange={(item) => dispatch(setEnquiryFormData({ type: "customertype", data: item }))}
-                        >
-                            <Picker.Item label="EPC" value="EPC" />
-                            <Picker.Item label="End User" value="End User" />
-                            <Picker.Item label="Panel Builder" value="Panel Builder" />
-                            <Picker.Item label="Trader" value="Trader" />
-                            <Picker.Item label="Utility" value="Utility" />
-                        </Picker>
+                        <View style={style.PickerBorder}>
+                            <Picker
+                                selectedValue={CustomerTypeData}
+                                onValueChange={(item) => dispatch(setEnquiryFormData({ type: "customertype", data: item }))}
+                            >
+                                <Picker.Item enabled={false} label={"Select Customer Type"} value={""} />
+                                <Picker.Item label="EPC" value="EPC" />
+                                <Picker.Item label="End User" value="End User" />
+                                <Picker.Item label="Panel Builder" value="Panel Builder" />
+                                <Picker.Item label="Trader" value="Trader" />
+                                <Picker.Item label="Utility" value="Utility" />
+                            </Picker>
+                        </View>
                     </View>
 
                     <View style={style.individualContainer}>
-                        <Text style={style.textValue}>Next Action Plan</Text>
-                        <Picker
-                            selectedValue={NextActionPlanData}
-                            onValueChange={(item) => dispatch(setEnquiryFormData({ type: "nextactionplan", data: item }))}
-                        >
-                            <Picker.Item label="Proposal Team" value="PROPOSAL TEAM" />
-                            <Picker.Item label="Verbal Offer Given" value="VERBAL OFFER GIVEN" />
-                            <Picker.Item label="Visit Customer" value="VISIT CUSTOMER" />
-                        </Picker>
+                        <Text style={style.textValue}>Next Action Plan<Text style={style.Mendatory}>*</Text></Text>
+                        <View style={style.PickerBorder}>
+                            <Picker
+                                selectedValue={NextActionPlanData}
+                                onValueChange={(item) => dispatch(setEnquiryFormData({ type: "nextactionplan", data: item }))}
+                            >
+                                <Picker.Item enabled={false} label={"Select Next Action Plan"} value={""} />
+                                <Picker.Item label="Proposal Team" value="PROPOSAL TEAM" />
+                                <Picker.Item label="Verbal Offer Given" value="VERBAL OFFER GIVEN" />
+                                <Picker.Item label="Visit Customer" value="VISIT CUSTOMER" />
+                            </Picker>
+                        </View>
                     </View>
 
                     <View style={style.individualContainer}>
                         <Text style={style.textValue}>Make</Text>
-                        <Picker
-                            selectedValue={Make}
-                            onValueChange={(item) => dispatch(setEnquiryFormData({ type: "make", data: item }))}
-                        >
-                            <Picker.Item label="Coronet" value="CORONET" />
-                            <Picker.Item label="Schneider" value="SCHNEIDER" />
-                            <Picker.Item label="Siemens" value="SIEMENS" />
-                        </Picker>
+                        <View style={style.PickerBorder}>
+
+
+                            <Picker
+                                selectedValue={Make}
+                                onValueChange={(item) => dispatch(setEnquiryFormData({ type: "make", data: item }))}
+                            >
+                                <Picker.Item enabled={false} label={"Select Make"} value={""} />
+                                <Picker.Item label="Coronet" value="CORONET" />
+                                <Picker.Item label="Schneider" value="SCHNEIDER" />
+                                <Picker.Item label="Siemens" value="SIEMENS" />
+                            </Picker>
+                        </View>
                     </View>
 
                     <View style={style.individualContainer}>
-                        <Text style={style.textValue}>Description</Text>
+                        <Text style={style.textValue}>Description<Text style={style.Mendatory}>*</Text></Text>
                         <TextInput
-                            style={style.textInput}
+                            value={Description}
+                            style={style.textInput2}
                             maxLength={400}
                             onChangeText={(mail) => dispatch(setEnquiryFormData({ type: "description", data: mail }))}
                         />
@@ -333,14 +353,15 @@ const EnquiryScreen = () => {
                         ?
                         <ActivityIndicator />
                         :
-                        <Button title='Create Enquiry' onPress={async () => {
+                        <Button style={{fontWeight: "800"}} title='Create Enquiry' onPress={async () => {
                             await dispatch(setSubmitLoader());
                             const data = await EnquiryApiPost(BranchCodeData, BusinessUnitData, CustomerNameData, SalesLeadByData, EnquiryTypeData, CustomerTypeData, NextActionPlanData, Make, Description);
                             if (data.success == "true") {
                                 await setEnqCode(data.data.No)
+                                await dispatch(cleanForm());
                                 await hideSnack();
                             }
-                           else {
+                            else {
                                 ToastAndroid.show("Missing Data", ToastAndroid.SHORT)
                             }
                             await dispatch(setSubmitLoader());
@@ -353,6 +374,7 @@ const EnquiryScreen = () => {
                 <Snackbar
                     style={{ marginBottom: 30 }}
                     visible={snack}
+                    onDismiss={()=>setSnack(false)}
                     action={{
                         label: 'Undo',
                         onPress: () => {

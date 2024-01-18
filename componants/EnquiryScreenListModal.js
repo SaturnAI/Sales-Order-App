@@ -13,8 +13,6 @@ import { findName, setListModal, setSearchQuery } from '../store/Slices/EnquiryS
 const EnquiryScreenListModal = () => {
 
     const dispatch = useDispatch()
-
-
     const ListModal = useSelector((state) => state.EnquirySlice.ListModal)
     const ListModalItems = useSelector((state) => state.EnquirySlice.ListModalItems)
     const searchQuery = useSelector((state) => state.EnquirySlice.searchQuery)

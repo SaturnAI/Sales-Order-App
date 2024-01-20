@@ -13,6 +13,14 @@ const EnquirySlice = createSlice({
         salesleadbyLoader: false,
         enquiryType: [],
         enquiryTypeLoader: false,
+        EquiryCode : "",
+
+        ItemCategory : [],
+
+        ItemCategoryModal : false,
+        ItemCategoryModalItem : [],
+        ItemCatSearchQuery : "",
+        ItemCategoryLoader : false,
 
         //form Values
 
@@ -23,19 +31,38 @@ const EnquirySlice = createSlice({
         EnquiryTypeData: "",
         CustomerTypeData: "",
         NextActionPlanData: "",
+        ItemCategoryData : "",
         Make: "",
         Description: "",
 
         salesLedBySelected: false,
+        ItemCategorySelected : false,
 
         submitLoader: false,
 
         // Search
         searchQuery: "",
-
+        saleledbyName : "",
+        
     },
 
     reducers: {
+
+        setsaleledbyName : (state, action) => {
+            console.log(action.payload)
+            return {
+                ...state,
+                saleledbyName : action.payload,
+            }
+        },
+
+        setEnquiryCode : (state, action) => {
+           
+                  return{
+                    ...state, 
+                    EquiryCode : action.payload,
+                  }
+        },
 
         setSearchQuery: (state, action) => {
 
@@ -45,17 +72,40 @@ const EnquirySlice = createSlice({
             }
         },
 
+        setItemCategorySearchQuery : (state, action) => {
+
+            return {
+                ...state,
+                ItemCatSearchQuery : action.payload,
+            }
+        },
+
         findName: (state, action) => {
 
 
             const temp = state.salesleadby.filter((item) => {
                 const Name = item.FirstName + item.LastName;
-                return Name.toLowerCase().includes(action.payload.toLowerCase().replace(" ",""))
+                return Name.toLowerCase().replace(" ","").includes(action.payload.toLowerCase().replace(" ",""))
             })
 
             return {
                 ...state, 
                 ListModalItems : [...temp],
+            }
+
+        },
+
+        findItemCategory : (state, action) => {
+
+
+            const temp = state.ItemCategory.filter((item) => {
+                const Name = item.Code;
+                return Name.toLowerCase().replace(" ","").includes(action.payload.toLowerCase().replace(" ",""))
+            })
+
+            return {
+                ...state, 
+                ItemCategoryModalItem : [...temp],
             }
 
         },
@@ -72,6 +122,8 @@ const EnquirySlice = createSlice({
                 EnquiryTypeData : "",
                 CustomerTypeData : "",
                 NextActionPlanData  :"",
+                saleledbyName : "",
+                ItemCategoryData : "",
                 Make : "",
             }
         },
@@ -90,6 +142,13 @@ const EnquirySlice = createSlice({
             }
         },
 
+        setItemCategorySelected : (state, action) => {
+            return {
+                ...state,
+                ItemCategorySelected : true,
+            }
+        },
+
         setEnquiryFormData: (state, action) => {
 
             const { type, data } = action.payload;
@@ -99,6 +158,13 @@ const EnquirySlice = createSlice({
                 return {
                     ...state,
                     BranchCodeData: data
+                }
+            }
+
+            if (type == "itemcategory") {
+                return {
+                    ...state,
+                    ItemCategoryData : data
                 }
             }
 
@@ -178,11 +244,17 @@ const EnquirySlice = createSlice({
             }
         },
 
-
         setListModal: (state, action) => {
             return {
                 ...state,
                 ListModal: !state.ListModal,
+            }
+        },
+
+        setItemCategoryListModal : (state, action) => {
+            return {
+                ...state,
+                ItemCategoryModal : !state.ItemCategoryModal,
             }
         },
 
@@ -194,6 +266,14 @@ const EnquirySlice = createSlice({
             }
         },
 
+        setItemCategoryListModalItem: (state, action) => {
+            return {
+                ...state,
+                ItemCategoryModalItem : [...action.payload]
+
+            }
+        },
+
         setSalesLeadBy: (state, action) => {
             return {
                 ...state,
@@ -201,10 +281,24 @@ const EnquirySlice = createSlice({
             }
         },
 
+        setItemCategory : (state, action) => {
+            return {
+                ...state,
+                ItemCategory: [...action.payload]
+            }
+        },
+
         setSalesLeadByLoader: (state, action) => {
             return {
                 ...state,
                 salesleadbyLoader: !state.salesleadbyLoader,
+            }
+        },
+
+        setItemCategoryLoader : (state, action) => {
+            return {
+                ...state,
+                ItemCategoryLoader : !state.ItemCategoryLoader,
             }
         },
 
@@ -244,6 +338,15 @@ const EnquirySlice = createSlice({
 
 
 
+export const setItemCategoryLoader = EnquirySlice.actions.setItemCategoryLoader
+export const setItemCategory = EnquirySlice.actions.setItemCategory
+export const setItemCategoryListModalItem = EnquirySlice.actions.setItemCategoryListModalItem
+export const setItemCategorySelected = EnquirySlice.actions.setItemCategorySelected
+export const setItemCategoryListModal = EnquirySlice.actions.setItemCategoryListModal
+export const setItemCategorySearchQuery = EnquirySlice.actions.setItemCategorySearchQuery
+export const findItemCategory = EnquirySlice.actions.findItemCategory
+export const setsaleledbyName = EnquirySlice.actions.setsaleledbyName
+export const setEnquiryCode   =  EnquirySlice.actions.setEnquiryCode
 export const findName = EnquirySlice.actions.findName
 export const setSearchQuery = EnquirySlice.actions.setSearchQuery
 export const cleanForm = EnquirySlice.actions.cleanForm

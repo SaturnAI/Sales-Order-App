@@ -9,8 +9,9 @@ import EnquiryScreenListModal from '../componants/EnquiryScreenListModal'
 import { EnquiryApiGet, EnquiryApiPost } from '../util/http'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux'
-import { cleanForm, setBranchCode, setBranchCodeLoader, setBusinessUnit, setBusinessUnitLoader, setEnquiryFormData, setEnquiryType, setEnquiryTypeLoader, setListModal, setListModalItem, setSalesLeadBy, setSalesLeadByLoader, setSubmitLoader } from '../store/Slices/EnquirySlice'
+import { cleanForm, setBranchCode, setBranchCodeLoader, setBusinessUnit, setBusinessUnitLoader, setEnquiryCode, setEnquiryFormData, setEnquiryType, setEnquiryTypeLoader, setItemCategory, setItemCategoryListModal, setItemCategoryListModalItem, setItemCategoryLoader, setListModal, setListModalItem, setSalesLeadBy, setSalesLeadByLoader, setSubmitLoader } from '../store/Slices/EnquirySlice'
 import { Searchbar, Snackbar } from 'react-native-paper'
+import ItemCategoryModal from '../componants/ItemCategoryModal'
 
 const EnquiryScreen = () => {
 
@@ -36,9 +37,15 @@ const EnquiryScreen = () => {
     const Description = useSelector((state) => state.EnquirySlice.Description)
     const salesLedBySelected = useSelector((state) => state.EnquirySlice.salesLedBySelected)
     const submitLoader = useSelector((state) => state.EnquirySlice.submitLoader)
+    const EquiryCode = useSelector((state) => state.EnquirySlice.EquiryCode)
+    const saleledbyName = useSelector((state) => state.EnquirySlice.saleledbyName)
+    const ItemCategoryLoader = useSelector((state) => state.EnquirySlice.ItemCategoryLoader)
+    const ItemCategory = useSelector((state) => state.EnquirySlice.ItemCategory)
+    const ItemCategoryData = useSelector((state) => state.EnquirySlice.ItemCategoryData)
+    const ItemCategorySelected = useSelector((state) => state.EnquirySlice.ItemCategorySelected)
 
     const Data = useSelector((state) => state.EnquirySlice)
-    const [enqCode, setEnqCode] = useState("")
+   
 
 
     const [snack, setSnack] = useState(false);
@@ -187,7 +194,7 @@ const EnquiryScreen = () => {
                                         const data = await EnquiryApiGet({ apiName: 'salesledby' })
                                         if (data.success == "true") {
                                             if (data.data.length > 10) {
-                                                await dispatch(setListModal())
+                                                // await dispatch(setListModal())
                                                 await dispatch(setListModalItem(data.data))
                                             }
                                             await dispatch(setSalesLeadBy(data.data))
@@ -203,7 +210,46 @@ const EnquiryScreen = () => {
                                     :
 
                                     <TouchableOpacity style={style.PickerBorder2} onPress={() => dispatch(setListModal())}>
-                                        <Text style={style.LongListText}>{!salesLedBySelected ? "Select Sales Led By" : SalesLeadByData}</Text>
+                                        <Text style={style.LongListText}>{!salesLedBySelected ? "Select Sales Led By" : `${SalesLeadByData}-${saleledbyName}`}</Text>
+                                    </TouchableOpacity>
+
+                                )
+                        }
+                    </View>
+
+                    <View style={style.individualContainer}>
+                        <Text style={style.textValue}>Item Category</Text>
+
+                        {
+                            ItemCategoryLoader ?
+                                <ActivityIndicator
+                                    color={color.primary}
+                                    size="large"
+                                />
+                                :
+                                ((ItemCategory.length <= 0)
+                                    ?
+                                    (<TouchableOpacity onPress={async () => {
+                                        await dispatch(setItemCategoryLoader())
+                                        const data = await EnquiryApiGet({ apiName: 'item_category' })
+                                        if (data.success == "true") {
+                                            if (data.data.length > 10) {
+                                                await dispatch(setItemCategoryListModalItem(data.data))
+                                            }
+                                            await dispatch(setItemCategory(data.data))
+
+                                        }
+                                        else {
+                                            ToastAndroid.show(data.message, ToastAndroid.SHORT);
+                                        }
+                                        await dispatch(setItemCategoryLoader())
+                                    }}>
+                                        <Text style={style.SelectButton}>Get Data</Text>
+                                    </TouchableOpacity>)
+                                    :
+
+                                    <TouchableOpacity style={style.PickerBorder2} onPress={() => dispatch(setItemCategoryListModal())}>
+                                        <Text style={style.LongListText}>{!ItemCategorySelected ? "Item Category" : `${ItemCategoryData}`}</Text>
                                     </TouchableOpacity>
 
                                 )
@@ -355,7 +401,8 @@ const EnquiryScreen = () => {
                             await dispatch(setSubmitLoader());
                             const data = await EnquiryApiPost(BranchCodeData, BusinessUnitData, CustomerNameData, SalesLeadByData, EnquiryTypeData, CustomerTypeData, NextActionPlanData, Make, Description);
                             if (data.success == "true") {
-                                await setEnqCode(data.data.No)
+                                console.log(data.data)
+                                await dispatch(setEnquiryCode(data.data.No))
                                 await dispatch(cleanForm());
                                 await hideSnack();
                             }
@@ -366,9 +413,8 @@ const EnquiryScreen = () => {
                         }} />
                     }
 
-
-
                 </Card>
+
                 <Snackbar
                     style={{ marginBottom: 30 }}
                     visible={snack}
@@ -376,12 +422,14 @@ const EnquiryScreen = () => {
                     action={{
                         label: 'Undo',
                         onPress: () => {
+                            
                             // Do something
                             setSnack(false)
                         },
                     }}>
-                    {`Enquiry Code  ${enqCode}  `}
+                    {`Your Enquiry Code :${EquiryCode}`}
                 </Snackbar>
+                <ItemCategoryModal />
                 <EnquiryScreenListModal />
             </ScrollView>
 

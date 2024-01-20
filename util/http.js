@@ -709,7 +709,7 @@ export const EnquiryApiGet = async ({ apiName }) => {
     }
 }
 
-export const EnquiryApiPost = async (BranchCodeData, BusinessUnitData, CustomerNameData, SalesLeadByData, EnquiryTypeData, CustomerTypeData, NextActionPlanData, Make, Description) => {
+export const EnquiryApiPost = async (BranchCodeData, BusinessUnitData, CustomerNameData, SalesLeadByData, EnquiryTypeData, CustomerTypeData, NextActionPlanData, Make, Description, ItemCategoryData) => {
 
     const CustomerId = JSON.parse(await AsyncStorage.getItem('customerId'));
     const jwtToken = JSON.parse(await AsyncStorage.getItem('jwtToken'));
@@ -733,6 +733,7 @@ export const EnquiryApiPost = async (BranchCodeData, BusinessUnitData, CustomerN
                     "Customer_Type": CustomerTypeData,
                     "Enquiry_Type": EnquiryTypeData,
                     "Next_Action_Plan": NextActionPlanData,
+                    // "Item_Category" : ItemCategoryData,
                     "Make": Make
                 }
             },

@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native'
 import style from '../styles/EnquiryScreenListModalStyle'
 import { Card } from 'react-native-shadow-cards'
 import { useDispatch } from 'react-redux'
-import { setEnquiryFormData, setListModal, setSaleLedBySelected } from '../store/Slices/EnquirySlice'
+import { setEnquiryFormData, setListModal, setSaleLedBySelected, setsaleledbyName } from '../store/Slices/EnquirySlice'
 
 const NameCard = ({ FirstName, LastName, No }) => {
 
@@ -11,7 +11,8 @@ const NameCard = ({ FirstName, LastName, No }) => {
 
     return (
         <TouchableOpacity onPress={async () => {
-            await dispatch(setEnquiryFormData({ type: "salesledby", data: `${No}-${FirstName+" "+LastName}` }))
+            await dispatch(setEnquiryFormData({ type: "salesledby", data: No }))
+            await dispatch(setsaleledbyName(`${FirstName + " " + LastName}`))
             await dispatch(setSaleLedBySelected())
             await dispatch(setListModal())
         }}>

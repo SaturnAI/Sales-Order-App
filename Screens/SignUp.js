@@ -97,7 +97,7 @@ const SignUp = () => {
                         <Text style={style.textValue}>First Name</Text>
                         <TextInput
                             style={style.textInput}
-                            placeholder="UserName"
+                            placeholder="First Name"
                             maxLength={20}
                             onChangeText={(name) => SetSignUpCredentials({
                                 ...signUpCredentials,
@@ -111,7 +111,7 @@ const SignUp = () => {
 
                         <TextInput
                             style={style.textInput}
-                            placeholder="UserName"
+                            placeholder="Last Name"
                             maxLength={20}
 
                             onChangeText={(last) => SetSignUpCredentials({
@@ -125,7 +125,7 @@ const SignUp = () => {
                         <Text style={style.textValue}>E-Mail</Text>
                         <TextInput
                             style={!emailWarning ? style.textInput : style.textInputWarning}
-                            placeholder="john@example.com"
+                            placeholder="coronet@example.com"
                             maxLength={40}
                             onChangeText={(mail) => handleMail(mail)}
                         />
@@ -137,7 +137,7 @@ const SignUp = () => {
                             <TextInput
                                 secureTextEntry={passvisible}
                                 style={style.textInput}
-                                placeholder="must be strong"
+                                placeholder="Password"
                                 value={password}
 
                                 onChangeText={(password) => setPassword(password)}
@@ -152,7 +152,7 @@ const SignUp = () => {
                             <TextInput
                                 secureTextEntry={passvisible}
                                 style={!warning ? style.textInput : style.textInputWarning}
-                                placeholder="must be same as above"
+                                placeholder="Confirm Password"
 
                                 onChangeText={(pass) => handlePass(pass, password)}
                             />
@@ -160,7 +160,7 @@ const SignUp = () => {
                         </View>
                     </View>
 
-                    <Button title='Add Member to in Your Organization' onPress={() => handlePress(signUpCredentials)} />
+                    <Button title='Create User' onPress={() => handlePress(signUpCredentials)} />
                 </Card>
 
             </ScrollView>

@@ -12,9 +12,12 @@ const style = StyleSheet.create({
     },
 
     ProfileButton: {
-        alignSelf: 'flex-end',
-        marginRight: horizontalScale(40),
-        marginTop: verticalScale(-45),
+        // alignSelf: 'flex-end',
+        // marginRight: horizontalScale(40),
+        // marginTop: verticalScale(-45),
+        position: 'absolute',
+        right: 20,
+        top: 30,
 
     },
 

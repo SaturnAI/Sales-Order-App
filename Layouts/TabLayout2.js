@@ -98,14 +98,14 @@ const TabLayout2 = () => {
 
 
 
-      <Tab.Screen options={{
+      {/* <Tab.Screen options={{
         headerShown: false,
         tabBarIcon: ({ focused }) => {
           return (
             <AntDesign name="user" size={24} color={color.primary} />
           );
         },
-      }} name='Profile' component={Profile} />
+      }} name='Profile' component={Profile} /> */}
 
     </Tab.Navigator>
   )

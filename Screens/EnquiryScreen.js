@@ -7,15 +7,18 @@ import { Ionicons } from '@expo/vector-icons'
 import { Picker, PickerIOS } from '@react-native-picker/picker'
 import EnquiryScreenListModal from '../componants/EnquiryScreenListModal'
 import { EnquiryApiGet, EnquiryApiPost } from '../util/http'
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux'
 import { cleanForm, setBranchCode, setBranchCodeLoader, setBusinessUnit, setBusinessUnitLoader, setEnquiryCode, setEnquiryFormData, setEnquiryType, setEnquiryTypeLoader, setItemCategory, setItemCategoryListModal, setItemCategoryListModalItem, setItemCategoryLoader, setListModal, setListModalItem, setSalesLeadBy, setSalesLeadByLoader, setSubmitLoader } from '../store/Slices/EnquirySlice'
 import { Searchbar, Snackbar } from 'react-native-paper'
 import ItemCategoryModal from '../componants/ItemCategoryModal'
+import { useNavigation } from '@react-navigation/native'
+import { Gesture } from 'react-native-gesture-handler'
 
 const EnquiryScreen = () => {
 
     const dispatch = useDispatch();
+    const navigation = useNavigation();
     const [selectedLanguage, setSelectedLanguage] = useState();
 
     const branchCode = useSelector((state) => state.EnquirySlice.branchCode);
@@ -45,7 +48,7 @@ const EnquiryScreen = () => {
     const ItemCategorySelected = useSelector((state) => state.EnquirySlice.ItemCategorySelected)
 
     const Data = useSelector((state) => state.EnquirySlice)
-   
+
 
 
     const [snack, setSnack] = useState(false);
@@ -66,10 +69,25 @@ const EnquiryScreen = () => {
                 color={color.white}
             />
 
-            <ScrollView>
-                <View style={style.backgroundContainer} />
+            <View style={style.backgroundContainer} />
+            <View style={style.HeaderContainer}>
                 <Text style={style.headerText}>Enquiry</Text>
+            </View>
 
+            
+                <TouchableOpacity style={style.EnquiryListButton}
+                onPress={()=>{
+                    navigation.navigate("EnquiryList");
+                }}
+                >
+                    <View style={{width : 50, height : 50}}>
+                        <FontAwesome5 name="list-alt" size={24} color={color.white} />
+                    </View>
+                </TouchableOpacity>
+           
+
+
+            <ScrollView>
 
                 <Card style={style.cardContainer}>
 
@@ -86,6 +104,7 @@ const EnquiryScreen = () => {
                                 ((branchCode.length <= 0) ? <TouchableOpacity onPress={async () => {
                                     await dispatch(setBranchCodeLoader())
                                     const data = await EnquiryApiGet({ apiName: 'branchcode' })
+                                    console.log(data)
                                     if (data.success == "true") {
                                         await dispatch(setBranchCode(data.data))
                                     }
@@ -97,7 +116,6 @@ const EnquiryScreen = () => {
                                     <Text style={style.SelectButton}>Get Data</Text>
                                 </TouchableOpacity>
                                     :
-
                                     (<View style={style.PickerBorder} >
                                         <Picker
 
@@ -397,7 +415,7 @@ const EnquiryScreen = () => {
                         ?
                         <ActivityIndicator />
                         :
-                        <Button style={{fontWeight: "800"}} title='Create Enquiry' onPress={async () => {
+                        <Button style={{ fontWeight: "800" }} title='Create Enquiry' onPress={async () => {
                             await dispatch(setSubmitLoader());
                             const data = await EnquiryApiPost(BranchCodeData, BusinessUnitData, CustomerNameData, SalesLeadByData, EnquiryTypeData, CustomerTypeData, NextActionPlanData, Make, Description);
                             if (data.success == "true") {
@@ -418,11 +436,11 @@ const EnquiryScreen = () => {
                 <Snackbar
                     style={{ marginBottom: 30 }}
                     visible={snack}
-                    onDismiss={()=>setSnack(false)}
+                    onDismiss={() => setSnack(false)}
                     action={{
                         label: 'Undo',
                         onPress: () => {
-                            
+
                             // Do something
                             setSnack(false)
                         },

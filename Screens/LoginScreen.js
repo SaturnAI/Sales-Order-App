@@ -45,8 +45,6 @@ const LoginScreen = ({ navigation }) => {
 
   }
 
-
-
   return (
     <View style={style.container}>
       <View style={style.contentContainer}>
@@ -137,7 +135,7 @@ const LoginScreen = ({ navigation }) => {
       
       >
         <View>
-          <Text style={style.versionCode}>Version 3.0.3</Text>
+          <Text style={style.versionCode}>Version 3.0.4</Text>
         </View>
       </KeyboardAvoidingView>
 

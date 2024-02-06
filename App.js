@@ -20,13 +20,16 @@ import TabLayout from './Layouts/TabLayout';
 import TabLayout2 from './Layouts/TabLayout2';
 import EnquiryScreen from './Screens/EnquiryScreen';
 import SignUp from './Screens/SignUp';
+import PostedEnquiryScreen from './Screens/PostedEnquiryScreen';
+import EnquiryDetailScreen from './Screens/EnquiryDetailScreen';
+import Profile from './Screens/Profile';
 
 
 const Stack = createStackNavigator();
 
 export default function App() {
 
-   
+
   const [fontsLoaded] = useFonts({
     'Inter-Bold': require('./assets/fonts/Inter-Bold.ttf'),
     'Inter-ExtraLight': require('./assets/fonts/Inter-ExtraLight.ttf'),
@@ -44,13 +47,13 @@ export default function App() {
       await SplashScreen.preventAutoHideAsync();
       const refTok = JSON.parse(await AsyncStorage.getItem("refreshToken"));
       const jwtTok = JSON.parse(await AsyncStorage.getItem("jwtToken"));
-      
 
-      if(refTok && jwtTok){
-         setAuth(true);
-        
-         
-      }else{
+
+      if (refTok && jwtTok) {
+        setAuth(true);
+
+
+      } else {
         setAuth(false);
       }
     }
@@ -78,6 +81,7 @@ export default function App() {
           <NavigationContainer
             onReady={onLayoutRootView}>
             <Stack.Navigator initialRouteName={auth ? 'PermissionPage' : "Budget App"}>
+              {/* <Stack.Navigator initialRouteName={'PermissionPage'}> */}
 
               <Stack.Screen name='Budget App' component={LoginScreen} options={{ headerShown: false }} />
               <Stack.Screen name='PermissionPage' component={ExpenseSalePermissionScreen} options={{ headerShown: false }} />
@@ -88,7 +92,10 @@ export default function App() {
               <Stack.Screen name='PDF' component={PdfScreen} />
               <Stack.Screen name='Enquiry' component={EnquiryScreen} options={{ headerShown: false }} />
               <Stack.Screen name='SignUp' component={SignUp} options={{ headerShown: false }} />
-              
+              <Stack.Screen name='EnquiryList' component={PostedEnquiryScreen} options={{ headerShown: false }} />
+              <Stack.Screen name='EnquiryDetail' component={EnquiryDetailScreen} options={{ headerShown: false }} />
+              <Stack.Screen name='Profile' component={Profile} options={{ headerShown: false }} />
+
             </Stack.Navigator>
           </NavigationContainer>
         </PaperProvider>

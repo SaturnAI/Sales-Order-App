@@ -10,14 +10,29 @@ const style = StyleSheet.create({
         borderBottomRightRadius: moderateScale(50),
     },
 
+    HeaderContainer: {
+        flexDirection: "row",
+        marginTop: verticalScale(-50),
+        marginBottom: verticalScale(25),
+        alignSelf: "center",
+    },
+
     headerText: {
         alignSelf: 'center',
         fontSize: moderateScale(22),
         fontWeight: '400',
         fontFamily: 'Inter-SemiBold',
         color: color.white,
-        marginTop: verticalScale(-50),
+
     },
+
+    EnquiryListButton: {
+        position: 'absolute',
+        right: 20,
+        top: 30,
+    },
+
+
 
     cardContainer: {
         justifyContent: "center",
@@ -25,8 +40,8 @@ const style = StyleSheet.create({
         padding: 20,
         borderRadius: moderateScale(20),
         marginHorizontal: horizontalScale(20),
-        marginTop: verticalScale(60),
-        marginBottom: verticalScale(30),
+        // marginTop: verticalScale(60),
+        marginBottom: verticalScale(100),
     },
 
 
@@ -39,17 +54,17 @@ const style = StyleSheet.create({
         marginHorizontal: horizontalScale(20),
     },
 
-    PickerBorder:{
-          borderWidth : moderateScale(1),
-          borderColor : color.Black,
-          borderRadius: moderateScale(10)
+    PickerBorder: {
+        borderWidth: moderateScale(1),
+        borderColor: color.Black,
+        borderRadius: moderateScale(10)
     },
 
-    PickerBorder2:{
-          borderWidth : moderateScale(1),
-          borderColor : color.Black,
-          borderRadius: moderateScale(10),
-          padding: moderateScale(12),
+    PickerBorder2: {
+        borderWidth: moderateScale(1),
+        borderColor: color.Black,
+        borderRadius: moderateScale(10),
+        padding: moderateScale(12),
     },
 
     LongListText: {
@@ -68,11 +83,11 @@ const style = StyleSheet.create({
         fontWeight: "800",
         marginBottom: 10,
         fontFamily: 'Inter-Medium',
-    
+
     },
 
-    Mendatory:{
-        color : color.Red,
+    Mendatory: {
+        color: color.Red,
     },
 
     TextInputContainer: {

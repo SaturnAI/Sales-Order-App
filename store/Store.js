@@ -1,4 +1,4 @@
-import {configureStore} from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import ExpenseFormSlice from './Slices/ExpenseFormSlice';
 import ChatScreenSlice from './Slices/ChatScreenSlice';
 import PendingExpenseSlice from './Slices/PendingExpenseSlice';
@@ -8,9 +8,10 @@ import PlacedOrderSlice from './Slices/PlacedOrderSlice';
 import ReportedExpenseSlice from './Slices/ReportedExpenseSlice';
 import SignUpSlice from './Slices/SignUpSlice';
 import EnquirySlice from './Slices/EnquirySlice';
+import EnquiryListPageSlice from './Slices/EnquiryListPageSlice';
 
 export const Store = configureStore({
-    
+
     reducer: {
         ExpenseFormSlice,
         ChatScreenSlice,
@@ -21,6 +22,7 @@ export const Store = configureStore({
         ReportedExpenseSlice,
         SignUpSlice,
         EnquirySlice,
+        EnquiryListPageSlice,
     },
 
 

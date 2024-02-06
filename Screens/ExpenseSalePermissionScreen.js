@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react'
-import { View, Text, StatusBar, SafeAreaView, Image, Pressable } from 'react-native'
+import { View, Text, StatusBar, SafeAreaView, Image, TouchableOpacity } from 'react-native'
 import { color } from '../assets/Colors/Colors'
 import style from '../styles/ExpenseSalePermssionStyle'
 import greetingTime from "greeting-time";
 import { useDispatch, useSelector } from 'react-redux';
 import Animated, { BounceInDown, FlipInYRight } from 'react-native-reanimated';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -56,14 +55,16 @@ const ExpenseSalePermissionScreen = () => {
                 <AnimatedText entering={BounceInDown.duration(1000)} style={style.Username}>Sale Buddy</AnimatedText>
             </View>
 
-            <Pressable onPress={async () => {
-                await dispatch(setNavigateProfile())
-                await navigation.navigate('Main Page')
-                await dispatch(setNavigateProfile())
+            <TouchableOpacity  style={style.ProfileButton} onPress={() => {
+                // await dispatch(setNavigateProfile())
+                 navigation.navigate('Profile');
+                // await dispatch(setNavigateProfile())
 
             }}>
-                <FontAwesome style={style.ProfileButton} name="user" size={24} color={color.white} />
-            </Pressable>
+                <View style={{width: 40, height:40, alignItems: 'center', justifyContent : 'center'}}>
+                    <FontAwesome name="user" size={30} color={color.white} />
+                </View>
+            </TouchableOpacity>
 
 
             <View style={style.LoginImageContainer}>

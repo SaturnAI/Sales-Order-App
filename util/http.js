@@ -673,10 +673,17 @@ export const EnquiryApiGet = async ({ apiName }) => {
                 "jwt_token": jwtToken,
             },
         }
-
+        
         const dataresponse = await axios.request(config)
             .then((response) => {
+
                 const { is_successful, data } = response.data;
+                if (data.value) {
+                    return {
+                        success: "false",
+                        message: "Empty response"
+                    }
+                }
                 if (is_successful) {
                     return {
                         success: "true",
@@ -714,7 +721,7 @@ export const EnquiryApiPost = async (BranchCodeData, BusinessUnitData, CustomerN
     const CustomerId = JSON.parse(await AsyncStorage.getItem('customerId'));
     const jwtToken = JSON.parse(await AsyncStorage.getItem('jwtToken'));
 
-    if (CustomerId && jwtToken && Description && NextActionPlanData ) {
+    if (CustomerId && jwtToken && Description && NextActionPlanData) {
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
@@ -733,7 +740,7 @@ export const EnquiryApiPost = async (BranchCodeData, BusinessUnitData, CustomerN
                     "Customer_Type": CustomerTypeData,
                     "Enquiry_Type": EnquiryTypeData,
                     "Next_Action_Plan": NextActionPlanData,
-                    // "Item_Category" : ItemCategoryData,
+                    "Item_Group_1": ItemCategoryData,
                     "Make": Make
                 }
             },
